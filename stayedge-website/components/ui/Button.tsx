@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
  * this defines the visual contract + states.
  */
 const button = cva(
-  "inline-flex items-center justify-center gap-2 rounded-[var(--se-radius-pill)] font-body font-bold whitespace-nowrap transition-[transform,background-color,box-shadow] duration-[var(--se-dur-std)] ease-[cubic-bezier(0.2,0.8,0.2,1)] active:scale-[0.97] disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-se-lavender",
+  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-[var(--se-radius-pill)] font-body font-bold whitespace-nowrap transition-[transform,background-color,box-shadow] duration-[var(--se-dur-std)] ease-[cubic-bezier(0.2,0.8,0.2,1)] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-se-lavender",
   {
     variants: {
       variant: {

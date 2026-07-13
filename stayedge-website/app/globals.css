@@ -119,6 +119,32 @@
     border: 1px solid var(--se-line);
   }
 
+  /* Ambient purple light for AI regions — drifts slowly, never neon */
+  .se-ambient-blob {
+    position: absolute;
+    left: 50%;
+    top: 8%;
+    height: 520px;
+    width: 820px;
+    max-width: 120vw;
+    transform: translateX(-50%);
+    border-radius: 9999px;
+    opacity: 0.55;
+    filter: blur(120px);
+    background: radial-gradient(closest-side, var(--se-glow), transparent);
+    animation: se-drift 14s ease-in-out infinite;
+  }
+
+  @keyframes se-drift {
+    0%,
+    100% {
+      transform: translate(-50%, 0) scale(1);
+    }
+    50% {
+      transform: translate(-47%, -16px) scale(1.06);
+    }
+  }
+
   /* The 18deg edge accent — the brand's shear as a UI motif */
   .se-edge-strip {
     position: relative;

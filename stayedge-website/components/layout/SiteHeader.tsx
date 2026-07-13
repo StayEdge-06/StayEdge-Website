@@ -10,7 +10,7 @@ import { PRIMARY_NAV, CTA } from "@/lib/config/site";
  */
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-[100] w-full se-glass">
+    <header className="sticky top-0 z-[100] w-full border-b border-[var(--se-line)] bg-[color-mix(in_srgb,var(--se-charcoal)_92%,transparent)] backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-[1320px] items-center justify-between px-5 md:px-8">
         <Logo variant="dark-bg" height={44} />
 

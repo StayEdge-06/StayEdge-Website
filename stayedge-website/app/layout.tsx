@@ -4,6 +4,7 @@ import { SITE } from "@/lib/config/site";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { MobileActionBar } from "@/components/layout/MobileActionBar";
+import { Vira } from "@/components/ai/Vira";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -55,6 +56,8 @@ export default function RootLayout({
         <SiteFooter />
         {/* Persistent thumb-zone conversion anchor (mobile only) */}
         <MobileActionBar />
+        {/* Vira — the AI consultant presence, site-wide */}
+        <Vira />
       </body>
     </html>
   );

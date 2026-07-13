@@ -20,7 +20,9 @@ export function Hero() {
 
       <RevealGroup className="relative z-10 mx-auto max-w-[1100px] px-5 pb-20 pt-20 text-center md:px-8 md:pt-28">
         <RevealItem className="flex justify-center">
-          <RisingEdgeBars size={30} />
+          {/* Static brand mark here; the animated loop is reserved for real
+              loading / thinking states (justified motion only). */}
+          <RisingEdgeBars size={30} playing={false} />
         </RevealItem>
 
         <RevealItem>

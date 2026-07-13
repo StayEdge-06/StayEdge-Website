@@ -135,13 +135,15 @@
     animation: se-drift 14s ease-in-out infinite;
   }
 
+  /* Translate-only (no scale) so the expensive blur isn't re-rasterised each
+     frame — the animation stays on the compositor. */
   @keyframes se-drift {
     0%,
     100% {
-      transform: translate(-50%, 0) scale(1);
+      transform: translate(-50%, 0);
     }
     50% {
-      transform: translate(-47%, -16px) scale(1.06);
+      transform: translate(-46%, -18px);
     }
   }
 

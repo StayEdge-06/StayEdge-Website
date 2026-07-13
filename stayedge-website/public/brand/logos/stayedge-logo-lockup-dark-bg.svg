@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 292 94" role="img" aria-label="StayEdge — Airbnb Growth Consulting">
+  <!--
+    StayEdge primary lockup FOR DARK (charcoal #171123) BACKGROUNDS.
+    Composition per Brand-Book.pdf p.14. Icon geometry is exact (extracted vectors);
+    wordmark/tagline are live text and REQUIRE the fonts Outfit (800) and Jura (300).
+    Load via Google Fonts or install locally. For print-perfect reproduction use
+    logos/stayedge-logo-primary-dark.png or logos/source/page14-logo-system.svg.
+    Rules: STAY+EDGE joined, never separated; mark and wordmark locked together.
+  -->
+  <style>
+    .word { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 40px; letter-spacing: 0.5px; }
+    .tag  { font-family: 'Jura', sans-serif; font-weight: 300; font-size: 8.4px; letter-spacing: 4.6px; }
+  </style>
+  <g transform="translate(0.3,0) scale(1.177)">
+    <polygon fill="#A663CC" points="44.83,0 50.72,5.76 44.83,11.64 39.06,5.76"/>
+    <polygon fill="#6F2DBD" points="50.12,12.12 62.85,12.12 44.35,69.18 31.60,69.18"/>
+    <polygon fill="#6F2DBD" points="28.60,28.58 41.34,28.58 28.37,68.45 15.62,68.45"/>
+    <polygon fill="#A663CC" points="8.29,42.87 21.03,42.87 12.74,68.45 0,68.45"/>
+    <rect fill="#6F2DBD" x="4.11" y="74.44" width="51" height="2.28"/>
+  </g>
+  <text class="word" x="90.5" y="51.6"><tspan fill="#FBFBFB">STAY</tspan><tspan fill="#6F2DBD">EDGE</tspan></text>
+  <rect fill="#6F2DBD" x="90.8" y="64.7" width="196.8" height="2.2"/>
+  <circle fill="#A663CC" cx="261.7" cy="65.8" r="3.4"/>
+  <text class="tag" x="91" y="86" fill="#9B94AE">AIRBNB GROWTH CONSULTING</text>
+</svg>

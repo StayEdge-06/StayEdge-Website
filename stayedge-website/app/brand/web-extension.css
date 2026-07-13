@@ -1,0 +1,42 @@
+/* ============================================================
+   StayEdge WEB EXTENSION tokens (Design System decision D1)
+   These are the OFFICIAL interactive extension of the StayEdge brand —
+   NOT a second brand. Every value here derives from the brand tokens in
+   brand-tokens.css (the synced source of truth). No new colours are
+   introduced; depth is built from the brand's own purples and light.
+   ============================================================ */
+:root {
+  /* Grounds (dark-first, from brand supporting purples) */
+  --se-ground: var(--se-charcoal);
+  --se-ground-2: var(--se-dark-plum);
+  --se-ground-3: var(--se-deep-purple);
+
+  /* Lines & light — derived from brand colours via color-mix, never new hex */
+  --se-line: color-mix(in srgb, var(--se-lavender) 16%, transparent);
+  --se-line-strong: color-mix(in srgb, var(--se-lavender) 32%, transparent);
+  --se-glow: color-mix(in srgb, var(--se-purple) 35%, transparent); /* purple light, never neon */
+  --se-glow-soft: color-mix(in srgb, var(--se-lavender) 22%, transparent);
+  --se-scrim: color-mix(in srgb, var(--se-charcoal) 82%, transparent);
+  --se-focus: var(--se-lavender);
+
+  /* Glass (charcoal/lavender tint — never frosted white) */
+  --se-glass-dark: color-mix(in srgb, var(--se-charcoal) 68%, transparent);
+  --se-glass-light: color-mix(in srgb, var(--se-offwhite) 68%, transparent);
+  --se-glass-blur: 16px;
+
+  /* Radii */
+  --se-radius-pill: 999px;
+  --se-radius-input: 10px;
+  --se-radius-lg: 16px;
+
+  /* The signature geometry: the logo's 18deg shear is the product's motion axis */
+  --se-edge-angle: 18deg;
+
+  /* Motion (the "sharp operator" gait) */
+  --se-dur-micro: 160ms;
+  --se-dur-std: 320ms;
+  --se-dur-signature: 700ms;
+  --se-ease-edge: cubic-bezier(0.2, 0.8, 0.2, 1); /* confident rise */
+  --se-ease-settle: cubic-bezier(0.16, 1, 0.3, 1); /* score settle */
+  --se-stagger: 50ms;
+}

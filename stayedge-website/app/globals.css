@@ -1,0 +1,153 @@
+@import "tailwindcss";
+@import "./brand/brand-tokens.css";
+@import "./brand/web-extension.css";
+
+/* ------------------------------------------------------------------
+   Tailwind theme mapping — expose the brand + web tokens as utilities.
+   Values REFERENCE the brand variables (single source of truth); no hex
+   is re-typed here. Utilities are namespaced `se-` to avoid clashing with
+   Tailwind defaults (e.g. bg-se-purple, text-se-offwhite, font-display).
+   ------------------------------------------------------------------ */
+@theme inline {
+  /* Colours */
+  --color-se-purple: var(--se-purple);
+  --color-se-lavender: var(--se-lavender);
+  --color-se-charcoal: var(--se-charcoal);
+  --color-se-offwhite: var(--se-offwhite);
+  --color-se-deep-purple: var(--se-deep-purple);
+  --color-se-dark-plum: var(--se-dark-plum);
+  --color-se-pale-lavender: var(--se-pale-lavender);
+  --color-se-grey-lavender: var(--se-grey-lavender);
+  --color-se-light-lilac: var(--se-light-lilac);
+  --color-se-positive: var(--se-positive);
+  --color-se-negative: var(--se-negative);
+  --color-se-ground: var(--se-ground);
+  --color-se-ground-2: var(--se-ground-2);
+  --color-se-ground-3: var(--se-ground-3);
+
+  /* Type families (brand faces — six only) */
+  --font-display: var(--se-font-display);
+  --font-signature: var(--se-font-signature);
+  --font-body: var(--se-font-body);
+  --font-editorial: var(--se-font-editorial);
+  --font-label: var(--se-font-label);
+  --font-data: var(--se-font-data);
+
+  /* Radii */
+  --radius-pill: var(--se-radius-pill);
+  --radius-se: var(--se-radius-card);
+}
+
+/* ------------------------------------------------------------------
+   Base layer — dark-first (Rich Charcoal ground, Off-White breath).
+   ------------------------------------------------------------------ */
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    height: 100%;
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    min-height: 100%;
+    background-color: var(--se-ground);
+    color: var(--se-offwhite);
+    font-family: var(--se-font-body);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* Numbers & data always render in IBM Plex Serif (brand signature) */
+  .se-num {
+    font-family: var(--se-font-data);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Eyebrow: Jura, uppercase, tracked wide, lavender */
+  .se-eyebrow {
+    font-family: var(--se-font-label);
+    font-weight: 300;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--se-lavender);
+    font-size: 0.75rem;
+  }
+
+  /* Display headline: Boldonse, impact only.
+     Boldonse ink overshoots the em box, so 1.05 is the tightest safe leading for
+     multi-line headlines; single-line hero usages may set their own via utilities. */
+  .se-display {
+    font-family: var(--se-font-display);
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  /* Signature title: Italiana, the human register */
+  .se-title {
+    font-family: var(--se-font-signature);
+    line-height: 1.05;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--se-purple) 55%, transparent);
+    color: var(--se-offwhite);
+  }
+
+  /* Focus — lavender ring, always visible for keyboard users (a11y §24) */
+  :focus-visible {
+    outline: 2px solid var(--se-focus);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Signature primitives
+   ------------------------------------------------------------------ */
+@layer components {
+  /* Charcoal glass surface (never frosted white) */
+  .se-glass {
+    background: var(--se-glass-dark);
+    backdrop-filter: blur(var(--se-glass-blur));
+    -webkit-backdrop-filter: blur(var(--se-glass-blur));
+    border: 1px solid var(--se-line);
+  }
+
+  /* The 18deg edge accent — the brand's shear as a UI motif */
+  .se-edge-strip {
+    position: relative;
+  }
+  .se-edge-strip::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--se-purple);
+    transform: skewX(calc(-1 * var(--se-edge-angle)));
+    transform-origin: bottom;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Accessibility: honour reduced motion as a first-class path (§24/§25)
+   ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,88 @@
+/* ============================================================
+   StayEdge Brand Tokens v1.0 (CSS custom properties)
+   Source: 01-Business/Brand/StayEdge/Brand-Book.pdf (Brand OS v1.0, July 2026)
+   Machine twin: tokens/brand-tokens.json — keep both in sync.
+   Fonts: Boldonse, Italiana, Outfit, Lora, Jura, IBM Plex Serif (Google Fonts):
+   @import url('https://fonts.googleapis.com/css2?family=Boldonse&family=Italiana&family=Outfit:wght@400;700;800&family=Lora:ital@1&family=Jura:wght@300&family=IBM+Plex+Serif&display=swap');
+   ============================================================ */
+:root {
+  /* Core palette */
+  --se-purple: #6F2DBD;        /* Primary Purple — anchor; never below 40% of a layout */
+  --se-lavender: #A663CC;      /* Soft Lavender — accent, eyebrows, diamond, subtitles */
+  --se-charcoal: #171123;      /* Rich Charcoal — ground; never pure black */
+  --se-offwhite: #FBFBFB;      /* Off White — light canvas & reversed type */
+
+  /* Supporting palette */
+  --se-deep-purple: #3D1568;
+  --se-dark-plum: #2A2040;
+  --se-pale-lavender: #E8D5F5;
+  --se-grey-lavender: #9B94AE;
+  --se-light-lilac: #E8E4F0;
+
+  /* Semantic (derived from Brand Book DO/DON'T panels) */
+  --se-positive: #5ED08A;
+  --se-negative: #E8768C;
+  --se-text-on-light: var(--se-charcoal);
+  --se-text-on-dark: var(--se-offwhite);
+  --se-text-muted-dark: var(--se-grey-lavender);
+
+  /* Typography */
+  --se-font-display: 'Boldonse', sans-serif;        /* DISPLAY/HEADLINE — impact only, never body */
+  --se-font-signature: 'Italiana', serif;           /* SIGNATURE/TITLES */
+  --se-font-body: 'Outfit', sans-serif;             /* BODY/UI — 400 & 700 */
+  --se-font-editorial: 'Lora', serif;               /* EDITORIAL/QUOTES — italic */
+  --se-font-label: 'Jura', sans-serif;              /* LABELS/EYEBROWS — 300, tracked wide, UPPERCASE */
+  --se-font-data: 'IBM Plex Serif', serif;          /* SPECS/DATA — numbers only */
+
+  /* Hierarchy (print pt scale from Brand Book §9) */
+  --se-size-display: clamp(44pt, 6vw, 62pt);
+  --se-size-page-title: clamp(24pt, 4vw, 40pt);
+  --se-size-section-head: 14pt;   /* 12–18pt */
+  --se-size-body: 10pt;           /* 9–11pt */
+  --se-size-label: 8pt;           /* 7–9pt */
+  --se-tracking-label: 0.35em;    /* Jura always tracked wide */
+
+  /* Layout (derived) */
+  --se-radius-card: 10px;
+  --se-letterhead-margin: 15mm;
+  --se-footer-rule: 2.4mm;
+}
+
+/* Reusable primitives (derived from Brand Book page design) */
+.se-eyebrow {
+  font-family: var(--se-font-label);
+  font-weight: 300;
+  font-size: var(--se-size-label);
+  letter-spacing: var(--se-tracking-label);
+  text-transform: uppercase;
+  color: var(--se-lavender);
+}
+.se-display {
+  font-family: var(--se-font-display);
+  font-size: var(--se-size-display);
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--se-offwhite);
+}
+.se-quote {
+  font-family: var(--se-font-editorial);
+  font-style: italic;
+  border-left: 3px solid var(--se-purple);
+  padding-left: 1em;
+}
+.se-cta-primary {
+  font-family: var(--se-font-body);
+  font-weight: 700;
+  background: var(--se-purple);
+  color: var(--se-offwhite);
+  border-radius: 999px;
+  padding: 0.6em 1.4em;
+  display: inline-block;
+  text-decoration: none;
+}
+.se-kpi {
+  font-family: var(--se-font-display);
+  color: var(--se-purple);
+  background: var(--se-pale-lavender);
+  border-radius: var(--se-radius-card);
+}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 62.85 76.72" role="img" aria-label="StayEdge icon — The Rising Edge">
+  <!--
+    StayEdge icon ("The Rising Edge") — EXACT vector geometry extracted from
+    Brand-Book.pdf p.16, variation 04 "Icon only". Do not recolour, rotate,
+    restack, stretch or skew (Brand Book §7). Shear = 18° rightward.
+    Clear space >= height of one bar on all sides. Min width 120px screen / 28mm print.
+  -->
+  <!-- diamond accent (Soft Lavender) -->
+  <polygon fill="#A663CC" points="44.83,0 50.72,5.76 44.83,11.64 39.06,5.76"/>
+  <!-- tallest bar (Primary Purple) -->
+  <polygon fill="#6F2DBD" points="50.12,12.12 62.85,12.12 44.35,69.18 31.60,69.18"/>
+  <!-- middle bar (Primary Purple) -->
+  <polygon fill="#6F2DBD" points="28.60,28.58 41.34,28.58 28.37,68.45 15.62,68.45"/>
+  <!-- shortest bar (Soft Lavender) -->
+  <polygon fill="#A663CC" points="8.29,42.87 21.03,42.87 12.74,68.45 0,68.45"/>
+  <!-- baseline (Primary Purple) -->
+  <rect fill="#6F2DBD" x="4.11" y="74.44" width="51" height="2.28"/>
+</svg>

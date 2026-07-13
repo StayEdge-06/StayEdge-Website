@@ -1,0 +1,26 @@
+# Dependencies & build output
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# Logs & OS
+*.log
+.DS_Store
+Thumbs.db
+
+# Tooling / generated (regenerable, not source)
+graphify-out/
+.agents/
+.claude/skills/
+.claude/settings.local.json
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts

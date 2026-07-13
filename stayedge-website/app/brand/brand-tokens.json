@@ -1,0 +1,147 @@
+{
+  "$schema-note": "StayEdge Brand Tokens v1.0 — machine-readable single source of truth, extracted from Brand-Book.pdf (Brand Operating System v1.0, July 2026). Values marked 'derived' were measured from the book's own page design rather than stated verbatim.",
+  "meta": {
+    "brand": "StayEdge",
+    "tagline": "AIRBNB GROWTH CONSULTING",
+    "descriptor": "Airbnb growth consultancy for hosts across South India",
+    "brandBookVersion": "1.0",
+    "brandBookIssued": "July 2026",
+    "classification": "Confidential",
+    "tokensVersion": "1.0",
+    "extracted": "2026-07-12",
+    "source": "01-Business/Brand/StayEdge/Brand-Book.pdf"
+  },
+  "contact": {
+    "founder": "Sanjay Stephen",
+    "role": "Founder",
+    "phone": "+91 63093 48354",
+    "email": "sanjay.cohostbnb@gmail.com",
+    "social": "@stayedgeofficial",
+    "location": "Tirupati, Andhra Pradesh",
+    "copyright": "© 2026 STAYEDGE"
+  },
+  "color": {
+    "core": {
+      "primaryPurple": {
+        "hex": "#6F2DBD", "rgb": [111, 45, 189], "cmyk": [41, 76, 0, 26],
+        "role": "The anchor. Logo, headers, key CTAs and brand moments. Never below 40% of a layout."
+      },
+      "softLavender": {
+        "hex": "#A663CC", "rgb": [166, 99, 204], "cmyk": [19, 51, 0, 20],
+        "role": "The accent. Highlights, eyebrows, diamond detail and subtitles. Warmth against the purple."
+      },
+      "richCharcoal": {
+        "hex": "#171123", "rgb": [23, 17, 35], "cmyk": [34, 51, 0, 86],
+        "role": "The ground. Dark pages, dividers and premium surfaces. A near-black tinted purple, never pure black."
+      },
+      "offWhite": {
+        "hex": "#FBFBFB", "rgb": [251, 251, 251], "cmyk": [0, 0, 0, 2],
+        "role": "The breath. Light-page canvas and reversed type. Softer than pure white, easier on the eye."
+      }
+    },
+    "supporting": {
+      "deepPurple": { "hex": "#3D1568", "role": "derived: deep purple panels, cover shapes" },
+      "darkPlum": { "hex": "#2A2040", "role": "derived: card surfaces on dark pages" },
+      "paleLavender": { "hex": "#E8D5F5", "role": "derived: light cards, shortest bar on purple field" },
+      "greyLavender": { "hex": "#9B94AE", "role": "derived: muted body text on dark, tagline, labels" },
+      "lightLilac": { "hex": "#E8E4F0", "role": "derived: light page tint blocks" }
+    },
+    "semantic-derived": {
+      "positive": { "hex": "#5ED08A", "note": "derived from DO/SHOOT THIS panels" },
+      "negative": { "hex": "#E8768C", "note": "derived from DON'T/AVOID THIS panels" },
+      "textOnLight": "#171123",
+      "textOnDark": "#FBFBFB",
+      "mutedTextOnDark": "#9B94AE"
+    },
+    "psychology": "Purple signals premium judgement and ambition — the colour of people who charge what they're worth. Charcoal grounds it in seriousness; lavender keeps it human.",
+    "rules": [
+      "Lead with purple + charcoal + off-white",
+      "Primary Purple never below 40% of a layout",
+      "Never introduce off-palette or neon accents",
+      "Only palette HEX values used (pre-publish checklist item)"
+    ]
+  },
+  "typography": {
+    "faces": {
+      "display": { "family": "Boldonse", "role": "DISPLAY / HEADLINE", "rule": "Impact only — never body" },
+      "signature": { "family": "Italiana", "role": "SIGNATURE / TITLES", "rule": "Carries the human register" },
+      "body": { "family": "Outfit", "role": "BODY / UI", "weights": [400, 700], "rule": "Workhorse for body and UI" },
+      "editorial": { "family": "Lora", "style": "italic", "role": "EDITORIAL / QUOTES", "rule": "Carries the human register" },
+      "label": { "family": "Jura", "weight": 300, "role": "LABELS / EYEBROWS", "rule": "Always tracked wide, always uppercase" },
+      "data": { "family": "IBM Plex Serif", "role": "SPECS / DATA", "rule": "Reserved for numbers & specs" }
+    },
+    "hierarchy": [
+      { "level": "Display", "face": "Boldonse", "size": "44-62pt" },
+      { "level": "Page title", "face": "Italiana", "size": "24-40pt" },
+      { "level": "Section head", "face": "Boldonse", "size": "12-18pt" },
+      { "level": "Body", "face": "Outfit", "size": "9-11pt" },
+      { "level": "Label", "face": "Jura Light", "size": "7-9pt" }
+    ],
+    "pairingRules": [
+      "Boldonse for impact only — never body",
+      "Italiana & Lora italic carry the human register",
+      "One display + one body per layout, no more",
+      "Jura always tracked wide, always uppercase",
+      "IBM Plex Serif reserved for numbers & specs"
+    ],
+    "googleFonts": "https://fonts.google.com/ — Boldonse, Italiana, Outfit, Lora, Jura, IBM Plex Serif (all available on Google Fonts)"
+  },
+  "logo": {
+    "name": "The Rising Edge",
+    "shearAngleDeg": 18,
+    "barRatio": [11, 17, 23],
+    "accent": "lavender diamond at tallest peak",
+    "clearSpace": ">= height of one bar on all sides",
+    "minWidth": { "print": "28mm", "screen": "120px" },
+    "wordmark": "Outfit ExtraBold, STAY+EDGE joined",
+    "wordmarkColors": {
+      "onDark": { "stay": "#FBFBFB", "edge": "#6F2DBD" },
+      "onLight": { "stay": "#171123", "edge": "#6F2DBD" },
+      "onPurple": { "stay": "#FBFBFB", "edge": "#FBFBFB" }
+    },
+    "iconColors": { "shortBar": "#A663CC", "midBar": "#6F2DBD", "tallBar": "#6F2DBD", "diamond": "#A663CC", "baseline": "#6F2DBD" },
+    "variations": ["primary-dark", "light-reverse", "purple-field", "icon-only"],
+    "files": "01-Business/Brand/StayEdge/logos/"
+  },
+  "layout-derived": {
+    "pageHeader": "Eyebrow left (Jura, tracked, uppercase) + breadcrumb right 'StayEdge / NN / Topic', hairline rule below",
+    "pageFooter": "'© 2026 STAYEDGE' left · page number centre (purple) · 'CONFIDENTIAL' right (Jura, tracked)",
+    "sectionDivider": "Rich Charcoal full page, oversized ghost section number top-right, Jura eyebrow, Boldonse title in off-white, Italiana subtitle in lavender, purple edge-strip on left",
+    "letterhead": { "size": "A4", "margins": "15mm", "footerRule": "2.4mm Purple #6F2DBD" },
+    "cardRadius": "8-12px (derived from book cards)",
+    "principle": "Generous margins, clear hierarchy; nothing overflows its container"
+  },
+  "businessCard": {
+    "size": "90 × 54 mm", "bleed": "3 mm", "stock": "400gsm matte, spot-UV mark", "corners": "3 mm radius, both faces"
+  },
+  "emailSignature": { "maxWidth": "480px", "format": "PNG" },
+  "voice": {
+    "positioning": "We are the sharp operator, not the loud guru.",
+    "weAre": ["Precise", "Confident", "Data-led", "Warm", "Grounded", "Premium", "Resourceful", "Direct"],
+    "weAreNot": ["Hypey", "Salesy", "Vague", "Cold", "Generic", "Cheap", "Preachy"],
+    "pillars": [
+      { "name": "Clear, not clever", "rule": "Say the useful thing plainly. Jargon is a tax on the reader." },
+      { "name": "Confident, not loud", "rule": "We state results and let them stand. No hype, no exclamation marks." },
+      { "name": "Warm, not casual", "rule": "Human and encouraging — but we respect the host's time and money." },
+      { "name": "Specific, not vague", "rule": "Numbers, timeframes and next steps. Vague advice helps no one." }
+    ],
+    "spectrum": { "playful-serious": 0.72, "accessible-premium": 0.62, "cautious-bold": 0.68, "corporate-human": 0.58 },
+    "fixedTerms": { "auditDeliverable": "Property Growth Snapshot" }
+  },
+  "cta": {
+    "library": ["DM us \"EDGE\"", "Book a free audit", "Save this for later", "Send to a host friend", "Follow @stayedgeofficial"],
+    "style-derived": "Pill buttons; primary = Primary Purple fill with off-white text; secondary = Deep Purple/Pale Lavender fill"
+  },
+  "validation": {
+    "prePublishChecklist": [
+      "Logo locked, clear space respected",
+      "Only palette HEX values used",
+      "Type follows the hierarchy",
+      "Nothing overflows its container",
+      "Voice is clear, specific, on-brand",
+      "Imagery is warm & unstaged",
+      "Every claim is provable",
+      "A clear CTA is present"
+    ]
+  }
+}

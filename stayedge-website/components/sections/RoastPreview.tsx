@@ -45,7 +45,7 @@ export function RoastPreview() {
                 58
               </div>
               <p className="mt-1 text-xs text-se-grey-lavender">
-                Roast Score · most listings nearby score ~64
+                Roast Score · a strong listing reaches 85+
               </p>
             </div>
           </div>

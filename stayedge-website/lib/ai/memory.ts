@@ -85,6 +85,24 @@ export function rememberProperty(rec: Omit<PropertyRecord, "ts">) {
   write(p);
 }
 
+/**
+ * Persist a captured lead locally so it is never lost. NOTE: real delivery /
+ * CRM sync is the deferred backend (business decision) — this only records it on
+ * the device; nothing is sent anywhere yet, so the UI must not claim it was.
+ */
+export function rememberLead(lead: { whatsapp?: string; email?: string; ref?: string }) {
+  if (!canUse()) return;
+  try {
+    const k = "stayedge.leads.v1";
+    const raw = window.localStorage.getItem(k);
+    const list = raw ? (JSON.parse(raw) as unknown[]) : [];
+    list.push({ ...lead, ts: Date.now() });
+    window.localStorage.setItem(k, JSON.stringify(list));
+  } catch {
+    /* ignore */
+  }
+}
+
 export function mostRecentProperty(p: Passport | null): PropertyRecord | null {
   if (!p || p.properties.length === 0) return null;
   return [...p.properties].sort((a, b) => b.ts - a.ts)[0];

@@ -203,14 +203,14 @@ function GuidedForm({
 
 function ResultView({
   result,
-  mode,
+  refId,
   unlocked,
   onUnlock,
   onRetry,
   reduce,
 }: {
   result: RoastResult;
-  mode: PersonaModeId;
+  refId: string;
   unlocked: boolean;
   onUnlock: () => void;
   onRetry: () => void;
@@ -244,7 +244,7 @@ function ResultView({
         </div>
 
         <ul className="mt-6 space-y-4">
-          {result.issues.map((issue) => (
+          {result.issues.slice(0, 3).map((issue) => (
             <li key={issue.tag} className="border-t border-[var(--se-line)] pt-4">
               <span className="se-eyebrow !text-se-grey-lavender">{issue.tag}</span>
               <p className="mt-1 text-se-offwhite/90">{issue.line}</p>
@@ -266,22 +266,35 @@ function ResultView({
 
       {/* Open loop → unlock */}
       {!unlocked ? (
-        <UnlockGate moreCount={result.moreCount} onUnlock={onUnlock} />
+        <UnlockGate moreCount={result.moreCount} refId={refId} onUnlock={onUnlock} />
       ) : (
-        <div className="mt-6 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 text-center">
-          <p className="text-se-offwhite">
-            Your full Property Growth Snapshot is on its way to WhatsApp.
-          </p>
-          <p className="mt-1 text-sm text-se-grey-lavender">
-            Want us to fix these with you? Book a free audit — no pressure.
-          </p>
-          <div className="mt-4 flex flex-wrap justify-center gap-3">
-            <Button href={ROUTES.audit} variant="primary" size="md">
-              Book my free audit
-            </Button>
-            <Button href={WHATSAPP_URL} external variant="ghost" size="md">
-              Continue on WhatsApp
-            </Button>
+        <div className="mt-6 space-y-4">
+          {result.issues.length > 3 && (
+            <div className="rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-charcoal p-6">
+              <span className="se-eyebrow">The rest of what I found</span>
+              <ul className="mt-4 space-y-4">
+                {result.issues.slice(3).map((issue) => (
+                  <li key={issue.tag} className="border-t border-[var(--se-line)] pt-4">
+                    <span className="se-eyebrow !text-se-grey-lavender">{issue.tag}</span>
+                    <p className="mt-1 text-se-offwhite/90">{issue.line}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <div className="rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 text-center">
+            <p className="text-se-offwhite">
+              That&apos;s your quick read. For the complete Property Growth Snapshot — every issue,
+              your revenue leak and a plan for your property — let&apos;s talk.
+            </p>
+            <div className="mt-4 flex flex-wrap justify-center gap-3">
+              <Button href={ROUTES.audit} variant="primary" size="md">
+                Book my free audit
+              </Button>
+              <Button href={WHATSAPP_URL} external variant="ghost" size="md">
+                Continue on WhatsApp
+              </Button>
+            </div>
           </div>
         </div>
       )}

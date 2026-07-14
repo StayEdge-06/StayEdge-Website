@@ -21,6 +21,9 @@ graphify-out/
 .claude/skills/
 .claude/settings.local.json
 
+# Raphael OS is a standalone project with its own git repository
+raphael-os/
+
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts

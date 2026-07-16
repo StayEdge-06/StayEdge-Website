@@ -311,20 +311,36 @@ function ResultView({
   );
 }
 
-function UnlockGate({ moreCount, onUnlock }: { moreCount: number; onUnlock: () => void }) {
+function UnlockGate({
+  moreCount,
+  refId,
+  onUnlock,
+}: {
+  moreCount: number;
+  refId: string;
+  onUnlock: () => void;
+}) {
   const [whatsapp, setWhatsapp] = useState("");
   const [email, setEmail] = useState("");
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
+        // Stored on-device for now; CRM/delivery wiring is the deferred backend.
+        rememberLead({ whatsapp, email, ref: refId });
         onUnlock();
       }}
       className="mt-6 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-3 p-6"
     >
       <p className="text-center text-se-offwhite">
-        I found <span className="se-num text-se-lavender">{moreCount} more</span> things worth
-        fixing. Unlock your full Property Growth Snapshot.
+        {moreCount > 0 ? (
+          <>
+            I found <span className="se-num text-se-lavender">{moreCount} more</span>{" "}
+            {moreCount === 1 ? "thing" : "things"} worth fixing. Unlock the rest of your read.
+          </>
+        ) : (
+          <>Want the complete Property Growth Snapshot for your property?</>
+        )}
       </p>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         <TextField label="WhatsApp number" value={whatsapp} onChange={setWhatsapp} type="tel" placeholder="+91…" required />
@@ -359,7 +375,13 @@ function ScoreNumber({ value, reduce }: { value: number; reduce: boolean }) {
       if (p < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    // Failsafe: rAF can stall on throttled/low-power renderers — the final
+    // value must land regardless.
+    const failsafe = setTimeout(() => setDisplay(value), dur + 300);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(failsafe);
+    };
   }, [value, reduce]);
   return (
     <motion.div className="se-num text-[clamp(44px,9vw,72px)] leading-none text-se-lavender">

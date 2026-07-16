@@ -9,6 +9,7 @@ import { PERSONA, type PersonaModeId } from "@/lib/config/persona";
 import { WHATSAPP_URL, ROUTES } from "@/lib/config/site";
 import { analyzeListing, type GuidedInput, type RoastResult } from "@/lib/ai/roast";
 import { rememberProperty, rememberLead } from "@/lib/ai/memory";
+import { track } from "@/lib/analytics";
 
 type Phase = "form" | "thinking" | "result";
 
@@ -36,6 +37,7 @@ export function RoastEngine() {
   }, [params]);
 
   function run() {
+    track("roast_started", { mode });
     setPhase("thinking");
   }
 
@@ -44,6 +46,7 @@ export function RoastEngine() {
     setResult(r);
     setPhase("result");
     if (r.score != null) {
+      track("roast_completed", { score: r.score, confidence: r.confidence, mode });
       rememberProperty({
         ref: url || guided.title || "listing",
         label: guided.city ? `${guided.city} stay` : guided.title?.slice(0, 24),
@@ -328,6 +331,7 @@ function UnlockGate({
         e.preventDefault();
         // Stored on-device for now; CRM/delivery wiring is the deferred backend.
         rememberLead({ whatsapp, email, ref: refId });
+        track("snapshot_unlocked", { hasEmail: Boolean(email) });
         onUnlock();
       }}
       className="mt-6 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-3 p-6"

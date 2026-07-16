@@ -1,10 +1,51 @@
 import type { Metadata, Viewport } from "next";
+import {
+  Boldonse,
+  Italiana,
+  Outfit,
+  Lora,
+  Jura,
+  IBM_Plex_Serif,
+} from "next/font/google";
 import "./globals.css";
+
+/* Brand faces, self-hosted via next/font (zero layout shift, no render-blocking
+   font CSS). Same six faces the Brand OS mandates — only the delivery changed. */
+const boldonse = Boldonse({ weight: "400", subsets: ["latin"], variable: "--font-boldonse", display: "swap" });
+const italiana = Italiana({ weight: "400", subsets: ["latin"], variable: "--font-italiana", display: "swap" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit", display: "swap" });
+const lora = Lora({ subsets: ["latin"], style: "italic", variable: "--font-lora", display: "swap" });
+const jura = Jura({ subsets: ["latin"], variable: "--font-jura", display: "swap" });
+const plex = IBM_Plex_Serif({ weight: ["400", "500", "600"], subsets: ["latin"], variable: "--font-plex", display: "swap" });
+
+const fontVars = `${boldonse.variable} ${italiana.variable} ${outfit.variable} ${lora.variable} ${jura.variable} ${plex.variable}`;
 import { SITE } from "@/lib/config/site";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { MobileActionBar } from "@/components/layout/MobileActionBar";
 import { Vira } from "@/components/ai/Vira";
+import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
+import { CONTACT } from "@/lib/config/site";
+
+/** Structured data — real business facts only (brand law: every claim provable). */
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "StayEdge",
+  description: SITE.descriptor,
+  url: SITE.url,
+  telephone: CONTACT.phone,
+  email: CONTACT.email,
+  founder: { "@type": "Person", name: CONTACT.founder },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Tirupati",
+    addressRegion: "Andhra Pradesh",
+    addressCountry: "IN",
+  },
+  areaServed: "IN",
+  sameAs: ["https://www.instagram.com/stayedgeofficial"],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -31,24 +72,11 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
-/**
- * Brand faces are loaded via Google Fonts here for reliable coverage of all six
- * families (incl. Boldonse). The Performance milestone will migrate these to
- * next/font self-hosting + subsetting for zero layout shift.
- */
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="h-full antialiased">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Boldonse&family=Italiana&family=Outfit:wght@400;500;700;800&family=Lora:ital,wght@1,400;1,500&family=Jura:wght@300;400;500&family=IBM+Plex+Serif:wght@400;500;600&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" className={`h-full antialiased ${fontVars}`}>
       {/* Bottom padding on mobile reserves space for the fixed MobileActionBar. */}
       <body className="min-h-full flex flex-col bg-se-ground text-se-offwhite pb-[76px] sm:pb-0">
         <SiteHeader />
@@ -58,6 +86,12 @@ export default function RootLayout({
         <MobileActionBar />
         {/* Vira — the AI consultant presence, site-wide */}
         <Vira />
+        {/* Consent-gated measurement (GA4 + Clarity via env IDs) */}
+        <AnalyticsProvider />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
+        />
       </body>
     </html>
   );

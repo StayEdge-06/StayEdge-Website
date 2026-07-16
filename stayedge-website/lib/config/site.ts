@@ -26,6 +26,7 @@ export const ROUTES = {
   snapshot: "/snapshot",
   lab: "/lab",
   howWeThink: "/how-we-think",
+  howWeWork: "/how-we-work",
   services: "/services",
   whoWeHelp: "/who-we-help",
   results: "/results",
@@ -47,6 +48,7 @@ export const PRIMARY_NAV = [
 /** Full nav for the mobile sheet + footer. */
 export const FULL_NAV = [
   ...PRIMARY_NAV,
+  { label: "How We Work", href: ROUTES.howWeWork },
   { label: "Knowledge", href: ROUTES.knowledge },
   { label: "About", href: ROUTES.about },
   { label: "Contact", href: ROUTES.contact },

@@ -3,6 +3,20 @@
 @import "./brand/web-extension.css";
 
 /* ------------------------------------------------------------------
+   Self-hosted brand faces (next/font) — override the synced token file's
+   family names with the local variables. Unlayered + after the import so it
+   wins the cascade; the six faces themselves are unchanged (brand law).
+   ------------------------------------------------------------------ */
+:root {
+  --se-font-display: var(--font-boldonse), sans-serif;
+  --se-font-signature: var(--font-italiana), serif;
+  --se-font-body: var(--font-outfit), sans-serif;
+  --se-font-editorial: var(--font-lora), serif;
+  --se-font-label: var(--font-jura), sans-serif;
+  --se-font-data: var(--font-plex), serif;
+}
+
+/* ------------------------------------------------------------------
    Tailwind theme mapping — expose the brand + web tokens as utilities.
    Values REFERENCE the brand variables (single source of truth); no hex
    is re-typed here. Utilities are namespaced `se-` to avoid clashing with

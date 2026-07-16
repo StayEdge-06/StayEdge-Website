@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import { ThinkingTheater } from "@/components/ai/ThinkingTheater";
 import { Button } from "@/components/ui/Button";
 import { PERSONA, type PersonaModeId } from "@/lib/config/persona";
 import { WHATSAPP_URL, ROUTES } from "@/lib/config/site";
-import { analyzeListing, type GuidedInput, type RoastResult } from "@/lib/ai/roast";
+import type { GuidedInput, RoastResult } from "@/lib/ai/roast";
+import { requestRoast, type RoastResponse } from "@/lib/ai/client";
 import { rememberProperty, rememberLead } from "@/lib/ai/memory";
 import { track } from "@/lib/analytics";
 
@@ -30,6 +31,8 @@ export function RoastEngine() {
   const [guided, setGuided] = useState<GuidedInput>({ weekendPricing: false });
   const [result, setResult] = useState<RoastResult | null>(null);
   const [unlocked, setUnlocked] = useState(false);
+  // The Brain request runs in parallel with the thinking theater.
+  const pendingRef = useRef<Promise<RoastResponse> | null>(null);
 
   useEffect(() => {
     const u = params.get("url") ?? params.get("ref") ?? "";
@@ -38,15 +41,22 @@ export function RoastEngine() {
 
   function run() {
     track("roast_started", { mode });
+    pendingRef.current = requestRoast({ url: url || undefined, guided, mode });
     setPhase("thinking");
   }
 
-  function finishThinking() {
-    const r = analyzeListing({ url: url || undefined, guided, mode });
+  async function finishThinking() {
+    const r = await (pendingRef.current ??
+      requestRoast({ url: url || undefined, guided, mode }));
     setResult(r);
     setPhase("result");
     if (r.score != null) {
-      track("roast_completed", { score: r.score, confidence: r.confidence, mode });
+      track("roast_completed", {
+        score: r.score,
+        confidence: r.confidence,
+        mode,
+        source: r.source ?? "heuristic",
+      });
       rememberProperty({
         ref: url || guided.title || "listing",
         label: guided.city ? `${guided.city} stay` : guided.title?.slice(0, 24),
@@ -60,7 +70,7 @@ export function RoastEngine() {
   function switchMode(next: PersonaModeId) {
     setMode(next);
     if (phase === "result") {
-      setResult(analyzeListing({ url: url || undefined, guided, mode: next }));
+      requestRoast({ url: url || undefined, guided, mode: next }).then(setResult);
     }
   }
 

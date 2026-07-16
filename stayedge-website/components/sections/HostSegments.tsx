@@ -7,10 +7,10 @@ import { ROUTES } from "@/lib/config/site";
  * see themselves and find the tailored path (recognition).
  */
 const SEGMENTS = [
-  { title: "First-time hosts", body: "Launching soon or just live? Start right and skip the expensive early mistakes.", href: `${ROUTES.whoWeHelp}/first-time-hosts` },
-  { title: "Villa owners", body: "Premium property, premium positioning — priced and presented to match.", href: `${ROUTES.whoWeHelp}/villa-owners` },
-  { title: "Boutique hotels", body: "Stand out on Airbnb and win more direct-feeling bookings.", href: `${ROUTES.whoWeHelp}/boutique-hotels` },
-  { title: "Investors & managers", body: "Multiple properties, one system — growth you can measure across the portfolio.", href: `${ROUTES.whoWeHelp}/investors-managers` },
+  { title: "First-time hosts", body: "Launching soon or just live? Start right and skip the expensive early mistakes.", href: `${ROUTES.whoWeHelp}#first-time-hosts` },
+  { title: "Villa owners", body: "Premium property, premium positioning — priced and presented to match.", href: `${ROUTES.whoWeHelp}#villa-owners` },
+  { title: "Boutique hotels", body: "Stand out on Airbnb and win more direct-feeling bookings.", href: `${ROUTES.whoWeHelp}#boutique-hotels` },
+  { title: "Investors & managers", body: "Multiple properties, one system — growth you can measure across the portfolio.", href: `${ROUTES.whoWeHelp}#investors-managers` },
 ];
 
 export function HostSegments() {

@@ -19,8 +19,10 @@ import { analyzeListing, type RoastInput, type RoastResult } from "@/lib/ai/roas
  */
 const BRAIN_URL = process.env.N8N_ROAST_WEBHOOK_URL;
 const BRAIN_TOKEN = process.env.N8N_ROAST_TOKEN;
-// n8n cloud latency: ~2.5s warm, up to ~15s cold + AI generation time.
-const BRAIN_TIMEOUT_MS = 20_000;
+// n8n cloud latency: ~2.5s warm, ~15s cold, + AI generation (can exceed 15s
+// when the provider chain fails over). The thinking theater holds the visitor;
+// an AI roast at 30s beats a heuristic at 20s.
+const BRAIN_TIMEOUT_MS = 35_000;
 
 const inputSchema = z.object({
   url: z.string().max(500).optional(),

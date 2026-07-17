@@ -41,19 +41,38 @@ N8N_ROAST_TOKEN=<the token in Route Input>
 OS_DASHBOARD_KEY=<choose a private key for /os>
 ```
 
+## Reliability layer (added 2026-07-18)
+
+- **Provider failover LIVE** in `PROV AI Generate`: Gemini → gemini-2.0-flash →
+  OpenAI → caller fallback (website heuristic). Verified under real failure:
+  a full AI roast served via OpenAI while Gemini quota was dead (source:brain,
+  contextual Tirupati content). Gemini retries cut to 2×3s (was 4×5s) so a dead
+  provider costs seconds, not half a minute. Claude slot ready — needs an
+  Anthropic credential in n8n if wanted.
+- **Cost short-circuit** in WEB-HEAD: thin roast input (no title/price/desc)
+  returns needsGuided WITHOUT calling the AI — zero tokens wasted on bots or
+  empty submissions.
+- **Monitor & Founder Brief LIVE** (`YgrtjnICRnNLXVYB`): every 10 min probes
+  WEB-HEAD + website, Telegram alert on state TRANSITIONS only (no spam; the
+  not-yet-deployed website stays silent until first seen healthy). Daily 09:00
+  IST action-first brief (verified delivered): website leads waiting w/ URLs,
+  AI provider status, today's counts.
+- **Stress tested:** 100 concurrent /api/health 100% ok (4.2s); 20 concurrent
+  thin roasts 100% correct short-circuit (2.9s, zero AI cost); AI bursts degrade
+  gracefully to instant heuristic when n8n/providers throttle. Roast timeout
+  35s (theater holds the visitor; AI roast at 30s beats heuristic at 20s).
+
 ## Known issues / founder actions
 
-1. **AI provider quota (OS-wide):** the Gemini key's free tier reports
-   `limit: 0` — PROV AI Generate currently fails for ALL workflows (incl.
-   CAP-001 snapshots). Fix either by enabling billing on the Google AI key or
-   switching PROV's Config node to `provider: openai` (existing credential,
-   pay-per-use). Until then the website roast uses its honest local heuristic
-   automatically.
+1. **BOTH AI providers billing-constrained (OS-wide):** Gemini free tier is
+   `limit: 0` (needs billing) and the OpenAI account rate-limits under modest
+   use ("too many requests" = likely no credit). The failover + heuristic keep
+   the product alive, but real AI roasts are intermittent until one provider
+   gets billing. Fastest fix: enable Google AI billing OR add OpenAI credit.
 2. **Test data cleanup:** delete CRM `Leads` rows with WhatsApp
-   `+91 90000 00000` (Lead IDs `WEB-*`, e2e test) and ignore the matching
-   Telegram test notifications.
-3. **Monitoring (next build step):** n8n Schedule (5 min) → GET
-   `https://stayedge.co.in/api/health` + Error Trigger workflow → Telegram alert.
+   `+91 90000 00000` (Lead IDs `WEB-*`) and ignore matching Telegram tests.
+3. **Optional:** set the OPS monitor workflow as the default *error workflow*
+   in each workflow's settings (n8n UI-only) so hard failures also alert.
 
 ## Contract
 

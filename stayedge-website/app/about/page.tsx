@@ -4,11 +4,14 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { CONTACT, SITE } from "@/lib/config/site";
 import { PERSONA } from "@/lib/config/persona";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
   title: "About",
   description:
     "StayEdge — an Airbnb growth consultancy from Tirupati, South India. AI-powered analysis, operator judgement, honest numbers.",
+  alternates: { canonical: "/about" },
 };
 
 const BELIEFS = [
@@ -68,6 +71,7 @@ export default function AboutPage() {
         </RevealGroup>
       </Section>
       <FinalCTA />
+      <JsonLd schemas={[breadcrumbSchema([{ name: "About", path: "/about" }])]} />
     </>
   );
 }

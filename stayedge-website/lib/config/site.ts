@@ -69,6 +69,6 @@ export const SITE = {
   promise:
     "We turn your listing into the smartest-run stay on your street — and prove it in the numbers.",
   descriptor: "AI-powered Airbnb growth for hosts across South India.",
-  /** Configurable (founder decision) — defaults to stayedge.in. */
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://stayedge.in",
+  /** Canonical production domain (founder decision); env-overridable. */
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://stayedge.co.in",
 } as const;

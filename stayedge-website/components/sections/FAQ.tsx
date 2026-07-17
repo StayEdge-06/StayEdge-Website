@@ -5,7 +5,7 @@ import { Reveal } from "@/components/motion/Reveal";
  * FAQ = objection handling in disguise, ordered by objection severity. Native
  * <details> so it works without JS and is keyboard-accessible by default.
  */
-const FAQS = [
+export const FAQS = [
   {
     q: "Is the roast really free? What's the catch?",
     a: "Your score, three issues and one strength are free, with no email. There's no catch — it's how we show you we know Airbnb before asking for anything.",

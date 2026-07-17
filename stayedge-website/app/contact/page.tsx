@@ -3,15 +3,19 @@ import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/Button";
 import { CONTACT, WHATSAPP_URL, ROUTES } from "@/lib/config/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
     "Talk to StayEdge — WhatsApp first, replies from a real person. Tirupati, Andhra Pradesh.",
+  alternates: { canonical: "/contact" },
 };
 
 export default function ContactPage() {
   return (
+    <>
     <Section>
       <SectionHeading
         eyebrow="Contact"
@@ -50,5 +54,7 @@ export default function ContactPage() {
         </div>
       </Reveal>
     </Section>
+      <JsonLd schemas={[breadcrumbSchema([{ name: "Contact", path: "/contact" }])]} />
+    </>
   );
 }

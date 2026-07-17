@@ -53,7 +53,7 @@ OS_DASHBOARD_KEY=<choose a private key for /os>
    `+91 90000 00000` (Lead IDs `WEB-*`, e2e test) and ignore the matching
    Telegram test notifications.
 3. **Monitoring (next build step):** n8n Schedule (5 min) → GET
-   `https://<site>/api/health` + Error Trigger workflow → Telegram alert.
+   `https://stayedge.co.in/api/health` + Error Trigger workflow → Telegram alert.
 
 ## Contract
 

@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
 import { Button } from "@/components/ui/Button";
 import { CTA } from "@/lib/config/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/lib/seo/schema";
 
-export const metadata: Metadata = { title: "Book a Free Property Audit" };
+export const metadata: Metadata = {
+  title: "Book a Free Property Audit",
+  description:
+    "A free, no-pressure audit of your Airbnb with a StayEdge specialist — occupancy, pricing and listing quality, explained in plain numbers.",
+  alternates: { canonical: "/audit" },
+};
 
 /** Placeholder — the full booking experience is built in a later milestone. */
 export default function AuditPage() {
   return (
+    <>
     <section className="mx-auto max-w-[900px] px-5 py-28 text-center md:px-8">
       <p className="se-eyebrow mb-4">Free Property Growth Audit</p>
       <h1 className="se-display text-[clamp(32px,6vw,64px)] text-se-offwhite">
@@ -22,5 +30,7 @@ export default function AuditPage() {
         </Button>
       </div>
     </section>
+    <JsonLd schemas={[breadcrumbSchema([{ name: "Free Property Audit", path: "/audit" }])]} />
+    </>
   );
 }

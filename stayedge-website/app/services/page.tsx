@@ -4,11 +4,14 @@ import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Button } from "@/components/ui/Button";
 import { ROUTES } from "@/lib/config/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
-  title: "What We Do",
+  title: "What We Do — Airbnb Listing Optimisation, Pricing & SEO",
   description:
     "Listing optimisation, dynamic pricing, occupancy growth and positioning — Airbnb growth as a system, not guesswork.",
+  alternates: { canonical: "/services" },
 };
 
 const SERVICES = [
@@ -63,6 +66,7 @@ export default function ServicesPage() {
         </RevealItem>
       </Section>
       <FinalCTA />
+      <JsonLd schemas={[breadcrumbSchema([{ name: "What We Do", path: "/services" }])]} />
     </>
   );
 }

@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { FinalCTA } from "@/components/sections/FinalCTA";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
   title: "Results",
   description:
     "How StayEdge measures growth — occupancy, ADR, revenue and reviews. Case studies published as clients allow.",
+  alternates: { canonical: "/results" },
 };
 
 /**
@@ -52,6 +55,7 @@ export default function ResultsPage() {
         </Reveal>
       </Section>
       <FinalCTA />
+      <JsonLd schemas={[breadcrumbSchema([{ name: "Results", path: "/results" }])]} />
     </>
   );
 }

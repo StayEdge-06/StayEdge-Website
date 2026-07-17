@@ -8,8 +8,10 @@ import { HostSegments } from "@/components/sections/HostSegments";
 import { SocialProof } from "@/components/sections/SocialProof";
 import { Process } from "@/components/sections/Process";
 import { AILabPreview } from "@/components/sections/AILabPreview";
-import { FAQ } from "@/components/sections/FAQ";
+import { FAQ, FAQS } from "@/components/sections/FAQ";
 import { FinalCTA } from "@/components/sections/FinalCTA";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { faqSchema } from "@/lib/seo/schema";
 
 /**
  * Homepage — the product experience, ordered as an emotional journey:
@@ -30,6 +32,8 @@ export default function HomePage() {
       <AILabPreview />
       <FAQ />
       <FinalCTA />
+      {/* FAQPage schema mirrors the real on-page FAQ content (AEO) */}
+      <JsonLd schemas={[faqSchema(FAQS)]} />
     </>
   );
 }

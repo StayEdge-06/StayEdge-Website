@@ -4,11 +4,14 @@ import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Button } from "@/components/ui/Button";
 import { ROUTES } from "@/lib/config/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
   title: "Who We Help",
   description:
     "First-time hosts, villa owners, boutique hotels and multi-property investors — the plan changes with the property.",
+  alternates: { canonical: "/who-we-help" },
 };
 
 const SEGMENTS = [
@@ -72,6 +75,7 @@ export default function WhoWeHelpPage() {
         </RevealGroup>
       </Section>
       <FinalCTA />
+      <JsonLd schemas={[breadcrumbSchema([{ name: "Who We Help", path: "/who-we-help" }])]} />
     </>
   );
 }

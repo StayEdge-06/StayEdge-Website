@@ -25,27 +25,8 @@ import { SiteFooter } from "@/components/layout/SiteFooter";
 import { MobileActionBar } from "@/components/layout/MobileActionBar";
 import { Vira } from "@/components/ai/Vira";
 import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
-import { CONTACT } from "@/lib/config/site";
-
-/** Structured data — real business facts only (brand law: every claim provable). */
-const JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  name: "StayEdge",
-  description: SITE.descriptor,
-  url: SITE.url,
-  telephone: CONTACT.phone,
-  email: CONTACT.email,
-  founder: { "@type": "Person", name: CONTACT.founder },
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Tirupati",
-    addressRegion: "Andhra Pradesh",
-    addressCountry: "IN",
-  },
-  areaServed: "IN",
-  sameAs: ["https://www.instagram.com/stayedgeofficial"],
-};
+import { JsonLd } from "@/components/seo/JsonLd";
+import { organizationSchema, founderSchema, websiteSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -55,6 +36,7 @@ export const metadata: Metadata = {
   },
   description: SITE.descriptor,
   applicationName: "StayEdge",
+  alternates: { canonical: "/" },
   openGraph: {
     title: "StayEdge — AI-Powered Airbnb Growth",
     description: SITE.descriptor,
@@ -62,6 +44,7 @@ export const metadata: Metadata = {
     siteName: "StayEdge",
     locale: "en_IN",
     type: "website",
+    images: [{ url: "/brand/logos/stayedge-logo-primary-dark.png", width: 1650, height: 660, alt: "StayEdge — Airbnb Growth Consulting" }],
   },
   twitter: { card: "summary_large_image", title: "StayEdge", description: SITE.descriptor },
   icons: { icon: "/brand/logos/stayedge-icon-only.png" },
@@ -88,10 +71,8 @@ export default function RootLayout({
         <Vira />
         {/* Consent-gated measurement (GA4 + Clarity via env IDs) */}
         <AnalyticsProvider />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}
-        />
+        {/* Entity graph: Organization + Founder + WebSite (Search Dominance) */}
+        <JsonLd schemas={[organizationSchema(), founderSchema(), websiteSchema()]} />
       </body>
     </html>
   );

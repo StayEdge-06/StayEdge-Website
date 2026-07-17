@@ -4,11 +4,14 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Button } from "@/components/ui/Button";
 import { ROUTES } from "@/lib/config/site";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
   title: "How We Work",
   description:
     "Free Property Growth Snapshot → discovery call → personalised growth plan → custom proposal → implementation. Pricing is discussed only after understanding your property.",
+  alternates: { canonical: "/how-we-work" },
 };
 
 /**
@@ -83,6 +86,7 @@ export default function HowWeWorkPage() {
         </RevealItem>
       </Section>
       <FinalCTA />
+      <JsonLd schemas={[breadcrumbSchema([{ name: "How We Work", path: "/how-we-work" }])]} />
     </>
   );
 }

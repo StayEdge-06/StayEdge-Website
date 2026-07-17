@@ -1,0 +1,235 @@
+{
+  "name": "StayEdge WEB-HEAD - Website Gateway",
+  "settings": { "executionOrder": "v1" },
+  "nodes": [
+    {
+      "id": "wh-1",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [200, 400],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "stayedge-web-head",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "route-1",
+      "name": "Route Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [420, 400],
+      "parameters": {
+        "jsCode": "// Normalise website events. Roast requests carry `mode`; other events carry `type`.\n// SECURITY: set EXPECTED to the bearer token once N8N_ROAST_TOKEN is chosen.\nconst EXPECTED = '';\nconst req = $input.first().json;\nconst headers = req.headers || {};\nif (EXPECTED) {\n  const auth = String(headers.authorization || '');\n  if (auth !== `Bearer ${EXPECTED}`) {\n    return [{ json: { branch: 'health', payload: { unauthorized: true } } }];\n  }\n}\nconst body = req.body || {};\nlet branch = 'health';\nif (body.mode) branch = 'roast';\nelse if (body.type === 'lead') branch = 'lead';\nelse if (body.type === 'metrics') branch = 'metrics';\nreturn [{ json: { branch, payload: body } }];"
+      }
+    },
+    {
+      "id": "switch-1",
+      "name": "Branch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [640, 400],
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "outputKey": "roast",
+              "conditions": {
+                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+                "conditions": [
+                  { "id": "b1", "leftValue": "={{ $json.branch }}", "operator": { "type": "string", "operation": "equals" }, "rightValue": "roast" }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "outputKey": "lead",
+              "conditions": {
+                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+                "conditions": [
+                  { "id": "b2", "leftValue": "={{ $json.branch }}", "operator": { "type": "string", "operation": "equals" }, "rightValue": "lead" }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "outputKey": "metrics",
+              "conditions": {
+                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+                "conditions": [
+                  { "id": "b3", "leftValue": "={{ $json.branch }}", "operator": { "type": "string", "operation": "equals" }, "rightValue": "metrics" }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "outputKey": "health",
+              "conditions": {
+                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+                "conditions": [
+                  { "id": "b4", "leftValue": "={{ $json.branch }}", "operator": { "type": "string", "operation": "equals" }, "rightValue": "health" }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "prompt-1",
+      "name": "Build Roast Prompt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [880, 160],
+      "parameters": {
+        "jsCode": "// Vira, the StayEdge roast persona. HONESTY LAWS: only claims verifiable from\n// the provided input; never invent facts, prices, ratings or local statistics;\n// low input = low confidence + needsGuided. Registers: roast (cheeky, never\n// cruel), diagnose (boardroom), growth (opportunity-first).\nconst p = $input.first().json.payload;\nconst mode = ['roast','diagnose','growth'].includes(p.mode) ? p.mode : 'roast';\nconst instructions = `You are Vira, StayEdge's Airbnb growth consultant (sharp operator, not loud guru; no exclamation marks; no hype).\\nAnalyse ONLY what the input actually contains. NEVER invent facts, numbers, ratings, competitors or local statistics. If the input is too thin to say anything specific, return needsGuided=true with empty issues.\\nRegister: ${mode === 'roast' ? 'funny, cheeky, memorable — roast the LISTING, never the person' : mode === 'diagnose' ? 'professional, precise, data-led, boardroom-safe' : 'positive coaching, opportunity-first, encouraging'}.\\nRules for the output contract:\\n- score: 20-98 integer reflecting listing quality from the evidence given, or null if needsGuided.\\n- benchmark: always 85.\\n- issues: up to 6 findings, each {tag: short label, line: one specific sentence tied to actual input evidence}. First 3 are shown free.\\n- positive: exactly one GENUINE strength from the input (the hope beat), or a warm true generic if nothing else ({tag:'Foundation', line:'...'}).\\n- moreCount: issues.length minus 3, minimum 0.\\n- confidence: high only if title AND price AND description provided; medium if some; low if minimal.\\n- needsGuided: true only when there is nothing concrete to analyse.\\n- note: honest caveat when confidence is not high.`;\nconst schemaExample = JSON.stringify({ score: 62, benchmark: 85, issues: [{ tag: 'Title', line: 'Example finding tied to evidence.' }], positive: { tag: 'Location', line: 'Example genuine strength.', positive: true }, moreCount: 1, confidence: 'medium', needsGuided: false, note: 'Based on what you shared so far.' });\nreturn [{ json: { instructions, content: JSON.stringify(p), schemaExample, payload: p } }];"
+      }
+    },
+    {
+      "id": "exec-1",
+      "name": "Ask PROV AI Generate",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [1100, 160],
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "O0ZJhZx7hadVkBwS",
+          "mode": "list",
+          "cachedResultName": "StayEdge PROV - AI Generate"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "instructions": "={{ $json.instructions }}",
+            "content": "={{ $json.content }}",
+            "schemaExample": "={{ $json.schemaExample }}"
+          },
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": { "waitForSubWorkflow": true }
+      }
+    },
+    {
+      "id": "map-1",
+      "name": "Map To Contract",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1320, 160],
+      "parameters": {
+        "jsCode": "// Clamp the model output into the website contract. Any failure degrades to\n// needsGuided — the website then uses its own heuristic; the visitor never errors.\nconst r = $input.first().json;\nconst fallback = { score: null, benchmark: 85, issues: [], positive: null, moreCount: 0, confidence: 'low', needsGuided: true, note: 'Give me a little to work with and I will be specific.' };\nif (!r.ok || !r.json) return [{ json: fallback }];\nconst j = r.json;\nconst finding = (f) => f && typeof f.tag === 'string' && typeof f.line === 'string' ? { tag: f.tag.slice(0, 60), line: f.line.slice(0, 600), ...(f.positive ? { positive: true } : {}) } : null;\nconst issues = Array.isArray(j.issues) ? j.issues.map(finding).filter(Boolean).slice(0, 20) : [];\nconst score = typeof j.score === 'number' ? Math.max(0, Math.min(100, Math.round(j.score))) : null;\nconst confidence = ['high','medium','low'].includes(j.confidence) ? j.confidence : 'low';\nconst out = {\n  score,\n  benchmark: 85,\n  issues,\n  positive: finding(j.positive),\n  moreCount: Math.max(0, issues.length - 3),\n  confidence,\n  needsGuided: Boolean(j.needsGuided) || score === null,\n  ...(typeof j.note === 'string' ? { note: j.note.slice(0, 400) } : {})\n};\nreturn [{ json: out }];"
+      }
+    },
+    {
+      "id": "resp-roast",
+      "name": "Respond Roast",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1540, 160],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "resp-lead",
+      "name": "Respond Lead OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [880, 400],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true }) }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "crm-1",
+      "name": "CRM Append (SET credential + sheet)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1100, 400],
+      "parameters": {
+        "operation": "append",
+        "documentId": { "__rl": true, "value": "", "mode": "list", "cachedResultName": "SET: StayEdge CRM spreadsheet" },
+        "sheetName": { "__rl": true, "value": "", "mode": "list", "cachedResultName": "SET: Website Leads tab" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ new Date($json.payload.ts || Date.now()).toISOString() }}",
+            "WhatsApp": "={{ $json.payload.whatsapp }}",
+            "Email": "={{ $json.payload.email || '' }}",
+            "Listing": "={{ $json.payload.ref || '' }}",
+            "RoastScore": "={{ $json.payload.score ?? '' }}",
+            "Source": "={{ $json.payload.source || 'website' }}",
+            "Status": "NEW"
+          },
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "tg-1",
+      "name": "Telegram Founder Notify (SET credential + chatId)",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1320, 400],
+      "parameters": {
+        "chatId": "SET_FOUNDER_CHAT_ID",
+        "text": "={{ '🔥 New website lead\\n\\nWhatsApp: ' + $('Route Input').first().json.payload.whatsapp + '\\nListing: ' + ($('Route Input').first().json.payload.ref || 'not given') + '\\nRoast score: ' + ($('Route Input').first().json.payload.score ?? 'n/a') + '\\n\\nAPPROVE: paste the Airbnb URL into CAP-001 to run Snapshot + WhatsApp outreach.' }}",
+        "additionalFields": {}
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "resp-metrics",
+      "name": "Respond Metrics (stub)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [880, 620],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: false, note: 'wire to CRM sheet aggregation' }) }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "resp-health",
+      "name": "Respond Health",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [880, 760],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ ok: true, service: 'stayedge-web-head', ts: Date.now() }) }}",
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": { "main": [[{ "node": "Route Input", "type": "main", "index": 0 }]] },
+    "Route Input": { "main": [[{ "node": "Branch", "type": "main", "index": 0 }]] },
+    "Branch": {
+      "main": [
+        [{ "node": "Build Roast Prompt", "type": "main", "index": 0 }],
+        [{ "node": "Respond Lead OK", "type": "main", "index": 0 }],
+        [{ "node": "Respond Metrics (stub)", "type": "main", "index": 0 }],
+        [{ "node": "Respond Health", "type": "main", "index": 0 }]
+      ]
+    },
+    "Build Roast Prompt": { "main": [[{ "node": "Ask PROV AI Generate", "type": "main", "index": 0 }]] },
+    "Ask PROV AI Generate": { "main": [[{ "node": "Map To Contract", "type": "main", "index": 0 }]] },
+    "Map To Contract": { "main": [[{ "node": "Respond Roast", "type": "main", "index": 0 }]] },
+    "Respond Lead OK": { "main": [[{ "node": "CRM Append (SET credential + sheet)", "type": "main", "index": 0 }]] },
+    "CRM Append (SET credential + sheet)": { "main": [[{ "node": "Telegram Founder Notify (SET credential + chatId)", "type": "main", "index": 0 }]] }
+  }
+}

@@ -279,7 +279,12 @@ function ResultView({
 
       {/* Open loop → unlock */}
       {!unlocked ? (
-        <UnlockGate moreCount={result.moreCount} refId={refId} onUnlock={onUnlock} />
+        <UnlockGate
+          moreCount={result.moreCount}
+          refId={refId}
+          score={result.score}
+          onUnlock={onUnlock}
+        />
       ) : (
         <div className="mt-6 space-y-4">
           {result.issues.length > 3 && (
@@ -327,10 +332,12 @@ function ResultView({
 function UnlockGate({
   moreCount,
   refId,
+  score,
   onUnlock,
 }: {
   moreCount: number;
   refId: string;
+  score: number | null;
   onUnlock: () => void;
 }) {
   const [whatsapp, setWhatsapp] = useState("");
@@ -339,8 +346,20 @@ function UnlockGate({
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        // Stored on-device for now; CRM/delivery wiring is the deferred backend.
+        // On-device record (never lose a lead) + forward into StayEdge OS
+        // (n8n → CRM + Telegram founder notify), fire-and-forget.
         rememberLead({ whatsapp, email, ref: refId });
+        fetch("/api/lead", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            whatsapp,
+            email,
+            ref: refId,
+            score: score ?? undefined,
+            source: "roast_unlock",
+          }),
+        }).catch(() => {});
         track("snapshot_unlocked", { hasEmail: Boolean(email) });
         onUnlock();
       }}

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import "@/lib/server/net";
 import { analyzeListing, type RoastInput, type RoastResult } from "@/lib/ai/roast";
 
 /**
@@ -18,7 +19,8 @@ import { analyzeListing, type RoastInput, type RoastResult } from "@/lib/ai/roas
  */
 const BRAIN_URL = process.env.N8N_ROAST_WEBHOOK_URL;
 const BRAIN_TOKEN = process.env.N8N_ROAST_TOKEN;
-const BRAIN_TIMEOUT_MS = 12_000;
+// n8n cloud latency: ~2.5s warm, up to ~15s cold + AI generation time.
+const BRAIN_TIMEOUT_MS = 20_000;
 
 const inputSchema = z.object({
   url: z.string().max(500).optional(),
@@ -96,7 +98,15 @@ export async function POST(req: Request) {
   }
 
   const brain = await askBrain(input);
-  if (brain) return NextResponse.json({ ...brain, source: "brain" });
+  if (brain) {
+    // If the Brain punts (needsGuided — e.g. its AI provider is down) but the
+    // visitor DID give us analysable input, the local heuristic serves better
+    // than a "give me more" reply. Prefer whichever can actually roast.
+    const hasInput = Boolean(input.guided?.title || input.guided?.price != null);
+    if (!(brain.needsGuided && hasInput)) {
+      return NextResponse.json({ ...brain, source: "brain" });
+    }
+  }
 
   return NextResponse.json({ ...analyzeListing(input), source: "heuristic" });
 }

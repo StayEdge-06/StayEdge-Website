@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import "@/lib/server/net";
 
 /**
  * OS status aggregator — the data source for the internal CEO dashboard (/os).
@@ -16,7 +17,7 @@ const METRICS_URL = process.env.N8N_METRICS_WEBHOOK_URL;
 const TOKEN = process.env.N8N_ROAST_TOKEN;
 const DASH_KEY = process.env.OS_DASHBOARD_KEY;
 
-async function probe(url: string | undefined, body: unknown, timeoutMs = 4000) {
+async function probe(url: string | undefined, body: unknown, timeoutMs = 15000) {
   if (!url) return { configured: false, reachable: false };
   try {
     const controller = new AbortController();
@@ -53,7 +54,7 @@ export async function GET(req: Request) {
   if (METRICS_URL) {
     try {
       const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 6000);
+      const timer = setTimeout(() => controller.abort(), 15000);
       const res = await fetch(METRICS_URL, {
         method: "POST",
         headers: {

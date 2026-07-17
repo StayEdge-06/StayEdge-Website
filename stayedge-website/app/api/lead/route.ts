@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import "@/lib/server/net";
 
 /**
  * Lead HEAD endpoint — forwards unlock leads into StayEdge OS (n8n), which owns
@@ -28,7 +29,8 @@ export async function POST(req: Request) {
     const parsed = leadSchema.safeParse(await req.json());
     if (parsed.success && LEAD_URL) {
       const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), 6_000);
+      // n8n cloud can take ~15s cold; the client fires-and-forgets this call.
+      const timer = setTimeout(() => controller.abort(), 15_000);
       const res = await fetch(LEAD_URL, {
         method: "POST",
         headers: {

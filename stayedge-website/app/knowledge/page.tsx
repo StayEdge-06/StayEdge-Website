@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { CLUSTERS } from "@/lib/content/clusters";
+import { articlesByCluster } from "@/lib/content/articles";
 import { Button } from "@/components/ui/Button";
 import { ROUTES, WHATSAPP_URL } from "@/lib/config/site";
 import { PERSONA } from "@/lib/config/persona";
@@ -89,14 +92,65 @@ const ANSWERS: { q: string; a: string; detail: string[] }[] = [
 const FAQ_FOR_SCHEMA = ANSWERS.map(({ q, a }) => ({ q, a }));
 
 export default function KnowledgePage() {
+  const withArticles = CLUSTERS.map((c) => ({ ...c, articles: articlesByCluster(c.id) }));
+
   return (
     <>
       <Section>
         <SectionHeading
           eyebrow="Knowledge"
-          title="Straight answers for Airbnb hosts."
-          intro="The questions hosts actually ask — answered plainly, no hype. Deeper guides are published here as we write them."
+          title="The Airbnb growth library."
+          intro="Guides, answers and definitions for hosts — written from real work, no hype."
         />
+
+        {/* Topic clusters (Authority Engine) */}
+        <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2">
+          {withArticles.map((c) => (
+            <RevealItem key={c.id}>
+              <div className="flex h-full flex-col rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6">
+                <h2 className="font-body text-lg font-bold text-se-offwhite">{c.title}</h2>
+                <p className="mt-1 text-sm text-se-grey-lavender">{c.blurb}</p>
+                {c.articles.length > 0 ? (
+                  <ul className="mt-4 space-y-2 border-t border-[var(--se-line)] pt-4">
+                    {c.articles.map((a) => (
+                      <li key={a.slug}>
+                        <Link
+                          href={`/knowledge/${a.slug}`}
+                          className="text-se-lavender underline-offset-4 hover:underline"
+                        >
+                          {a.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="mt-4 border-t border-[var(--se-line)] pt-4 text-xs text-se-grey-lavender">
+                    Guides publishing soon.
+                  </p>
+                )}
+              </div>
+            </RevealItem>
+          ))}
+
+          <RevealItem>
+            <Link
+              href="/knowledge/glossary"
+              className="flex h-full flex-col rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-3 p-6 transition-colors hover:border-[var(--se-line-strong)]"
+            >
+              <h2 className="font-body text-lg font-bold text-se-offwhite">Host Glossary</h2>
+              <p className="mt-1 flex-1 text-sm text-se-offwhite/80">
+                ADR, RevPAR, occupancy, gap nights — the numbers that decide your revenue,
+                in plain language.
+              </p>
+              <span className="mt-4 text-sm font-semibold text-se-lavender">Open the glossary →</span>
+            </Link>
+          </RevealItem>
+        </RevealGroup>
+
+        <div className="mx-auto mt-16 max-w-3xl border-t border-[var(--se-line)] pt-10 text-center">
+          <h2 className="se-title text-[clamp(22px,3vw,32px)] text-se-offwhite">Quick answers</h2>
+          <p className="mt-2 text-se-grey-lavender">The questions hosts ask most, answered in a paragraph.</p>
+        </div>
 
         <RevealGroup className="mx-auto mt-14 max-w-3xl space-y-4">
           {ANSWERS.map((item) => (

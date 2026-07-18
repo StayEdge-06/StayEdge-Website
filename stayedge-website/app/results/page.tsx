@@ -4,6 +4,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/lib/seo/schema";
+import { CASE_STUDIES } from "@/lib/content/case-studies";
 
 export const metadata: Metadata = {
   title: "Results",
@@ -44,15 +45,48 @@ export default function ResultsPage() {
           ))}
         </RevealGroup>
 
-        <Reveal className="mx-auto mt-12 max-w-2xl rounded-[var(--se-radius-lg)] border-l-2 border-se-purple bg-se-ground-2 p-6 text-center">
-          <p className="text-se-offwhite">
-            Named case studies are published here as clients approve them.
-          </p>
-          <p className="mt-2 text-sm text-se-grey-lavender">
-            Until then, the fastest way to judge us is to watch the method run on your own
-            listing — free.
-          </p>
-        </Reveal>
+        {CASE_STUDIES.length > 0 ? (
+          <RevealGroup className="mt-12 grid gap-4 md:grid-cols-2">
+            {CASE_STUDIES.map((cs) => (
+              <RevealItem key={cs.slug}>
+                <article className="se-edge-strip h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 pl-7">
+                  <p className="se-eyebrow">{cs.propertyLabel}</p>
+                  <p className="mt-2 text-se-grey-lavender">{cs.situation}</p>
+                  <ul className="mt-3 space-y-1 text-sm text-se-offwhite/85">
+                    {cs.changes.map((ch) => (
+                      <li key={ch.slice(0, 24)}>· {ch}</li>
+                    ))}
+                  </ul>
+                  <div className="mt-4 grid grid-cols-2 gap-2">
+                    {cs.results.map((r) => (
+                      <div key={r.metric} className="rounded-lg bg-se-charcoal p-3">
+                        <p className="text-xs uppercase text-se-grey-lavender">{r.metric} · {r.period}</p>
+                        <p className="se-num mt-1 text-se-offwhite">
+                          {r.before} → <span className="text-se-positive">{r.after}</span>
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  {cs.quote && (
+                    <blockquote className="mt-4 border-l-2 border-se-purple pl-3 font-editorial italic text-se-offwhite/90">
+                      “{cs.quote.text}” <span className="not-italic text-sm text-se-grey-lavender">— {cs.quote.attribution}</span>
+                    </blockquote>
+                  )}
+                </article>
+              </RevealItem>
+            ))}
+          </RevealGroup>
+        ) : (
+          <Reveal className="mx-auto mt-12 max-w-2xl rounded-[var(--se-radius-lg)] border-l-2 border-se-purple bg-se-ground-2 p-6 text-center">
+            <p className="text-se-offwhite">
+              Named case studies are published here as clients approve them.
+            </p>
+            <p className="mt-2 text-sm text-se-grey-lavender">
+              Until then, the fastest way to judge us is to watch the method run on your own
+              listing — free.
+            </p>
+          </Reveal>
+        )}
       </Section>
       <FinalCTA />
       <JsonLd schemas={[breadcrumbSchema([{ name: "Results", path: "/results" }])]} />

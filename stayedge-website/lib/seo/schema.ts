@@ -141,6 +141,54 @@ export function faqSchema(faqs: { q: string; a: string }[]) {
   };
 }
 
+/** Article schema — author/publisher wired to the founder + org entities. */
+export function articleSchema(a: {
+  slug: string;
+  title: string;
+  description: string;
+  publishedAt: string;
+  clusterTitle: string;
+}) {
+  return {
+    "@type": "Article",
+    headline: a.title,
+    description: a.description,
+    url: `${SITE.url}/knowledge/${a.slug}`,
+    datePublished: a.publishedAt,
+    author: { "@id": FOUNDER_ID },
+    publisher: { "@id": ORG_ID },
+    about: a.clusterTitle,
+    inLanguage: "en-IN",
+    isPartOf: { "@id": SITE_ID },
+  };
+}
+
+/** DefinedTermSet for the glossary (AEO/GEO). */
+export function glossarySchema(terms: { term: string; definition: string }[]) {
+  return {
+    "@type": "DefinedTermSet",
+    name: "Airbnb Host Glossary",
+    url: `${SITE.url}/knowledge/glossary`,
+    hasDefinedTerm: terms.map((t) => ({
+      "@type": "DefinedTerm",
+      name: t.term,
+      description: t.definition,
+    })),
+  };
+}
+
+/** Service-page schema for programmatic city pages (real content only). */
+export function cityServiceSchema(c: { slug: string; city: string; state: string }) {
+  return {
+    "@type": "Service",
+    name: `Airbnb Listing Optimization in ${c.city}`,
+    url: `${SITE.url}/airbnb-listing-optimization/${c.slug}`,
+    provider: { "@id": ORG_ID },
+    areaServed: { "@type": "City", name: c.city, containedInPlace: { "@type": "State", name: c.state } },
+    serviceType: "Airbnb listing optimization",
+  };
+}
+
 /** Wrap one or more schema objects into a single @graph JSON-LD document. */
 export function jsonLd(...schemas: object[]) {
   return JSON.stringify({ "@context": "https://schema.org", "@graph": schemas });

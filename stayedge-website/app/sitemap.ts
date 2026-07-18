@@ -1,8 +1,13 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/config/site";
+import { ARTICLES } from "@/lib/content/articles";
+import { CITIES } from "@/lib/content/cities";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
+    ...ARTICLES.map((a) => ({ path: `/knowledge/${a.slug}`, priority: 0.6 })),
+    { path: "/knowledge/glossary", priority: 0.6 },
+    ...CITIES.map((c) => ({ path: `/airbnb-listing-optimization/${c.slug}`, priority: 0.7 })),
     { path: "", priority: 1.0 },
     { path: "/roast", priority: 0.9 },
     { path: "/lab", priority: 0.8 },

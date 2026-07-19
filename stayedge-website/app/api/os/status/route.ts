@@ -79,8 +79,12 @@ export async function GET(req: Request) {
       brain,
       lead,
       metrics: { configured: Boolean(METRICS_URL), loaded: metrics !== null },
-      ga4: { configured: Boolean(process.env.NEXT_PUBLIC_GA_ID) },
-      clarity: { configured: Boolean(process.env.NEXT_PUBLIC_CLARITY_ID) },
+      ga4: {
+        configured: Boolean(
+          process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? process.env.NEXT_PUBLIC_GA_ID,
+        ),
+      },
+      clarity: { configured: Boolean(process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID) },
     },
     metrics,
   });

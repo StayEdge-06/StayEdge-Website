@@ -23,6 +23,9 @@ export function ParticleField({ count = 1200 }: { count?: number }) {
     return () => window.removeEventListener("pointermove", onMove);
   }, []);
 
+  // Intentional randomness: the field is generated once per mount; particles
+  // are decorative (aria-hidden canvas), so render purity is not a concern.
+  /* eslint-disable react-hooks/purity */
   const { positions, colors, seeds } = useMemo(() => {
     const positions = new Float32Array(count * 3);
     const colors = new Float32Array(count * 3);
@@ -42,6 +45,7 @@ export function ParticleField({ count = 1200 }: { count?: number }) {
     }
     return { positions, colors, seeds };
   }, [count]);
+  /* eslint-enable react-hooks/purity */
 
   useFrame((state) => {
     const geo = points.current?.geometry;

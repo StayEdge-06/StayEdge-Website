@@ -43,6 +43,45 @@ export function WhyStayEdge() {
           </RevealItem>
         ))}
       </RevealGroup>
+
+      {/* Honest comparison — the decision most hosts are actually weighing */}
+      <RevealItem>
+        <div className="mx-auto mt-10 max-w-3xl overflow-x-auto">
+          <table className="w-full min-w-[560px] border-collapse text-sm">
+            <caption className="sr-only">
+              Comparing doing it yourself, hiring a property manager, and working with StayEdge
+            </caption>
+            <thead>
+              <tr className="border-b border-[var(--se-line-strong)] text-left">
+                <th scope="col" className="py-3 pr-4 font-body font-normal text-se-grey-lavender"></th>
+                <th scope="col" className="py-3 pr-4 font-body font-bold text-se-offwhite">DIY</th>
+                <th scope="col" className="py-3 pr-4 font-body font-bold text-se-offwhite">Property manager</th>
+                <th scope="col" className="py-3 font-body font-bold text-se-lavender">StayEdge</th>
+              </tr>
+            </thead>
+            <tbody className="text-se-offwhite/85">
+              {[
+                ["You keep control of your listing", "Yes", "Usually no", "Always"],
+                ["Specialist listing & pricing expertise", "Trial and error", "Varies", "That's all we do"],
+                ["Ongoing cost", "Your evenings", "15–25% of revenue*", "Scoped to your property"],
+                ["See value before paying", "—", "Rarely", "Free audit first"],
+              ].map((row) => (
+                <tr key={row[0]} className="border-b border-[var(--se-line)]">
+                  <th scope="row" className="py-3 pr-4 text-left font-body font-normal text-se-grey-lavender">
+                    {row[0]}
+                  </th>
+                  <td className="py-3 pr-4">{row[1]}</td>
+                  <td className="py-3 pr-4">{row[2]}</td>
+                  <td className="py-3 font-semibold text-se-offwhite">{row[3]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="mt-2 text-xs text-se-grey-lavender">
+            *Typical industry range for full-service management; individual managers vary.
+          </p>
+        </div>
+      </RevealItem>
     </Section>
   );
 }

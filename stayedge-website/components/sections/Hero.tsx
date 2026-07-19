@@ -91,6 +91,14 @@ export function Hero() {
           <p className="mt-8 text-xs text-se-grey-lavender">
             Free · No login · Your first 3 issues on the house.
           </p>
+          <p className="mt-3 text-sm">
+            <a
+              href={ROUTES.audit}
+              className="text-se-lavender underline-offset-4 hover:underline"
+            >
+              Or skip straight to a free audit with a real person →
+            </a>
+          </p>
         </RevealItem>
 
         <RevealItem className="mt-12 flex justify-center">

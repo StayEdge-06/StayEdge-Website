@@ -4,11 +4,12 @@
  * product never breaks and never tracks without permission.
  *
  * Env (set in .env.production / hosting dashboard):
- *   NEXT_PUBLIC_GA_ID      e.g. G-XXXXXXXXXX
- *   NEXT_PUBLIC_CLARITY_ID e.g. abcdefghij
+ *   NEXT_PUBLIC_GA_MEASUREMENT_ID (or legacy NEXT_PUBLIC_GA_ID)  e.g. G-XXXXXXXXXX
+ *   NEXT_PUBLIC_CLARITY_PROJECT_ID — consumed by components/analytics/Clarity.tsx
  */
-export const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
-export const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_ID;
+export const GA_ID =
+  process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ?? process.env.NEXT_PUBLIC_GA_ID;
+export const CLARITY_ID = process.env.NEXT_PUBLIC_CLARITY_PROJECT_ID;
 
 const CONSENT_KEY = "stayedge.consent.v1";
 export type Consent = "granted" | "denied";
@@ -33,6 +34,8 @@ export function getConsent(): Consent | null {
 export function setConsent(v: Consent) {
   try {
     window.localStorage.setItem(CONSENT_KEY, v);
+    // Let same-session listeners (e.g. the Clarity loader) react immediately.
+    window.dispatchEvent(new Event("se-consent"));
   } catch {
     /* ignore */
   }
@@ -58,12 +61,9 @@ export function loadAnalytics() {
     document.head.appendChild(s);
   }
 
-  if (CLARITY_ID) {
-    const s = document.createElement("script");
-    s.async = true;
-    s.src = `https://www.clarity.ms/tag/${CLARITY_ID}`;
-    document.head.appendChild(s);
-  }
+  // NOTE: Microsoft Clarity is loaded exclusively by components/analytics/
+  // Clarity.tsx (next/script, production-only) — never here, so it can't
+  // initialise twice.
 }
 
 /** Event taxonomy (founder-specified). */

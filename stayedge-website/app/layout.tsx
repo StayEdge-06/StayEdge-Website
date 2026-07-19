@@ -26,6 +26,9 @@ import { MobileActionBar } from "@/components/layout/MobileActionBar";
 import { Vira } from "@/components/ai/Vira";
 import { CursorSpotlight } from "@/components/motion/CursorSpotlight";
 import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
+import { Clarity } from "@/components/analytics/Clarity";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { organizationSchema, founderSchema, websiteSchema } from "@/lib/seo/schema";
 
@@ -72,8 +75,12 @@ export default function RootLayout({
         <Vira />
         {/* Purple Light Follow (desktop only) — signature #17 */}
         <CursorSpotlight />
-        {/* Consent-gated measurement (GA4 + Clarity via env IDs) */}
+        {/* Consent-gated measurement: GA4 (AnalyticsProvider) + MS Clarity
+            (next/script, production-only) + Vercel Analytics & Speed Insights */}
         <AnalyticsProvider />
+        <Clarity />
+        <Analytics />
+        <SpeedInsights />
         {/* Entity graph: Organization + Founder + WebSite (Search Dominance) */}
         <JsonLd schemas={[organizationSchema(), founderSchema(), websiteSchema()]} />
       </body>

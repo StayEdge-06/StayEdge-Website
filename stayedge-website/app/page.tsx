@@ -1,7 +1,7 @@
 import { Hero } from "@/components/sections/Hero";
 import { RoastPreview } from "@/components/sections/RoastPreview";
 import { MechanismTimeline } from "@/components/sections/MechanismTimeline";
-import { BeforeAfter } from "@/components/sections/BeforeAfter";
+import { Showcase } from "@/components/sections/Showcase";
 import { RevenueOpportunity } from "@/components/sections/RevenueOpportunity";
 import { WhyStayEdge } from "@/components/sections/WhyStayEdge";
 import { HostSegments } from "@/components/sections/HostSegments";
@@ -23,7 +23,7 @@ export default function HomePage() {
       <Hero />
       <RoastPreview />
       <MechanismTimeline />
-      <BeforeAfter />
+      <Showcase />
       <RevenueOpportunity />
       <WhyStayEdge />
       <HostSegments />

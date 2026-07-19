@@ -60,7 +60,7 @@ export default function ServicesPage() {
         <RevealItem>
           <div className="mt-10 text-center">
             <Button href={ROUTES.roast} variant="primary" size="lg">
-              See what we'd fix first — free
+              See what we&apos;d fix first — free
             </Button>
           </div>
         </RevealItem>

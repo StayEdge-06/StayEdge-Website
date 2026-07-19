@@ -23,11 +23,11 @@ export function SiteFooter() {
         />
 
         <div className="mt-10 flex flex-wrap gap-3">
-          <Button href={CTA.roast.href} variant="primary" size="lg">
-            {CTA.roast.label}
-          </Button>
-          <Button href={CTA.audit.href} variant="secondary" size="lg">
+          <Button href={CTA.audit.href} variant="primary" size="lg">
             {CTA.audit.label}
+          </Button>
+          <Button href={CTA.roast.href} variant="secondary" size="lg">
+            {CTA.roast.label}
           </Button>
           <Button href={CTA.whatsapp.href} external variant="ghost" size="lg">
             {CTA.whatsapp.label}

@@ -26,12 +26,13 @@ export function SiteHeader() {
           ))}
         </nav>
 
+        {/* CTA hierarchy: Free Audit is the one primary; the roast supports it. */}
         <div className="flex items-center gap-2">
-          <Button href={CTA.whatsapp.href} external variant="ghost" size="sm" className="hidden sm:inline-flex">
-            {CTA.whatsapp.label}
-          </Button>
-          <Button href={CTA.roast.href} variant="primary" size="sm" className="hidden sm:inline-flex">
+          <Button href={CTA.roast.href} variant="ghost" size="sm" className="hidden sm:inline-flex">
             {CTA.roast.label}
+          </Button>
+          <Button href={CTA.audit.href} variant="primary" size="sm" className="hidden sm:inline-flex">
+            Get Free Audit
           </Button>
         </div>
       </div>

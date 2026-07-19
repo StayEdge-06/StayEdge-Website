@@ -30,12 +30,12 @@ export function FinalCTA() {
 
         <div className="mt-9 flex flex-wrap justify-center gap-3">
           <Magnetic strength={0.35}>
-            <Button href={ROUTES.roast} variant="primary" size="lg">
-              Roast my listing
+            <Button href={CTA.audit.href} variant="primary" size="lg">
+              Get my free audit
             </Button>
           </Magnetic>
-          <Button href={CTA.audit.href} variant="secondary" size="lg">
-            {CTA.audit.label}
+          <Button href={ROUTES.roast} variant="secondary" size="lg">
+            Roast my listing first
           </Button>
           <Button href={CTA.whatsapp.href} external variant="ghost" size="lg">
             {CTA.whatsapp.label}

@@ -2,6 +2,7 @@ import { Section, SectionHeading } from "@/components/sections/Section";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { CONTACT } from "@/lib/config/site";
 
+
 /**
  * Trust section. We do NOT fabricate testimonials or numbers (brand law: every
  * claim provable). Until real, named case studies exist, this earns trust the
@@ -43,16 +44,29 @@ export function SocialProof() {
         ))}
       </RevealGroup>
 
+      {/* Founder — a person, not a portal (trust) */}
       <RevealItem>
-        <figure className="mx-auto mt-8 max-w-2xl rounded-[var(--se-radius-lg)] border-l-2 border-se-purple bg-se-ground-2 p-6">
-          <blockquote className="font-editorial text-lg italic text-se-offwhite/90">
-            &ldquo;We turn your listing into the smartest-run stay on your street — and prove it
-            in the numbers.&rdquo;
-          </blockquote>
-          <figcaption className="mt-3 text-sm text-se-grey-lavender">
-            The StayEdge promise
-          </figcaption>
-        </figure>
+        <div className="se-glass mx-auto mt-8 flex max-w-2xl flex-col gap-5 rounded-[var(--se-radius-lg)] p-6 sm:flex-row sm:items-center md:p-8">
+          <div
+            aria-hidden
+            className="grid h-16 w-16 shrink-0 place-items-center rounded-full text-xl font-bold text-se-offwhite"
+            style={{ background: "linear-gradient(135deg, var(--se-purple), var(--se-lavender))" }}
+          >
+            {CONTACT.founder.split(" ").map((n) => n[0]).join("")}
+          </div>
+          <div>
+            <p className="font-body font-bold text-se-offwhite">
+              {CONTACT.founder} · Founder, {CONTACT.location.split(",")[0]}
+            </p>
+            <blockquote className="mt-2 font-editorial italic text-se-offwhite/90">
+              &ldquo;We turn your listing into the smartest-run stay on your street — and prove
+              it in the numbers.&rdquo;
+            </blockquote>
+            <p className="mt-2 text-sm text-se-grey-lavender">
+              Your audit is read and replied to by me — not a queue.
+            </p>
+          </div>
+        </div>
       </RevealItem>
     </Section>
   );

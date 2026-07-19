@@ -28,6 +28,7 @@ import { CursorSpotlight } from "@/components/motion/CursorSpotlight";
 import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { organizationSchema, founderSchema, websiteSchema } from "@/lib/seo/schema";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -76,6 +77,8 @@ export default function RootLayout({
         <AnalyticsProvider />
         {/* Entity graph: Organization + Founder + WebSite (Search Dominance) */}
         <JsonLd schemas={[organizationSchema(), founderSchema(), websiteSchema()]} />
+        {/* Vercel Web Analytics */}
+        <Analytics />
       </body>
     </html>
   );

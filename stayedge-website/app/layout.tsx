@@ -7,6 +7,7 @@ import {
   Jura,
   IBM_Plex_Serif,
 } from "next/font/google";
+import { Analytics } from '@vercel/analytics/next';
 import "./globals.css";
 
 /* Brand faces, self-hosted via next/font (zero layout shift, no render-blocking
@@ -76,6 +77,8 @@ export default function RootLayout({
         <AnalyticsProvider />
         {/* Entity graph: Organization + Founder + WebSite (Search Dominance) */}
         <JsonLd schemas={[organizationSchema(), founderSchema(), websiteSchema()]} />
+        {/* Vercel Web Analytics */}
+        <Analytics />
       </body>
     </html>
   );

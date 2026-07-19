@@ -24,6 +24,7 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { MobileActionBar } from "@/components/layout/MobileActionBar";
 import { Vira } from "@/components/ai/Vira";
+import { CursorSpotlight } from "@/components/motion/CursorSpotlight";
 import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { organizationSchema, founderSchema, websiteSchema } from "@/lib/seo/schema";
@@ -69,6 +70,8 @@ export default function RootLayout({
         <MobileActionBar />
         {/* Vira — the AI consultant presence, site-wide */}
         <Vira />
+        {/* Purple Light Follow (desktop only) — signature #17 */}
+        <CursorSpotlight />
         {/* Consent-gated measurement (GA4 + Clarity via env IDs) */}
         <AnalyticsProvider />
         {/* Entity graph: Organization + Founder + WebSite (Search Dominance) */}

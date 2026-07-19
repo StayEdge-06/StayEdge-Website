@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/Button";
+import { WordReveal } from "@/components/motion/ScrollFX";
 import { FULL_NAV, CTA, CONTACT, SITE } from "@/lib/config/site";
 
 /**
@@ -13,9 +14,13 @@ export function SiteFooter() {
       {/* Final pitch band */}
       <div className="mx-auto max-w-[1320px] px-5 py-20 md:px-8">
         <p className="se-eyebrow mb-5">The last empty night</p>
-        <h2 className="se-title max-w-3xl text-[clamp(28px,5vw,52px)] text-se-offwhite">
-          Your property deserves better than empty nights.
-        </h2>
+        {/* The Footer Resolve (signature #20) — the emotional period on the page */}
+        <WordReveal
+          as="h2"
+          text="Your property deserves better than empty nights."
+          accentFrom={5}
+          className="se-title max-w-3xl text-[clamp(28px,5vw,52px)] text-se-offwhite"
+        />
 
         <div className="mt-10 flex flex-wrap gap-3">
           <Button href={CTA.roast.href} variant="primary" size="lg">

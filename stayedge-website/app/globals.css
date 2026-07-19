@@ -161,6 +161,57 @@
     }
   }
 
+  /* Idle float + breathing glow for the hero input (flagship) */
+  .se-float {
+    animation: se-float 6s ease-in-out infinite;
+  }
+  @keyframes se-float {
+    0%,
+    100% {
+      transform: translateY(0);
+      box-shadow: 0 10px 50px -18px var(--se-glow);
+    }
+    50% {
+      transform: translateY(-7px);
+      box-shadow: 0 24px 70px -18px var(--se-glow);
+    }
+  }
+
+  /* Scroll cue — a slow falling pip inside a pill */
+  .se-scroll-cue {
+    position: relative;
+    width: 26px;
+    height: 42px;
+    border: 1px solid var(--se-line-strong);
+    border-radius: 999px;
+  }
+  .se-scroll-cue::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 8px;
+    width: 4px;
+    height: 8px;
+    margin-left: -2px;
+    border-radius: 999px;
+    background: var(--se-lavender);
+    animation: se-cue 1.8s ease-in-out infinite;
+  }
+  @keyframes se-cue {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    70% {
+      transform: translateY(16px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 0;
+    }
+  }
+
   /* The 18deg edge accent — the brand's shear as a UI motif */
   .se-edge-strip {
     position: relative;

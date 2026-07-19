@@ -1,5 +1,6 @@
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal } from "@/components/motion/Reveal";
+import { CountUp } from "@/components/motion/ScrollFX";
 import { Button } from "@/components/ui/Button";
 import { ROUTES } from "@/lib/config/site";
 
@@ -42,7 +43,7 @@ export function RoastPreview() {
             <span className="se-eyebrow">Sample · Roast mode</span>
             <div className="text-right">
               <div className="se-num text-[clamp(40px,7vw,64px)] leading-none text-se-lavender">
-                58
+                <CountUp value={58} />
               </div>
               <p className="mt-1 text-xs text-se-grey-lavender">
                 Roast Score · a strong listing reaches 85+

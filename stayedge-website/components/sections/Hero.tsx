@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/Button";
 import { AIPresence } from "@/components/three/AIPresence";
 import { Magnetic } from "@/components/motion/Magnetic";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { WordReveal } from "@/components/motion/ScrollFX";
 import { RisingEdgeBars } from "@/components/brand/RisingEdgeBars";
 import { PERSONA } from "@/lib/config/persona";
 import { ROUTES } from "@/lib/config/site";
@@ -29,14 +30,14 @@ export function Hero() {
           <p className="se-eyebrow mt-5 mb-6">AI-Powered Airbnb Growth</p>
         </RevealItem>
 
-        {/* Explicit display utilities (not .se-display) so line-height is fully
-            controlled here — Boldonse needs generous leading when it wraps. */}
-        <RevealItem>
-          <h1 className="mx-auto max-w-4xl font-display uppercase tracking-[-0.01em] leading-[1.12] text-[clamp(28px,7vw,76px)] text-se-offwhite">
-            Your Airbnb should be{" "}
-            <span className="text-se-lavender">fully booked.</span>
-          </h1>
-        </RevealItem>
+        {/* Cinematic word-by-word reveal (flagship). Explicit display utilities
+            (not .se-display) — Boldonse needs generous leading when it wraps. */}
+        <WordReveal
+          as="h1"
+          text="Your Airbnb should be fully booked."
+          accentFrom={4}
+          className="mx-auto max-w-4xl font-display uppercase tracking-[-0.01em] leading-[1.12] text-[clamp(28px,7vw,76px)] text-se-offwhite [perspective:800px]"
+        />
 
         <RevealItem>
           <p className="mx-auto mt-6 max-w-xl text-balance text-lg text-se-grey-lavender">
@@ -50,7 +51,7 @@ export function Hero() {
           <form
             action={ROUTES.roast}
             method="get"
-            className="se-glass mx-auto mt-10 flex max-w-xl flex-col gap-3 rounded-[var(--se-radius-lg)] p-3 sm:flex-row sm:items-center sm:pl-5"
+            className="se-glass se-float mx-auto mt-10 flex max-w-xl flex-col gap-3 rounded-[var(--se-radius-lg)] p-3 sm:flex-row sm:items-center sm:pl-5"
           >
             <label htmlFor="listing-url" className="sr-only">
               Your Airbnb listing link
@@ -90,6 +91,10 @@ export function Hero() {
           <p className="mt-8 text-xs text-se-grey-lavender">
             Free · No login · Your first 3 issues on the house.
           </p>
+        </RevealItem>
+
+        <RevealItem className="mt-12 flex justify-center">
+          <div className="se-scroll-cue" aria-hidden />
         </RevealItem>
       </RevealGroup>
     </section>

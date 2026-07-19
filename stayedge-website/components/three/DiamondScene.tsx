@@ -3,6 +3,7 @@
 import { Canvas, useFrame, type ThreeElements } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { ParticleField } from "@/components/three/ParticleField";
 
 /**
  * The Lavender Diamond, in 3D (signature #1/#5 — the AI presence).
@@ -53,7 +54,14 @@ function Gem(props: ThreeElements["group"]) {
   );
 }
 
-export default function DiamondScene({ active = true }: { active?: boolean }) {
+export default function DiamondScene({
+  active = true,
+  particles = 0,
+}: {
+  active?: boolean;
+  /** Particle count for the surrounding field; 0 disables it. */
+  particles?: number;
+}) {
   return (
     <Canvas
       dpr={[1, 1.8]}
@@ -65,6 +73,7 @@ export default function DiamondScene({ active = true }: { active?: boolean }) {
       <directionalLight position={[3, 3, 4]} intensity={2.6} color="#A663CC" />
       <directionalLight position={[-3, -2, 1]} intensity={1.6} color="#6F2DBD" />
       <Gem />
+      {particles > 0 && <ParticleField count={particles} />}
     </Canvas>
   );
 }

@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/motion/Reveal";
+import { WordReveal } from "@/components/motion/ScrollFX";
 import { Button } from "@/components/ui/Button";
 import { Magnetic } from "@/components/motion/Magnetic";
 import { ROUTES, CTA } from "@/lib/config/site";
@@ -17,10 +18,12 @@ export function FinalCTA() {
       />
       <Reveal className="relative z-10 mx-auto max-w-[900px] px-5 py-24 text-center md:px-8 md:py-32">
         <p className="se-eyebrow mb-5">See it for yourself</p>
-        <h2 className="mx-auto max-w-3xl font-display uppercase leading-[1.12] tracking-[-0.01em] text-[clamp(26px,5vw,56px)] text-se-offwhite">
-          Find out what your listing is{" "}
-          <span className="text-se-lavender">really</span> worth.
-        </h2>
+        <WordReveal
+          as="h2"
+          text="Find out what your listing is really worth."
+          accentFrom={6}
+          className="mx-auto max-w-3xl font-display uppercase leading-[1.12] tracking-[-0.01em] text-[clamp(26px,5vw,56px)] text-se-offwhite [perspective:800px]"
+        />
         <p className="mx-auto mt-5 max-w-xl text-se-grey-lavender">
           One paste. A few seconds. Three things you can fix today — free.
         </p>

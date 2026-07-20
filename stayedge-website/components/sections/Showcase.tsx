@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/motion/TiltCard";
@@ -91,7 +92,7 @@ export function Showcase() {
   );
 }
 
-/** Stylized listing mockup — a before/after "screenshot" built from placeholder blocks. */
+/** Stylized listing mockup — a before/after "screenshot" with illustrated art. */
 function ListingMock({ variant, ex }: { variant: "before" | "after"; ex: ShowcaseExample }) {
   const after = variant === "after";
   return (
@@ -115,15 +116,20 @@ function ListingMock({ variant, ex }: { variant: "before" | "after"; ex: Showcas
         </span>
       </div>
 
-      {/* Placeholder photo strip — abstract, honest (no fake photography) */}
+      {/* Illustrated (not photographic) mockup art — a generic scene of the
+          property type, never a real listing photo (brand law: no fake
+          photography of a specific real property). The two small side
+          blocks stay abstract gradient accents. */}
       <div className="flex h-28 gap-1 p-2" aria-hidden>
-        <div
-          className={cn("flex-[2] rounded-md", after ? "opacity-95" : "opacity-45")}
-          style={{
-            background:
-              "linear-gradient(135deg, color-mix(in srgb, var(--se-purple) 55%, transparent), color-mix(in srgb, var(--se-lavender) 40%, transparent))",
-          }}
-        />
+        <div className={cn("relative flex-[2] overflow-hidden rounded-md", after ? "opacity-95" : "opacity-70")}>
+          <Image
+            src={after ? ex.afterImage : ex.beforeImage}
+            alt=""
+            fill
+            sizes="200px"
+            className="object-cover"
+          />
+        </div>
         <div className="flex flex-1 flex-col gap-1">
           {[0, 1].map((i) => (
             <div

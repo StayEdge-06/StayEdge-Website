@@ -12,6 +12,11 @@ export type ShowcaseExample = {
   afterTitle: string;
   beforePrice: string;
   afterPrice: string;
+  /** Illustrated (not photographic) mockup art — generic scene of the
+   * property type, never a real listing photo (brand law: no fake
+   * photography of a specific real property). */
+  beforeImage: string;
+  afterImage: string;
   gallery: string[];
   seo: string[];
   pricing: string[];
@@ -28,6 +33,8 @@ export const SHOWCASE: ShowcaseExample[] = [
     afterTitle: "Private 4BHK Villa · 10 min to Alipiri · Pool, Garden & Chef-Ready Kitchen",
     beforePrice: "₹9,500 · same price all week",
     afterPrice: "₹8,500 weekdays · ₹12,500 weekends & festivals",
+    beforeImage: "/showcase/villa-before.webp",
+    afterImage: "/showcase/villa-after.webp",
     gallery: [
       "Lead photo changed from gate exterior to the pool at golden hour",
       "Family dining and puja corner moved into the first five photos",
@@ -54,6 +61,8 @@ export const SHOWCASE: ShowcaseExample[] = [
     afterTitle: "Sunlit 3BHK for Families · 6 min to Temple Road · Sleeps 8 Comfortably",
     beforePrice: "₹4,200 flat",
     afterPrice: "₹3,800 weekdays · ₹5,600 weekends",
+    beforeImage: "/showcase/family-before.webp",
+    afterImage: "/showcase/family-after.webp",
     gallery: [
       "Lead photo: the living room set for a family evening, not the building corridor",
       "Added the one photo every family looks for — where everyone sleeps",
@@ -80,6 +89,8 @@ export const SHOWCASE: ShowcaseExample[] = [
     afterTitle: "Quiet 2BHK · 4 min to Alipiri Gate · Early Check-in for Darshan",
     beforePrice: "₹2,800 flat",
     afterPrice: "₹2,400 weekdays · ₹3,900 weekends & festival days",
+    beforeImage: "/showcase/pilgrim-before.webp",
+    afterImage: "/showcase/pilgrim-after.webp",
     gallery: [
       "Lead photo: the calm bedroom pilgrims return to, not the street view",
       "Hot-water geyser and clean bathroom given real photo slots",

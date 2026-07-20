@@ -69,6 +69,10 @@ export const SITE = {
   promise:
     "We turn your listing into the smartest-run stay on your street — and prove it in the numbers.",
   descriptor: "AI-powered Airbnb growth for hosts across South India.",
-  /** Canonical production domain (founder decision); env-overridable. */
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://stayedge.co.in",
+  /** Canonical production domain (founder decision); env-overridable.
+   * Must match the host Vercel actually serves (apex 308-redirects to
+   * www) — otherwise every canonical tag, sitemap URL, and JSON-LD @id
+   * points at a URL that immediately redirects, which is a
+   * self-referential-canonical failure (SEO audit, 2026-07-20). */
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.stayedge.co.in",
 } as const;

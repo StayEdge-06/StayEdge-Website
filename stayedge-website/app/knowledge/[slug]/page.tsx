@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Section } from "@/components/sections/Section";
 import { Button } from "@/components/ui/Button";
-import { ROUTES } from "@/lib/config/site";
+import { ROUTES, CONTACT } from "@/lib/config/site";
 import { PERSONA } from "@/lib/config/persona";
 import { ARTICLES, getArticle } from "@/lib/content/articles";
 import { CLUSTERS } from "@/lib/content/clusters";
@@ -57,6 +57,32 @@ export default async function ArticlePage({
             · {cluster.title}
           </p>
           <h1 className="se-title text-[clamp(26px,4.5vw,44px)] text-se-offwhite">{a.title}</h1>
+
+          {/* Visible byline/date — on-page trust signal to match the
+              author/dateModified already in Article schema (E-E-A-T). */}
+          <p className="mt-3 text-sm text-se-grey-lavender">
+            By {CONTACT.founder} · Published{" "}
+            <time dateTime={a.publishedAt}>
+              {new Date(a.publishedAt).toLocaleDateString("en-IN", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </time>
+            {a.updatedAt && a.updatedAt !== a.publishedAt && (
+              <>
+                {" "}
+                · Updated{" "}
+                <time dateTime={a.updatedAt}>
+                  {new Date(a.updatedAt).toLocaleDateString("en-IN", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </time>
+              </>
+            )}
+          </p>
 
           {/* Answer-first lede (AEO) */}
           <p className="mt-6 rounded-[var(--se-radius-lg)] border-l-2 border-se-purple bg-se-ground-2 p-5 text-lg text-se-offwhite/90">

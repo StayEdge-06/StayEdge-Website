@@ -11,7 +11,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/audit" },
 };
 
-/** Placeholder — the full booking experience is built in a later milestone. */
+/**
+ * The self-serve calendar booking flow is built in a later milestone; until
+ * then WhatsApp IS the real, working booking process (not a stand-in for a
+ * missing feature) — copy is written accordingly so this reads as a
+ * deliberate page, not an unfinished one (SEO/E-E-A-T audit, 2026-07-20).
+ */
 export default function AuditPage() {
   return (
     <>
@@ -21,8 +26,9 @@ export default function AuditPage() {
         Let&apos;s find your <span className="text-se-lavender">lost revenue.</span>
       </h1>
       <p className="mx-auto mt-6 max-w-lg text-se-grey-lavender">
-        A free, no-pressure audit with a StayEdge specialist. Booking flow under construction —
-        message us on WhatsApp in the meantime.
+        A free, no-pressure audit with a StayEdge specialist — occupancy, pricing and listing
+        quality, explained in plain numbers. Message us on WhatsApp with your listing link and
+        we&apos;ll reply personally, usually within a few hours.
       </p>
       <div className="mt-8 flex justify-center gap-3">
         <Button href={CTA.whatsapp.href} external variant="primary" size="lg" haptic>

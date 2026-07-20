@@ -71,7 +71,7 @@ export function Vira() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduce ? { opacity: 0 } : { opacity: 0, y: 8, scale: 0.98 }}
             transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-            className="se-glass max-w-[280px] rounded-[var(--se-radius-lg)] p-4 shadow-[0_16px_50px_-12px_var(--se-glow)]"
+            className="max-w-[280px] rounded-[var(--se-radius-lg)] border border-[var(--se-line-strong)] bg-se-charcoal p-4 shadow-[0_16px_50px_-12px_var(--se-glow)]"
             role="dialog"
             aria-label={`${PERSONA.name}, StayEdge AI consultant`}
           >
@@ -101,7 +101,7 @@ export function Vira() {
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label={`Talk to ${PERSONA.name}`}
-        className="se-glass grid h-14 w-14 cursor-pointer place-items-center rounded-full shadow-[0_10px_30px_-8px_var(--se-glow)] transition-transform hover:scale-105 active:scale-95"
+        className="grid h-14 w-14 cursor-pointer place-items-center rounded-full border border-[var(--se-line-strong)] bg-se-deep-purple shadow-[0_10px_30px_-8px_var(--se-glow)] transition-transform hover:scale-105 active:scale-95"
       >
         <Diamond size={26} state={open ? "insight" : "idle"} />
       </button>

@@ -1,5 +1,6 @@
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { TiltCard } from "@/components/motion/TiltCard";
 
 /**
  * Why StayEdge — the differentiation + trust section. Leads with the biggest
@@ -36,10 +37,13 @@ export function WhyStayEdge() {
       <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2">
         {PILLARS.map((p) => (
           <RevealItem key={p.title}>
-            <div className="h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-charcoal p-6">
+            <TiltCard
+              maxTilt={5}
+              className="block h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-charcoal p-6"
+            >
               <h3 className="font-body text-lg font-bold text-se-offwhite">{p.title}</h3>
               <p className="mt-2 text-se-grey-lavender">{p.body}</p>
-            </div>
+            </TiltCard>
           </RevealItem>
         ))}
       </RevealGroup>

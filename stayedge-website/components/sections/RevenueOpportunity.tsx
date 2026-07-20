@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/Button";
+import { getMotionTier } from "@/lib/motion/tier";
 import { ROUTES } from "@/lib/config/site";
 
 /**
@@ -25,6 +27,39 @@ export function RevenueOpportunity() {
   const current = rate * (occ / 100) * nights;
   const improved = rate * (Math.min(occ + lift, 95) / 100) * nights;
   const gap = improved - current;
+
+  // The Leak Counter (signature #8): the upside figure resolves with a
+  // mechanical Plex Serif tick — debounced so it settles once per drag, not
+  // once per pixel — then pulses on completion. Static tier: instant, no tween.
+  const gapRef = useRef<HTMLParagraphElement>(null);
+  const shown = useRef(gap);
+
+  useEffect(() => {
+    const el = gapRef.current;
+    if (!el) return;
+    if (getMotionTier() === "static") {
+      shown.current = gap;
+      el.textContent = `+${inr(gap)}`;
+      return;
+    }
+    const t = setTimeout(() => {
+      const obj = { v: shown.current };
+      gsap.to(obj, {
+        v: gap,
+        duration: 0.5,
+        ease: "power3.out",
+        onUpdate: () => {
+          el.textContent = `+${inr(obj.v)}`;
+        },
+        onComplete: () => {
+          shown.current = gap;
+          el.textContent = `+${inr(gap)}`;
+          gsap.fromTo(el, { scale: 1 }, { scale: 1.06, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.out" });
+        },
+      });
+    }, 180);
+    return () => clearTimeout(t);
+  }, [gap]);
 
   return (
     <Section ground="deep">
@@ -56,7 +91,10 @@ export function RevenueOpportunity() {
 
           <div className="flex flex-col justify-center rounded-[var(--se-radius-lg)] bg-se-ground-2 p-6 text-center">
             <p className="se-eyebrow">Illustrative monthly upside</p>
-            <p className="se-num mt-3 text-[clamp(36px,7vw,60px)] leading-none text-se-positive">
+            <p
+              ref={gapRef}
+              className="se-num mt-3 text-[clamp(36px,7vw,60px)] leading-none text-se-positive [will-change:transform]"
+            >
               +{inr(gap)}
             </p>
             <p className="mt-2 text-sm text-se-grey-lavender">

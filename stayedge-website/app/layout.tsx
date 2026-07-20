@@ -23,6 +23,7 @@ import { SITE } from "@/lib/config/site";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { MobileActionBar } from "@/components/layout/MobileActionBar";
+import { FloatingAuditCard } from "@/components/layout/FloatingAuditCard";
 import { Vira } from "@/components/ai/Vira";
 import { CursorSpotlight } from "@/components/motion/CursorSpotlight";
 import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
@@ -71,6 +72,8 @@ export default function RootLayout({
         <SiteFooter />
         {/* Persistent thumb-zone conversion anchor (mobile only) */}
         <MobileActionBar />
+        {/* Floating audit CTA (desktop only), site-wide */}
+        <FloatingAuditCard />
         {/* Vira — the AI consultant presence, site-wide */}
         <Vira />
         {/* Purple Light Follow (desktop only) — signature #17 */}

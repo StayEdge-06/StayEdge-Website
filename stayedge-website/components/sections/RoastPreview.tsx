@@ -1,6 +1,7 @@
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { CountUp } from "@/components/motion/ScrollFX";
+import { TiltCard } from "@/components/motion/TiltCard";
 import { Button } from "@/components/ui/Button";
 import { ROUTES } from "@/lib/config/site";
 
@@ -38,7 +39,7 @@ export function RoastPreview() {
       />
 
       <Reveal className="mx-auto mt-12 max-w-2xl">
-        <div className="se-edge-strip rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-charcoal p-6 md:p-8">
+        <TiltCard className="se-edge-strip block rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-charcoal p-6 md:p-8">
           <div className="flex items-center justify-between">
             <span className="se-eyebrow">Sample · Roast mode</span>
             <div className="text-right">
@@ -74,7 +75,7 @@ export function RoastPreview() {
               Free · your first 3 issues, no email
             </span>
           </div>
-        </div>
+        </TiltCard>
       </Reveal>
     </Section>
   );

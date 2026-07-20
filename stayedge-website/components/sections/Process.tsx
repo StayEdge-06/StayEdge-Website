@@ -1,5 +1,6 @@
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { TiltCard } from "@/components/motion/TiltCard";
 
 /**
  * The value ladder, made legible — how a visitor goes from a free roast to a
@@ -24,7 +25,7 @@ export function Process() {
       <RevealGroup className="mt-14 grid gap-4 md:grid-cols-4">
         {STEPS.map((s) => (
           <RevealItem key={s.n}>
-            <div className="se-edge-strip h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-charcoal p-6 pl-7">
+            <TiltCard className="se-edge-strip block h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-charcoal p-6 pl-7">
               <div className="flex items-center justify-between">
                 <span className="se-num text-2xl text-se-lavender">{s.n}</span>
                 <span
@@ -41,7 +42,7 @@ export function Process() {
               </div>
               <h3 className="mt-4 font-body text-lg font-bold text-se-offwhite">{s.title}</h3>
               <p className="mt-2 text-sm text-se-grey-lavender">{s.body}</p>
-            </div>
+            </TiltCard>
           </RevealItem>
         ))}
       </RevealGroup>

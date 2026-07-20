@@ -25,7 +25,7 @@ export default function AuditPage() {
         message us on WhatsApp in the meantime.
       </p>
       <div className="mt-8 flex justify-center gap-3">
-        <Button href={CTA.whatsapp.href} external variant="primary" size="lg">
+        <Button href={CTA.whatsapp.href} external variant="primary" size="lg" haptic>
           {CTA.whatsapp.label}
         </Button>
       </div>

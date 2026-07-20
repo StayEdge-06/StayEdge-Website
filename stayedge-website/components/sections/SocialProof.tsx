@@ -46,7 +46,7 @@ export function SocialProof() {
 
       {/* Founder — a person, not a portal (trust) */}
       <RevealItem>
-        <div className="se-glass mx-auto mt-8 flex max-w-2xl flex-col gap-5 rounded-[var(--se-radius-lg)] p-6 sm:flex-row sm:items-center md:p-8">
+        <div className="mx-auto mt-8 flex max-w-2xl flex-col gap-5 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 sm:flex-row sm:items-center md:p-8">
           <div
             aria-hidden
             className="grid h-16 w-16 shrink-0 place-items-center rounded-full text-xl font-bold text-se-offwhite"

@@ -1,5 +1,6 @@
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { TiltCard } from "@/components/motion/TiltCard";
 import { ROUTES } from "@/lib/config/site";
 
 /**
@@ -25,16 +26,18 @@ export function HostSegments() {
       <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {SEGMENTS.map((s) => (
           <RevealItem key={s.title}>
-            <a
-              href={s.href}
-              className="group flex h-full flex-col rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 transition-colors hover:border-[var(--se-line-strong)]"
-            >
-              <h3 className="font-body text-lg font-bold text-se-offwhite">{s.title}</h3>
-              <p className="mt-2 flex-1 text-sm text-se-grey-lavender">{s.body}</p>
-              <span className="mt-4 text-sm font-semibold text-se-lavender transition-transform group-hover:translate-x-1">
-                See how →
-              </span>
-            </a>
+            <TiltCard className="block h-full">
+              <a
+                href={s.href}
+                className="group flex h-full flex-col rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 transition-colors hover:border-[var(--se-line-strong)]"
+              >
+                <h3 className="font-body text-lg font-bold text-se-offwhite">{s.title}</h3>
+                <p className="mt-2 flex-1 text-sm text-se-grey-lavender">{s.body}</p>
+                <span className="mt-4 text-sm font-semibold text-se-lavender transition-transform group-hover:translate-x-1">
+                  See how →
+                </span>
+              </a>
+            </TiltCard>
           </RevealItem>
         ))}
       </RevealGroup>

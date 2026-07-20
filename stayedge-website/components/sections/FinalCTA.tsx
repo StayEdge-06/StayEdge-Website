@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/motion/Reveal";
 import { WordReveal } from "@/components/motion/ScrollFX";
+import { EyebrowTypeOn } from "@/components/motion/EyebrowTypeOn";
 import { Button } from "@/components/ui/Button";
 import { Magnetic } from "@/components/motion/Magnetic";
 import { ROUTES, CTA } from "@/lib/config/site";
@@ -17,7 +18,7 @@ export function FinalCTA() {
         style={{ background: "radial-gradient(closest-side, var(--se-glow), transparent)" }}
       />
       <Reveal className="relative z-10 mx-auto max-w-[900px] px-5 py-24 text-center md:px-8 md:py-32">
-        <p className="se-eyebrow mb-5">See it for yourself</p>
+        <EyebrowTypeOn text="See it for yourself" className="mb-5" />
         <WordReveal
           as="h2"
           text="Find out what your listing is really worth."
@@ -30,7 +31,7 @@ export function FinalCTA() {
 
         <div className="mt-9 flex flex-wrap justify-center gap-3">
           <Magnetic strength={0.35}>
-            <Button href={CTA.audit.href} variant="primary" size="lg">
+            <Button href={CTA.audit.href} variant="primary" size="lg" haptic>
               Get my free audit
             </Button>
           </Magnetic>

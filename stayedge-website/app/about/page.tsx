@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { TiltCard } from "@/components/motion/TiltCard";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { CONTACT, SITE } from "@/lib/config/site";
 import { PERSONA } from "@/lib/config/persona";
@@ -62,10 +63,10 @@ export default function AboutPage() {
         <RevealGroup className="mt-10 grid gap-4 md:grid-cols-3">
           {BELIEFS.map((b) => (
             <RevealItem key={b.title}>
-              <div className="h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6">
+              <TiltCard className="block h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6">
                 <h3 className="font-body font-bold text-se-offwhite">{b.title}</h3>
                 <p className="mt-2 text-sm text-se-grey-lavender">{b.body}</p>
-              </div>
+              </TiltCard>
             </RevealItem>
           ))}
         </RevealGroup>

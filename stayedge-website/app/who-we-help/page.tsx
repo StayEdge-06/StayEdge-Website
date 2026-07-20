@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { TiltCard } from "@/components/motion/TiltCard";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Button } from "@/components/ui/Button";
 import { ROUTES } from "@/lib/config/site";
@@ -57,9 +58,9 @@ export default function WhoWeHelpPage() {
         <RevealGroup className="mt-14 space-y-6">
           {SEGMENTS.map((s) => (
             <RevealItem key={s.id}>
-              <div
+              <TiltCard
                 id={s.id}
-                className="se-edge-strip scroll-mt-24 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 pl-7 md:p-8 md:pl-9"
+                className="se-edge-strip block scroll-mt-24 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 pl-7 md:p-8 md:pl-9"
               >
                 <h2 className="font-body text-xl font-bold text-se-offwhite">{s.title}</h2>
                 <p className="mt-2 font-editorial italic text-se-grey-lavender">{s.pain}</p>
@@ -69,7 +70,7 @@ export default function WhoWeHelpPage() {
                     {s.cta}
                   </Button>
                 </div>
-              </div>
+              </TiltCard>
             </RevealItem>
           ))}
         </RevealGroup>

@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import { fireHaptic } from "@/lib/motion/haptics";
 
 /**
  * StayEdge button — pill CTAs per the brand (primary = Primary Purple fill,
@@ -34,6 +37,10 @@ const button = cva(
 type ButtonBaseProps = VariantProps<typeof button> & {
   className?: string;
   children: React.ReactNode;
+  /** Haptic Milestones (signature #22) — reserve for the 1-2 primary conversion
+   * CTAs per screen ("milestone," not every click); silently a no-op where the
+   * Vibration API is unsupported. */
+  haptic?: boolean;
 };
 
 type ButtonAsLink = ButtonBaseProps & {
@@ -48,29 +55,65 @@ type ButtonAsButton = ButtonBaseProps & {
 export type ButtonProps = ButtonAsLink | ButtonAsButton;
 
 export function Button(props: ButtonProps) {
-  const { variant, size, className, children } = props;
+  const { variant, size, className, children, haptic } = props;
   const classes = cn(button({ variant, size }), className);
 
+  // Only attach an onClick when one is actually needed (haptic or a
+  // caller-supplied handler) — Button is used from Server Components
+  // throughout the site, which can't receive a function prop at all, even
+  // a no-op one.
   if (props.href !== undefined) {
-    const { href, external, ...rest } = props as ButtonAsLink;
+    const { href, external, haptic: _h, onClick, ...rest } = props as ButtonAsLink;
+    const clickProps: Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, "onClick"> =
+      haptic || onClick
+        ? {
+            onClick: (e) => {
+              if (haptic) fireHaptic();
+              onClick?.(e);
+            },
+          }
+        : {};
     if (external) {
       return (
-        <a href={href} className={classes} target="_blank" rel="noopener noreferrer" {...rest}>
+        <a
+          href={href}
+          className={classes}
+          target="_blank"
+          rel="noopener noreferrer"
+          {...clickProps}
+          {...rest}
+        >
           {children}
         </a>
       );
     }
     return (
-      <Link href={href} className={classes} {...rest}>
+      <Link href={href} className={classes} {...clickProps} {...rest}>
         {children}
       </Link>
     );
   }
 
-  const { variant: _v, size: _s, className: _c, children: _ch, ...rest } = props as ButtonAsButton &
-    ButtonBaseProps;
+  const {
+    variant: _v,
+    size: _s,
+    className: _c,
+    children: _ch,
+    haptic: _h2,
+    onClick,
+    ...rest
+  } = props as ButtonAsButton & ButtonBaseProps;
+  const clickProps: Pick<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> =
+    haptic || onClick
+      ? {
+          onClick: (e) => {
+            if (haptic) fireHaptic();
+            onClick?.(e);
+          },
+        }
+      : {};
   return (
-    <button className={classes} {...rest}>
+    <button className={classes} {...clickProps} {...rest}>
       {children}
     </button>
   );

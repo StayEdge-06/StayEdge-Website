@@ -11,7 +11,7 @@ export function MobileActionBar() {
     <div className="fixed inset-x-0 bottom-0 z-[100] sm:hidden">
       <div className="se-glass flex items-center gap-2 border-t border-[var(--se-line)] px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3">
         {/* Free Audit is the one primary (CTA hierarchy) */}
-        <Button href={CTA.audit.href} variant="primary" size="md" className="flex-1">
+        <Button href={CTA.audit.href} variant="primary" size="md" haptic className="flex-1">
           Get Free Audit
         </Button>
         <Button href={CTA.whatsapp.href} external variant="whatsapp" size="md" aria-label="WhatsApp us">

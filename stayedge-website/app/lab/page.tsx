@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function LabPage() {
   return (
     <>
-      <AILabPreview />
+      <AILabPreview tilt />
       <FinalCTA />
       <JsonLd schemas={[breadcrumbSchema([{ name: "AI Lab", path: "/lab" }])]} />
     </>

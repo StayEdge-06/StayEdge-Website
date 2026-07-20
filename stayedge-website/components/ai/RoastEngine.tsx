@@ -204,7 +204,7 @@ function GuidedForm({
         I already charge more on weekends
       </label>
 
-      <Button type="submit" variant="primary" size="lg" className="w-full">
+      <Button type="submit" variant="primary" size="lg" haptic className="w-full">
         Roast my listing
       </Button>
       <p className="text-center text-xs text-se-grey-lavender">
@@ -306,7 +306,7 @@ function ResultView({
               your revenue leak and a plan for your property — let&apos;s talk.
             </p>
             <div className="mt-4 flex flex-wrap justify-center gap-3">
-              <Button href={ROUTES.audit} variant="primary" size="md">
+              <Button href={ROUTES.audit} variant="primary" size="md" haptic>
                 Book my free audit
               </Button>
               <Button href={WHATSAPP_URL} external variant="ghost" size="md">
@@ -379,7 +379,7 @@ function UnlockGate({
         <TextField label="WhatsApp number" value={whatsapp} onChange={setWhatsapp} type="tel" placeholder="+91…" required />
         <TextField label="Email" value={email} onChange={setEmail} type="email" placeholder="you@email.com" />
       </div>
-      <Button type="submit" variant="primary" size="lg" className="mt-4 w-full">
+      <Button type="submit" variant="primary" size="lg" haptic className="mt-4 w-full">
         Unlock my Growth Snapshot
       </Button>
       <p className="mt-2 text-center text-xs text-se-grey-lavender">

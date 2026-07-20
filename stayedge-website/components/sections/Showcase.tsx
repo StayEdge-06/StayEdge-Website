@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { TiltCard } from "@/components/motion/TiltCard";
+import { DepthLayer, refreshScrollTriggers } from "@/components/motion/Parallax";
 import { Button } from "@/components/ui/Button";
 import { ROUTES } from "@/lib/config/site";
 import { SHOWCASE, type ShowcaseExample } from "@/lib/content/showcase";
@@ -17,6 +19,13 @@ import { cn } from "@/lib/utils";
 export function Showcase() {
   const [active, setActive] = useState<ShowcaseExample>(SHOWCASE[0]);
 
+  // The Before/After mocks change height when the active example swaps —
+  // refresh so any ScrollTrigger positioned below this section (e.g. the
+  // Process pins) doesn't desync against stale offsets.
+  useEffect(() => {
+    refreshScrollTriggers();
+  }, [active.slug]);
+
   return (
     <Section ground="deep" id="showcase">
       <SectionHeading
@@ -29,19 +38,21 @@ export function Showcase() {
       <RevealGroup className="mt-12 grid gap-3 sm:grid-cols-3">
         {SHOWCASE.map((ex) => (
           <RevealItem key={ex.slug}>
-            <button
-              onClick={() => setActive(ex)}
-              aria-pressed={active.slug === ex.slug}
-              className={cn(
-                "se-glass h-full w-full cursor-pointer rounded-[var(--se-radius-lg)] p-5 text-left transition-all duration-300",
-                active.slug === ex.slug
-                  ? "border-[var(--se-line-strong)] shadow-[0_16px_50px_-18px_var(--se-glow)] -translate-y-0.5"
-                  : "opacity-75 hover:opacity-100 hover:-translate-y-0.5",
-              )}
-            >
-              <span className="se-eyebrow !text-se-grey-lavender">{ex.label}</span>
-              <p className="mt-2 font-body font-bold text-se-offwhite">{ex.propertyType}</p>
-            </button>
+            <TiltCard className="block h-full">
+              <button
+                onClick={() => setActive(ex)}
+                aria-pressed={active.slug === ex.slug}
+                className={cn(
+                  "se-glass h-full w-full cursor-pointer rounded-[var(--se-radius-lg)] p-5 text-left transition-all duration-300",
+                  active.slug === ex.slug
+                    ? "border-[var(--se-line-strong)] shadow-[0_16px_50px_-18px_var(--se-glow)]"
+                    : "opacity-75 hover:opacity-100",
+                )}
+              >
+                <span className="se-eyebrow !text-se-grey-lavender">{ex.label}</span>
+                <p className="mt-2 font-body font-bold text-se-offwhite">{ex.propertyType}</p>
+              </button>
+            </TiltCard>
           </RevealItem>
         ))}
       </RevealGroup>
@@ -50,7 +61,9 @@ export function Showcase() {
       <Reveal className="mt-8">
         <div key={active.slug} className="grid gap-4 lg:grid-cols-2">
           <ListingMock variant="before" ex={active} />
-          <ListingMock variant="after" ex={active} />
+          <DepthLayer>
+            <ListingMock variant="after" ex={active} />
+          </DepthLayer>
         </div>
 
         {/* Improvement breakdown */}

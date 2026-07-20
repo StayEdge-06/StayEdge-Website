@@ -25,7 +25,7 @@ export default function ContactPage() {
 
       <Reveal className="mx-auto mt-12 max-w-xl">
         <div className="rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-8 text-center">
-          <Button href={WHATSAPP_URL} external variant="whatsapp" size="lg" className="w-full">
+          <Button href={WHATSAPP_URL} external variant="whatsapp" size="lg" haptic className="w-full">
             WhatsApp us
           </Button>
           <div className="mt-6 space-y-2 text-sm text-se-grey-lavender">

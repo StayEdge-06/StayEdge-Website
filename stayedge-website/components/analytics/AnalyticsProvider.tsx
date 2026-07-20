@@ -76,7 +76,7 @@ export function AnalyticsProvider() {
     <div
       role="dialog"
       aria-label="Cookie consent"
-      className="se-glass fixed inset-x-4 bottom-[96px] z-[300] mx-auto max-w-md rounded-[var(--se-radius-lg)] p-4 sm:inset-x-auto sm:left-6 sm:bottom-6"
+      className="fixed inset-x-4 bottom-[96px] z-[300] mx-auto max-w-md rounded-[var(--se-radius-lg)] border border-[var(--se-line-strong)] bg-se-charcoal p-4 sm:inset-x-auto sm:left-6 sm:bottom-6"
     >
       <p className="text-sm text-se-offwhite">
         We use analytics to understand what helps hosts — nothing more.

@@ -3,6 +3,7 @@ import { AIPresence } from "@/components/three/AIPresence";
 import { Magnetic } from "@/components/motion/Magnetic";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { WordReveal } from "@/components/motion/ScrollFX";
+import { EyebrowTypeOn } from "@/components/motion/EyebrowTypeOn";
 import { RisingEdgeBars } from "@/components/brand/RisingEdgeBars";
 import { PERSONA } from "@/lib/config/persona";
 import { ROUTES } from "@/lib/config/site";
@@ -15,7 +16,7 @@ import { ROUTES } from "@/lib/config/site";
  */
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-se-ground">
+    <section id="hero" className="relative overflow-hidden bg-se-ground">
       {/* AI presence field — pointer-transparent so the form stays clickable */}
       <AIPresence className="pointer-events-none absolute inset-0 z-0" />
 
@@ -27,7 +28,7 @@ export function Hero() {
         </RevealItem>
 
         <RevealItem>
-          <p className="se-eyebrow mt-5 mb-6">AI-Powered Airbnb Growth</p>
+          <EyebrowTypeOn text="AI-Powered Airbnb Growth" className="mt-5 mb-6" />
         </RevealItem>
 
         {/* Cinematic word-by-word reveal (flagship). Explicit display utilities
@@ -65,7 +66,7 @@ export function Hero() {
               className="min-w-0 flex-1 bg-transparent py-3 text-se-offwhite placeholder:text-se-grey-lavender/70 focus:outline-none"
             />
             <Magnetic strength={0.35}>
-              <Button type="submit" variant="primary" size="md">
+              <Button type="submit" variant="primary" size="md" haptic>
                 Roast My Listing
               </Button>
             </Magnetic>

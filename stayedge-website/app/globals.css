@@ -212,6 +212,17 @@
     }
   }
 
+  /* Blinking caret for the Eyebrow Type-On effect (signature #14) */
+  @keyframes se-cue-caret {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
   /* The 18deg edge accent — the brand's shear as a UI motif */
   .se-edge-strip {
     position: relative;
@@ -221,7 +232,12 @@
     position: absolute;
     left: 0;
     top: 0;
-    bottom: 0;
+    /* Fixed length, not full-height: skewX's horizontal travel scales with
+       element height, so a top:0/bottom:0 strip reads as a tasteful ~18deg
+       nub on a short row but as a dominant diagonal slash across a tall
+       card. Capping the length keeps it a consistent corner accent at any
+       container height. */
+    height: 56px;
     width: 3px;
     background: var(--se-purple);
     transform: skewX(calc(-1 * var(--se-edge-angle)));

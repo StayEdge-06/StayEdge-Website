@@ -24,6 +24,12 @@ export const ENTITY_TOPICS = [
   "Short-term rental occupancy",
 ] as const;
 
+/** E.164 formatting for schema `telephone` fields (Google guidance) —
+ * display formatting elsewhere on-site is unaffected. */
+function toE164(phone: string) {
+  return phone.replace(/[^\d+]/g, "");
+}
+
 export function organizationSchema() {
   return {
     "@type": "ProfessionalService",
@@ -33,8 +39,13 @@ export function organizationSchema() {
     description: SITE.descriptor,
     slogan: SITE.promise,
     url: SITE.url,
-    logo: `${SITE.url}/brand/logos/stayedge-logo-primary-dark.png`,
-    telephone: CONTACT.phone,
+    logo: {
+      "@type": "ImageObject",
+      url: `${SITE.url}/brand/logos/stayedge-icon-only.png`,
+      width: 570,
+      height: 540,
+    },
+    telephone: toE164(CONTACT.phone),
     email: CONTACT.email,
     foundingDate: "2024",
     founder: { "@id": FOUNDER_ID },
@@ -83,8 +94,13 @@ export function founderSchema() {
     name: CONTACT.founder,
     jobTitle: "Founder",
     worksFor: { "@id": ORG_ID },
+    url: `${SITE.url}${ROUTES.about}`,
     email: CONTACT.email,
     knowsAbout: [...ENTITY_TOPICS],
+    // TODO(seo-audit 2026-07-20): add `image` (real headshot) and `sameAs`
+    // (LinkedIn) once available — no placeholder/stock values per the
+    // honesty law; these meaningfully strengthen E-E-A-T and AI-citation
+    // author-trust signals once real.
   };
 }
 
@@ -147,19 +163,30 @@ export function articleSchema(a: {
   title: string;
   description: string;
   publishedAt: string;
+  /** Defaults to publishedAt when unset — honest (no invented "updated"
+   * date on content that hasn't actually changed since publish). */
+  updatedAt?: string;
   clusterTitle: string;
 }) {
+  const url = `${SITE.url}/knowledge/${a.slug}`;
   return {
     "@type": "Article",
     headline: a.title,
     description: a.description,
-    url: `${SITE.url}/knowledge/${a.slug}`,
+    url,
     datePublished: a.publishedAt,
+    dateModified: a.updatedAt ?? a.publishedAt,
     author: { "@id": FOUNDER_ID },
     publisher: { "@id": ORG_ID },
-    about: a.clusterTitle,
+    about: { "@type": "Thing", name: a.clusterTitle },
+    // Real brand image used as a fallback until per-article cover images
+    // exist — not a fabricated/stock photo, just the site's own default
+    // representative image (required for Google Article rich-result
+    // eligibility, which needs `image` to be present).
+    image: `${SITE.url}/brand/logos/stayedge-logo-primary-dark.png`,
     inLanguage: "en-IN",
     isPartOf: { "@id": SITE_ID },
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
   };
 }
 
@@ -174,6 +201,27 @@ export function glossarySchema(terms: { term: string; definition: string }[]) {
       name: t.term,
       description: t.definition,
     })),
+  };
+}
+
+/** Service catalog schema for the /services page — the single biggest
+ * structured-data gap flagged by the SEO/schema audit (2026-07-20): nothing
+ * previously told Google/AI systems what StayEdge's actual service
+ * disciplines are, beyond the roast-ladder Offers on the org entity. */
+export function servicesCatalogSchema(services: { title: string; body: string }[]) {
+  return {
+    "@type": "Service",
+    name: "StayEdge Airbnb Growth Services",
+    provider: { "@id": ORG_ID },
+    areaServed: { "@type": "Country", name: "India" },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Airbnb Growth Disciplines",
+      itemListElement: services.map((s) => ({
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: s.title, description: s.body },
+      })),
+    },
   };
 }
 

@@ -9,7 +9,8 @@
     "prebuild": "node scripts/sync-brand.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seo:indexnow": "node scripts/indexnow-ping.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

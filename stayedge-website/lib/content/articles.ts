@@ -24,6 +24,9 @@ export type Article = {
   faqs: { q: string; a: string }[];
   related: string[]; // slugs
   publishedAt: string; // ISO date
+  /** Only set when the article is genuinely revised — omit rather than
+   * duplicate publishedAt (schema.ts falls back to publishedAt anyway). */
+  updatedAt?: string;
 };
 
 export const ARTICLES: Article[] = [

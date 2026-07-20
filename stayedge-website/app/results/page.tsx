@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { TiltCard } from "@/components/motion/TiltCard";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/lib/seo/schema";
@@ -37,10 +38,10 @@ export default function ResultsPage() {
         <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2">
           {METRICS.map((m) => (
             <RevealItem key={m.label}>
-              <div className="h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6">
+              <TiltCard className="block h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6">
                 <p className="se-num text-lg text-se-lavender">{m.label}</p>
                 <p className="mt-2 text-se-grey-lavender">{m.body}</p>
-              </div>
+              </TiltCard>
             </RevealItem>
           ))}
         </RevealGroup>
@@ -49,7 +50,7 @@ export default function ResultsPage() {
           <RevealGroup className="mt-12 grid gap-4 md:grid-cols-2">
             {CASE_STUDIES.map((cs) => (
               <RevealItem key={cs.slug}>
-                <article className="se-edge-strip h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 pl-7">
+                <TiltCard as="article" className="se-edge-strip block h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 pl-7">
                   <p className="se-eyebrow">{cs.propertyLabel}</p>
                   <p className="mt-2 text-se-grey-lavender">{cs.situation}</p>
                   <ul className="mt-3 space-y-1 text-sm text-se-offwhite/85">
@@ -72,7 +73,7 @@ export default function ResultsPage() {
                       “{cs.quote.text}” <span className="not-italic text-sm text-se-grey-lavender">— {cs.quote.attribution}</span>
                     </blockquote>
                   )}
-                </article>
+                </TiltCard>
               </RevealItem>
             ))}
           </RevealGroup>

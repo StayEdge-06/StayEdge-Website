@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { TiltCard } from "@/components/motion/TiltCard";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Button } from "@/components/ui/Button";
 import { ROUTES } from "@/lib/config/site";
@@ -49,17 +50,17 @@ export default function ServicesPage() {
         <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2">
           {SERVICES.map((s) => (
             <RevealItem key={s.title}>
-              <div className="se-edge-strip h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 pl-7">
+              <TiltCard className="se-edge-strip block h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 pl-7">
                 <p className="se-eyebrow">{s.outcome}</p>
                 <h2 className="mt-2 font-body text-xl font-bold text-se-offwhite">{s.title}</h2>
                 <p className="mt-2 text-se-grey-lavender">{s.body}</p>
-              </div>
+              </TiltCard>
             </RevealItem>
           ))}
         </RevealGroup>
         <RevealItem>
           <div className="mt-10 text-center">
-            <Button href={ROUTES.roast} variant="primary" size="lg">
+            <Button href={ROUTES.roast} variant="primary" size="lg" haptic>
               See what we&apos;d fix first — free
             </Button>
           </div>

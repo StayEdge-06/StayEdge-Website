@@ -1,8 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { TiltCard } from "@/components/motion/TiltCard";
+import { DepthLayer, refreshScrollTriggers } from "@/components/motion/Parallax";
 import { Button } from "@/components/ui/Button";
 import { ROUTES } from "@/lib/config/site";
 import { SHOWCASE, type ShowcaseExample } from "@/lib/content/showcase";
@@ -17,6 +20,13 @@ import { cn } from "@/lib/utils";
 export function Showcase() {
   const [active, setActive] = useState<ShowcaseExample>(SHOWCASE[0]);
 
+  // The Before/After mocks change height when the active example swaps —
+  // refresh so any ScrollTrigger positioned below this section (e.g. the
+  // Process pins) doesn't desync against stale offsets.
+  useEffect(() => {
+    refreshScrollTriggers();
+  }, [active.slug]);
+
   return (
     <Section ground="deep" id="showcase">
       <SectionHeading
@@ -29,19 +39,21 @@ export function Showcase() {
       <RevealGroup className="mt-12 grid gap-3 sm:grid-cols-3">
         {SHOWCASE.map((ex) => (
           <RevealItem key={ex.slug}>
-            <button
-              onClick={() => setActive(ex)}
-              aria-pressed={active.slug === ex.slug}
-              className={cn(
-                "se-glass h-full w-full cursor-pointer rounded-[var(--se-radius-lg)] p-5 text-left transition-all duration-300",
-                active.slug === ex.slug
-                  ? "border-[var(--se-line-strong)] shadow-[0_16px_50px_-18px_var(--se-glow)] -translate-y-0.5"
-                  : "opacity-75 hover:opacity-100 hover:-translate-y-0.5",
-              )}
-            >
-              <span className="se-eyebrow !text-se-grey-lavender">{ex.label}</span>
-              <p className="mt-2 font-body font-bold text-se-offwhite">{ex.propertyType}</p>
-            </button>
+            <TiltCard className="block h-full">
+              <button
+                onClick={() => setActive(ex)}
+                aria-pressed={active.slug === ex.slug}
+                className={cn(
+                  "se-glass h-full w-full cursor-pointer rounded-[var(--se-radius-lg)] p-5 text-left transition-all duration-300",
+                  active.slug === ex.slug
+                    ? "border-[var(--se-line-strong)] shadow-[0_16px_50px_-18px_var(--se-glow)]"
+                    : "opacity-75 hover:opacity-100",
+                )}
+              >
+                <span className="se-eyebrow !text-se-grey-lavender">{ex.label}</span>
+                <p className="mt-2 font-body font-bold text-se-offwhite">{ex.propertyType}</p>
+              </button>
+            </TiltCard>
           </RevealItem>
         ))}
       </RevealGroup>
@@ -50,7 +62,9 @@ export function Showcase() {
       <Reveal className="mt-8">
         <div key={active.slug} className="grid gap-4 lg:grid-cols-2">
           <ListingMock variant="before" ex={active} />
-          <ListingMock variant="after" ex={active} />
+          <DepthLayer>
+            <ListingMock variant="after" ex={active} />
+          </DepthLayer>
         </div>
 
         {/* Improvement breakdown */}
@@ -78,7 +92,7 @@ export function Showcase() {
   );
 }
 
-/** Stylized listing mockup — a before/after "screenshot" built from placeholder blocks. */
+/** Stylized listing mockup — a before/after "screenshot" with illustrated art. */
 function ListingMock({ variant, ex }: { variant: "before" | "after"; ex: ShowcaseExample }) {
   const after = variant === "after";
   return (
@@ -102,15 +116,20 @@ function ListingMock({ variant, ex }: { variant: "before" | "after"; ex: Showcas
         </span>
       </div>
 
-      {/* Placeholder photo strip — abstract, honest (no fake photography) */}
+      {/* Illustrated (not photographic) mockup art — a generic scene of the
+          property type, never a real listing photo (brand law: no fake
+          photography of a specific real property). The two small side
+          blocks stay abstract gradient accents. */}
       <div className="flex h-28 gap-1 p-2" aria-hidden>
-        <div
-          className={cn("flex-[2] rounded-md", after ? "opacity-95" : "opacity-45")}
-          style={{
-            background:
-              "linear-gradient(135deg, color-mix(in srgb, var(--se-purple) 55%, transparent), color-mix(in srgb, var(--se-lavender) 40%, transparent))",
-          }}
-        />
+        <div className={cn("relative flex-[2] overflow-hidden rounded-md", after ? "opacity-95" : "opacity-70")}>
+          <Image
+            src={after ? ex.afterImage : ex.beforeImage}
+            alt=""
+            fill
+            sizes="200px"
+            className="object-cover"
+          />
+        </div>
         <div className="flex flex-1 flex-col gap-1">
           {[0, 1].map((i) => (
             <div

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { TiltCard } from "@/components/motion/TiltCard";
 import { CLUSTERS } from "@/lib/content/clusters";
 import { articlesByCluster } from "@/lib/content/articles";
 import { Button } from "@/components/ui/Button";
@@ -107,7 +108,7 @@ export default function KnowledgePage() {
         <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2">
           {withArticles.map((c) => (
             <RevealItem key={c.id}>
-              <div className="flex h-full flex-col rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6">
+              <TiltCard className="block h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6">
                 <h2 className="font-body text-lg font-bold text-se-offwhite">{c.title}</h2>
                 <p className="mt-1 text-sm text-se-grey-lavender">{c.blurb}</p>
                 {c.articles.length > 0 ? (
@@ -128,22 +129,24 @@ export default function KnowledgePage() {
                     Guides publishing soon.
                   </p>
                 )}
-              </div>
+              </TiltCard>
             </RevealItem>
           ))}
 
           <RevealItem>
-            <Link
-              href="/knowledge/glossary"
-              className="flex h-full flex-col rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-3 p-6 transition-colors hover:border-[var(--se-line-strong)]"
-            >
-              <h2 className="font-body text-lg font-bold text-se-offwhite">Host Glossary</h2>
-              <p className="mt-1 flex-1 text-sm text-se-offwhite/80">
-                ADR, RevPAR, occupancy, gap nights — the numbers that decide your revenue,
-                in plain language.
-              </p>
-              <span className="mt-4 text-sm font-semibold text-se-lavender">Open the glossary →</span>
-            </Link>
+            <TiltCard className="block h-full">
+              <Link
+                href="/knowledge/glossary"
+                className="flex h-full flex-col rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-3 p-6 transition-colors hover:border-[var(--se-line-strong)]"
+              >
+                <h2 className="font-body text-lg font-bold text-se-offwhite">Host Glossary</h2>
+                <p className="mt-1 flex-1 text-sm text-se-offwhite/80">
+                  ADR, RevPAR, occupancy, gap nights — the numbers that decide your revenue,
+                  in plain language.
+                </p>
+                <span className="mt-4 text-sm font-semibold text-se-lavender">Open the glossary →</span>
+              </Link>
+            </TiltCard>
           </RevealItem>
         </RevealGroup>
 
@@ -177,7 +180,7 @@ export default function KnowledgePage() {
             which of these actually applies to you — free.
           </p>
           <div className="mt-5 flex flex-wrap justify-center gap-3">
-            <Button href={ROUTES.roast} variant="primary" size="md">
+            <Button href={ROUTES.roast} variant="primary" size="md" haptic>
               Roast my listing
             </Button>
             <Button href={WHATSAPP_URL} external variant="ghost" size="md">

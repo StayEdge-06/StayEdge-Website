@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Reveal } from "@/components/motion/Reveal";
+import { EyebrowTypeOn } from "@/components/motion/EyebrowTypeOn";
 
 /**
  * Consistent section shell — alternating charcoal / deeper grounds create the
@@ -46,7 +47,7 @@ export function SectionHeading({
 }) {
   return (
     <Reveal className={cn(center && "text-center", "mx-auto max-w-3xl")}>
-      <p className="se-eyebrow mb-4">{eyebrow}</p>
+      <EyebrowTypeOn text={eyebrow} className="mb-4" />
       <h2
         className={cn(
           "se-title text-[clamp(26px,4vw,44px)]",

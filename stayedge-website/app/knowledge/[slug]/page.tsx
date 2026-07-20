@@ -104,7 +104,7 @@ export default async function ArticlePage({
               Want to know which of this applies to <em>your</em> listing?
             </p>
             <div className="mt-4">
-              <Button href={ROUTES.roast} variant="primary" size="md">
+              <Button href={ROUTES.roast} variant="primary" size="md" haptic>
                 Let {PERSONA.name} read it — free
               </Button>
             </div>

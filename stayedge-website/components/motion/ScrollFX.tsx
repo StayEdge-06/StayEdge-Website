@@ -14,7 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
  */
 
 /** Fire once when the element enters the viewport (robust across renderers). */
-function useEnterOnce(ref: React.RefObject<HTMLElement | null>, onEnter: () => void) {
+export function useEnterOnce(ref: React.RefObject<HTMLElement | null>, onEnter: () => void) {
   const fired = useRef(false);
   useEffect(() => {
     const el = ref.current;

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   getConsent,
   setConsent,
@@ -17,10 +18,29 @@ import { readPassport, isReturning } from "@/lib/ai/memory";
  *   decline = nothing loads, ever.
  * - Delegated click tracking: WhatsApp, audit/roast CTAs (one listener, no
  *   per-component wiring).
+ * - SPA route-change tracking via usePathname() — fires gtag page_view on
+ *   every client-side navigation (fills the App Router gap where the initial
+ *   loadAnalytics() only fires once on mount).
  * - Scroll depth (25/50/75/100, once per page) + returning-visitor signal.
  */
 export function AnalyticsProvider() {
   const [showBanner, setShowBanner] = useState(false);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Track route changes (SPA page_view events). Fires on every navigation,
+  // including the first mount — gtag deduplicates internally.
+  const prevPath = useRef("");
+  useEffect(() => {
+    if (getConsent() !== "granted") return;
+    const p = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "");
+    if (p === prevPath.current) return;
+    prevPath.current = p;
+    window.gtag?.("event", "page_view", {
+      page_path: p,
+      page_title: document.title,
+    });
+  }, [pathname, searchParams]);
 
   useEffect(() => {
     const hasIds = Boolean(GA_ID || CLARITY_ID);

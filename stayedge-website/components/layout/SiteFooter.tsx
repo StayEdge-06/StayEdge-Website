@@ -64,7 +64,35 @@ export function SiteFooter() {
           <a href={`tel:${CONTACT.phone}`} className="hover:text-se-offwhite">
             {CONTACT.phone}
           </a>
-          <span>{CONTACT.social}</span>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href="https://www.instagram.com/stayedgeofficial"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-se-offwhite"
+              aria-label="Instagram"
+            >
+              Instagram
+            </a>
+            <a
+              href="https://www.linkedin.com/company/stayedge/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-se-offwhite"
+              aria-label="LinkedIn"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="https://wa.me/916309348354"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-se-offwhite"
+              aria-label="WhatsApp"
+            >
+              WhatsApp
+            </a>
+          </div>
           <span>{CONTACT.location}</span>
         </div>
       </div>

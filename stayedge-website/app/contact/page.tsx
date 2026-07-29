@@ -4,7 +4,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/Button";
 import { CONTACT, WHATSAPP_URL, ROUTES, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbSchema } from "@/lib/seo/schema";
+import { breadcrumbSchema, organizationSchema, localBusinessSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -56,7 +56,25 @@ export default function ContactPage() {
                 {CONTACT.email}
               </a>
             </p>
-            <p>{CONTACT.social}</p>
+            <p className="flex flex-wrap justify-center gap-3">
+              <a
+                href="https://www.instagram.com/stayedgeofficial"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-se-offwhite"
+              >
+                Instagram
+              </a>
+              <span aria-hidden>·</span>
+              <a
+                href="https://www.linkedin.com/company/stayedge/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-se-offwhite"
+              >
+                LinkedIn
+              </a>
+            </p>
             <p>{CONTACT.location}</p>
           </div>
           <p className="mt-6 border-t border-[var(--se-line)] pt-5 text-sm text-se-grey-lavender">
@@ -71,7 +89,13 @@ export default function ContactPage() {
         </div>
       </Reveal>
     </Section>
-      <JsonLd schemas={[breadcrumbSchema([{ name: "Contact", path: "/contact" }])]} />
+      <JsonLd
+        schemas={[
+          organizationSchema(),
+          localBusinessSchema(),
+          breadcrumbSchema([{ name: "Contact", path: "/contact" }]),
+        ]}
+      />
     </>
   );
 }

@@ -1,4 +1,6 @@
 import { SITE, CONTACT, ROUTES } from "@/lib/config/site";
+
+const WHATSAPP_URL = "https://wa.me/916309348354";
 import { PERSONA } from "@/lib/config/persona";
 
 /**
@@ -50,6 +52,7 @@ export function organizationSchema() {
       width: 570,
       height: 540,
     },
+    image: `${SITE.url}/brand/logos/stayedge-logo-primary-dark.png`,
     telephone: toE164(CONTACT.phone),
     email: CONTACT.email,
     foundingDate: "2024",
@@ -83,6 +86,7 @@ export function organizationSchema() {
     sameAs: [
       "https://www.instagram.com/stayedgeofficial",
       "https://www.linkedin.com/company/stayedge/",
+      WHATSAPP_URL,
     ],
     makesOffer: [
       {
@@ -149,6 +153,7 @@ export function localBusinessSchema() {
     sameAs: [
       "https://www.instagram.com/stayedgeofficial",
       "https://www.linkedin.com/company/stayedge/",
+      WHATSAPP_URL,
     ],
     image: `${SITE.url}/brand/logos/stayedge-logo-primary-dark.png`,
   };

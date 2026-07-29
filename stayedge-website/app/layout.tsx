@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import {
   Boldonse,
@@ -85,7 +86,9 @@ export default function RootLayout({
         <CursorSpotlight />
         {/* Consent-gated measurement: GA4 (AnalyticsProvider) + MS Clarity
             (next/script, production-only) + Vercel Analytics & Speed Insights */}
-        <AnalyticsProvider />
+        <Suspense fallback={null}>
+          <AnalyticsProvider />
+        </Suspense>
         <Clarity />
         <Analytics />
         <SpeedInsights />

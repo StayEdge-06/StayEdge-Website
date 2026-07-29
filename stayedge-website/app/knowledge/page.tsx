@@ -11,12 +11,30 @@ import { ROUTES, WHATSAPP_URL } from "@/lib/config/site";
 import { PERSONA } from "@/lib/config/persona";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, faqSchema } from "@/lib/seo/schema";
+import { DEFAULT_OG_IMAGE } from "@/lib/config/site";
 
 export const metadata: Metadata = {
   title: "Airbnb Growth Knowledge — Straight Answers for Hosts",
   description:
     "What is Airbnb SEO? How does dynamic pricing work? How do you increase bookings and occupancy? Straight, factual answers for Airbnb hosts — no hype.",
   alternates: { canonical: "/knowledge" },
+  openGraph: {
+    title: "Airbnb Growth Knowledge — Straight Answers for Hosts · StayEdge",
+    description:
+      "What is Airbnb SEO? How does dynamic pricing work? How do you increase bookings and occupancy? Straight, factual answers for Airbnb hosts — no hype.",
+    url: "/knowledge",
+    siteName: "StayEdge",
+    locale: "en_IN",
+    type: "website",
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Airbnb Growth Knowledge — Straight Answers for Hosts · StayEdge",
+    description:
+      "What is Airbnb SEO? How does dynamic pricing work? How do you increase bookings and occupancy? Straight, factual answers for Airbnb hosts — no hype.",
+    images: [DEFAULT_OG_IMAGE],
+  },
 };
 
 const FAQ_FOR_SCHEMA = ANSWERS.map(({ q, a }) => ({ q, a }));

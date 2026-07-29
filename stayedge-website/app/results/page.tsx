@@ -6,12 +6,30 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/lib/seo/schema";
 import { CASE_STUDIES } from "@/lib/content/case-studies";
+import { DEFAULT_OG_IMAGE } from "@/lib/config/site";
 
 export const metadata: Metadata = {
   title: "Results",
   description:
     "How StayEdge measures growth — occupancy, ADR, revenue and reviews. Case studies published as clients allow.",
   alternates: { canonical: "/results" },
+  openGraph: {
+    title: "Results — StayEdge",
+    description:
+      "How StayEdge measures growth — occupancy, ADR, revenue and reviews. Case studies published as clients allow.",
+    url: "/results",
+    siteName: "StayEdge",
+    locale: "en_IN",
+    type: "website",
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Results — StayEdge",
+    description:
+      "How StayEdge measures growth — occupancy, ADR, revenue and reviews. Case studies published as clients allow.",
+    images: [DEFAULT_OG_IMAGE],
+  },
 };
 
 /**

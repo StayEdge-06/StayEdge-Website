@@ -3,7 +3,7 @@ import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/motion/TiltCard";
 import { FinalCTA } from "@/components/sections/FinalCTA";
-import { CONTACT, SITE } from "@/lib/config/site";
+import { CONTACT, SITE, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { PERSONA } from "@/lib/config/persona";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/lib/seo/schema";
@@ -13,6 +13,23 @@ export const metadata: Metadata = {
   description:
     "StayEdge — an Airbnb growth consultancy from Tirupati, South India. AI-powered analysis, operator judgement, honest numbers.",
   alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About — StayEdge",
+    description:
+      "StayEdge — an Airbnb growth consultancy from Tirupati, South India. AI-powered analysis, operator judgement, honest numbers.",
+    url: "/about",
+    siteName: "StayEdge",
+    locale: "en_IN",
+    type: "website",
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About — StayEdge",
+    description:
+      "StayEdge — an Airbnb growth consultancy from Tirupati, South India. AI-powered analysis, operator judgement, honest numbers.",
+    images: [DEFAULT_OG_IMAGE],
+  },
 };
 
 const BELIEFS = [

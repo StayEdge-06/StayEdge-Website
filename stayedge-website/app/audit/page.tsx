@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Button } from "@/components/ui/Button";
-import { CTA } from "@/lib/config/site";
+import { CTA, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/lib/seo/schema";
 
@@ -9,6 +9,23 @@ export const metadata: Metadata = {
   description:
     "A free, no-pressure audit of your Airbnb with a StayEdge specialist — occupancy, pricing and listing quality, explained in plain numbers.",
   alternates: { canonical: "/audit" },
+  openGraph: {
+    title: "Book a Free Property Audit — StayEdge",
+    description:
+      "A free, no-pressure audit of your Airbnb with a StayEdge specialist — occupancy, pricing and listing quality, explained in plain numbers.",
+    url: "/audit",
+    siteName: "StayEdge",
+    locale: "en_IN",
+    type: "website",
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Book a Free Property Audit — StayEdge",
+    description:
+      "A free, no-pressure audit of your Airbnb with a StayEdge specialist — occupancy, pricing and listing quality, explained in plain numbers.",
+    images: [DEFAULT_OG_IMAGE],
+  },
 };
 
 /**

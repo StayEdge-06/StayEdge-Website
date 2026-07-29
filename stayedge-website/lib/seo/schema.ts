@@ -22,6 +22,11 @@ export const ENTITY_TOPICS = [
   "Revenue management",
   "Guest psychology",
   "Short-term rental occupancy",
+  "Airbnb photography",
+  "Airbnb pricing strategy",
+  "Short-term rental revenue management",
+  "Airbnb host consulting",
+  "Vacation rental optimization",
 ] as const;
 
 /** E.164 formatting for schema `telephone` fields (Google guidance) —
@@ -57,11 +62,28 @@ export function organizationSchema() {
     },
     areaServed: [
       { "@type": "City", name: "Tirupati" },
+      { "@type": "City", name: "Bangalore" },
+      { "@type": "City", name: "Hyderabad" },
+      { "@type": "City", name: "Chennai" },
+      { "@type": "City", name: "Kochi" },
+      { "@type": "City", name: "Visakhapatnam" },
+      { "@type": "City", name: "Mysore" },
+      { "@type": "City", name: "Coimbatore" },
+      { "@type": "City", name: "Madurai" },
+      { "@type": "City", name: "Thiruvananthapuram" },
+      { "@type": "City", name: "Puducherry" },
       { "@type": "State", name: "Andhra Pradesh" },
+      { "@type": "State", name: "Karnataka" },
+      { "@type": "State", name: "Telangana" },
+      { "@type": "State", name: "Tamil Nadu" },
+      { "@type": "State", name: "Kerala" },
       { "@type": "Country", name: "India" },
     ],
     knowsAbout: [...ENTITY_TOPICS],
-    sameAs: ["https://www.instagram.com/stayedgeofficial"],
+    sameAs: [
+      "https://www.instagram.com/stayedgeofficial",
+      "https://www.linkedin.com/company/stayedge/",
+    ],
     makesOffer: [
       {
         "@type": "Offer",
@@ -87,6 +109,51 @@ export function organizationSchema() {
   };
 }
 
+/** LocalBusiness variant — reinforces the physical presence for local SEO / map
+ * pack visibility. Complements the ProfessionalService entity above. */
+export function localBusinessSchema() {
+  return {
+    "@type": "LocalBusiness",
+    "@id": `${SITE.url}/#localbusiness`,
+    name: "StayEdge",
+    description: SITE.descriptor,
+    url: SITE.url,
+    telephone: toE164(CONTACT.phone),
+    email: CONTACT.email,
+    foundingDate: "2024",
+    founder: { "@id": FOUNDER_ID },
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Tirupati",
+      addressRegion: "Andhra Pradesh",
+      addressCountry: "IN",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 13.6288,
+      longitude: 79.4192,
+    },
+    areaServed: [
+      { "@type": "City", name: "Tirupati" },
+      { "@type": "City", name: "Bangalore" },
+      { "@type": "City", name: "Hyderabad" },
+      { "@type": "City", name: "Chennai" },
+      { "@type": "State", name: "Andhra Pradesh" },
+      { "@type": "State", name: "Karnataka" },
+      { "@type": "State", name: "Telangana" },
+      { "@type": "State", name: "Tamil Nadu" },
+      { "@type": "State", name: "Kerala" },
+      { "@type": "Country", name: "India" },
+    ],
+    knowsAbout: [...ENTITY_TOPICS],
+    sameAs: [
+      "https://www.instagram.com/stayedgeofficial",
+      "https://www.linkedin.com/company/stayedge/",
+    ],
+    image: `${SITE.url}/brand/logos/stayedge-logo-primary-dark.png`,
+  };
+}
+
 export function founderSchema() {
   return {
     "@type": "Person",
@@ -96,11 +163,9 @@ export function founderSchema() {
     worksFor: { "@id": ORG_ID },
     url: `${SITE.url}${ROUTES.about}`,
     email: CONTACT.email,
+    image: `${SITE.url}/team/Sanjay%20Stephen%20photo.jpg`,
     knowsAbout: [...ENTITY_TOPICS],
-    // TODO(seo-audit 2026-07-20): add `image` (real headshot) and `sameAs`
-    // (LinkedIn) once available — no placeholder/stock values per the
-    // honesty law; these meaningfully strengthen E-E-A-T and AI-citation
-    // author-trust signals once real.
+    sameAs: ["https://www.linkedin.com/in/sanjay-stephen-908944339/"],
   };
 }
 
@@ -113,6 +178,16 @@ export function websiteSchema() {
     description: SITE.descriptor,
     publisher: { "@id": ORG_ID },
     inLanguage: "en-IN",
+    potentialAction: [
+      {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${SITE.url}/knowledge?q={search_term_string}`,
+        },
+        "query-input": "required name=search_term_string",
+      },
+    ],
   };
 }
 
@@ -187,6 +262,10 @@ export function articleSchema(a: {
     inLanguage: "en-IN",
     isPartOf: { "@id": SITE_ID },
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: [".se-answer-lede"],
+    },
   };
 }
 

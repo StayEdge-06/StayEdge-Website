@@ -4,7 +4,7 @@ import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/motion/TiltCard";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Button } from "@/components/ui/Button";
-import { ROUTES } from "@/lib/config/site";
+import { ROUTES, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/lib/seo/schema";
 
@@ -13,6 +13,23 @@ export const metadata: Metadata = {
   description:
     "First-time hosts, villa owners, boutique hotels and multi-property investors — the plan changes with the property.",
   alternates: { canonical: "/who-we-help" },
+  openGraph: {
+    title: "Who We Help — StayEdge",
+    description:
+      "First-time hosts, villa owners, boutique hotels and multi-property investors — the plan changes with the property.",
+    url: "/who-we-help",
+    siteName: "StayEdge",
+    locale: "en_IN",
+    type: "website",
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Who We Help — StayEdge",
+    description:
+      "First-time hosts, villa owners, boutique hotels and multi-property investors — the plan changes with the property.",
+    images: [DEFAULT_OG_IMAGE],
+  },
 };
 
 const SEGMENTS = [

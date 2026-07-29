@@ -76,3 +76,11 @@ export const SITE = {
    * self-referential-canonical failure (SEO audit, 2026-07-20). */
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.stayedge.co.in",
 } as const;
+
+/** Default OG image shared across pages (overridden per-page where specified). */
+export const DEFAULT_OG_IMAGE = {
+  url: "/brand/logos/stayedge-logo-primary-dark.png",
+  width: 1650,
+  height: 660,
+  alt: "StayEdge — Airbnb Growth Consulting",
+} as const;

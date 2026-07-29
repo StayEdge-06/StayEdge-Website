@@ -6,12 +6,30 @@ import { ROUTES } from "@/lib/config/site";
 import { GLOSSARY } from "@/lib/content/glossary";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, glossarySchema } from "@/lib/seo/schema";
+import { DEFAULT_OG_IMAGE } from "@/lib/config/site";
 
 export const metadata: Metadata = {
   title: "Airbnb Host Glossary — ADR, RevPAR, Occupancy & More",
   description:
     "Plain-language definitions of the terms Airbnb hosts actually meet: ADR, RevPAR, occupancy rate, gap nights, dynamic pricing, Airbnb SEO and more.",
   alternates: { canonical: "/knowledge/glossary" },
+  openGraph: {
+    title: "Airbnb Host Glossary — ADR, RevPAR, Occupancy & More · StayEdge",
+    description:
+      "Plain-language definitions of the terms Airbnb hosts actually meet: ADR, RevPAR, occupancy rate, gap nights, dynamic pricing, Airbnb SEO and more.",
+    url: "/knowledge/glossary",
+    siteName: "StayEdge",
+    locale: "en_IN",
+    type: "website",
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Airbnb Host Glossary — ADR, RevPAR, Occupancy & More · StayEdge",
+    description:
+      "Plain-language definitions of the terms Airbnb hosts actually meet: ADR, RevPAR, occupancy rate, gap nights, dynamic pricing, Airbnb SEO and more.",
+    images: [DEFAULT_OG_IMAGE],
+  },
 };
 
 export default function GlossaryPage() {

@@ -19,7 +19,7 @@ const jura = Jura({ subsets: ["latin"], variable: "--font-jura", display: "swap"
 const plex = IBM_Plex_Serif({ weight: ["400", "500", "600"], subsets: ["latin"], variable: "--font-plex", display: "swap" });
 
 const fontVars = `${boldonse.variable} ${italiana.variable} ${outfit.variable} ${lora.variable} ${jura.variable} ${plex.variable}`;
-import { SITE } from "@/lib/config/site";
+import { SITE, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { MobileActionBar } from "@/components/layout/MobileActionBar";
@@ -31,7 +31,7 @@ import { Clarity } from "@/components/analytics/Clarity";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { organizationSchema, founderSchema, websiteSchema } from "@/lib/seo/schema";
+import { organizationSchema, founderSchema, websiteSchema, localBusinessSchema } from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -49,9 +49,14 @@ export const metadata: Metadata = {
     siteName: "StayEdge",
     locale: "en_IN",
     type: "website",
-    images: [{ url: "/brand/logos/stayedge-logo-primary-dark.png", width: 1650, height: 660, alt: "StayEdge — Airbnb Growth Consulting" }],
+    images: [DEFAULT_OG_IMAGE],
   },
-  twitter: { card: "summary_large_image", title: "StayEdge", description: SITE.descriptor },
+  twitter: {
+    card: "summary_large_image",
+    title: "StayEdge — AI-Powered Airbnb Growth",
+    description: SITE.descriptor,
+    images: [DEFAULT_OG_IMAGE],
+  },
   icons: { icon: "/brand/logos/stayedge-icon-only.png" },
 };
 
@@ -84,8 +89,8 @@ export default function RootLayout({
         <Clarity />
         <Analytics />
         <SpeedInsights />
-        {/* Entity graph: Organization + Founder + WebSite (Search Dominance) */}
-        <JsonLd schemas={[organizationSchema(), founderSchema(), websiteSchema()]} />
+        {/* Entity graph: Organization + Founder + Website + LocalBusiness (Search Dominance + Local SEO) */}
+        <JsonLd schemas={[organizationSchema(), founderSchema(), websiteSchema(), localBusinessSchema()]} />
       </body>
     </html>
   );

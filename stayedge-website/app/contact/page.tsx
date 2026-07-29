@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/Button";
-import { CONTACT, WHATSAPP_URL, ROUTES } from "@/lib/config/site";
+import { CONTACT, WHATSAPP_URL, ROUTES, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/lib/seo/schema";
 
@@ -11,6 +11,23 @@ export const metadata: Metadata = {
   description:
     "Talk to StayEdge — WhatsApp first, replies from a real person. Tirupati, Andhra Pradesh.",
   alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact — StayEdge",
+    description:
+      "Talk to StayEdge — WhatsApp first, replies from a real person. Tirupati, Andhra Pradesh.",
+    url: "/contact",
+    siteName: "StayEdge",
+    locale: "en_IN",
+    type: "website",
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact — StayEdge",
+    description:
+      "Talk to StayEdge — WhatsApp first, replies from a real person. Tirupati, Andhra Pradesh.",
+    images: [DEFAULT_OG_IMAGE],
+  },
 };
 
 export default function ContactPage() {

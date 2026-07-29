@@ -3,7 +3,7 @@ import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Button } from "@/components/ui/Button";
-import { ROUTES } from "@/lib/config/site";
+import { ROUTES, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/lib/seo/schema";
 
@@ -12,6 +12,23 @@ export const metadata: Metadata = {
   description:
     "Free Property Growth Snapshot → discovery call → personalised growth plan → custom proposal → implementation. Pricing is discussed only after understanding your property.",
   alternates: { canonical: "/how-we-work" },
+  openGraph: {
+    title: "How We Work — StayEdge",
+    description:
+      "Free Property Growth Snapshot → discovery call → personalised growth plan → custom proposal → implementation. Pricing is discussed only after understanding your property.",
+    url: "/how-we-work",
+    siteName: "StayEdge",
+    locale: "en_IN",
+    type: "website",
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "How We Work — StayEdge",
+    description:
+      "Free Property Growth Snapshot → discovery call → personalised growth plan → custom proposal → implementation. Pricing is discussed only after understanding your property.",
+    images: [DEFAULT_OG_IMAGE],
+  },
 };
 
 /**

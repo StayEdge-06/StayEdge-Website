@@ -3,11 +3,12 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Section } from "@/components/sections/Section";
 import { Button } from "@/components/ui/Button";
-import { ROUTES, CONTACT } from "@/lib/config/site";
+import { ROUTES, CONTACT, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { PERSONA } from "@/lib/config/persona";
 import { ARTICLES, getArticle } from "@/lib/content/articles";
 import { CLUSTERS } from "@/lib/content/clusters";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { InternalParagraph } from "@/components/seo/InternalLinks";
 import { articleSchema, breadcrumbSchema, faqSchema } from "@/lib/seo/schema";
 
 /**
@@ -31,6 +32,24 @@ export async function generateMetadata({
     title: a.title,
     description: a.description,
     alternates: { canonical: `/knowledge/${a.slug}` },
+    openGraph: {
+      title: `${a.title} · StayEdge`,
+      description: a.description,
+      url: `/knowledge/${a.slug}`,
+      siteName: "StayEdge",
+      locale: "en_IN",
+      type: "article",
+      publishedTime: a.publishedAt,
+      modifiedTime: a.updatedAt ?? a.publishedAt,
+      authors: [CONTACT.founder],
+      images: [DEFAULT_OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${a.title} · StayEdge`,
+      description: a.description,
+      images: [DEFAULT_OG_IMAGE],
+    },
   };
 }
 
@@ -84,8 +103,10 @@ export default async function ArticlePage({
             )}
           </p>
 
-          {/* Answer-first lede (AEO) */}
-          <p className="mt-6 rounded-[var(--se-radius-lg)] border-l-2 border-se-purple bg-se-ground-2 p-5 text-lg text-se-offwhite/90">
+          {/* Answer-first lede (AEO + Speakable) — the se-answer-lede class hooks
+              the SpeakableSpecification in Article schema for AI assistants and
+              voice search. */}
+          <p className="se-answer-lede mt-6 rounded-[var(--se-radius-lg)] border-l-2 border-se-purple bg-se-ground-2 p-5 text-lg text-se-offwhite/90">
             {a.answer}
           </p>
 
@@ -93,9 +114,9 @@ export default async function ArticlePage({
             <section key={s.h2} className="mt-10">
               <h2 className="font-body text-xl font-bold text-se-offwhite">{s.h2}</h2>
               {s.paras.map((p) => (
-                <p key={p.slice(0, 32)} className="mt-3 text-se-grey-lavender">
+                <InternalParagraph key={p.slice(0, 32)} className="mt-3 text-se-grey-lavender">
                   {p}
-                </p>
+                </InternalParagraph>
               ))}
               {s.checklist && (
                 <ul className="mt-4 space-y-2">

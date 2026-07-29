@@ -4,7 +4,7 @@ import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/motion/TiltCard";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Button } from "@/components/ui/Button";
-import { ROUTES } from "@/lib/config/site";
+import { ROUTES, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, servicesCatalogSchema } from "@/lib/seo/schema";
 
@@ -13,6 +13,23 @@ export const metadata: Metadata = {
   description:
     "Listing optimisation, dynamic pricing, occupancy growth and positioning — Airbnb growth as a system, not guesswork.",
   alternates: { canonical: "/services" },
+  openGraph: {
+    title: "What We Do — Airbnb Listing Optimisation, Pricing & SEO · StayEdge",
+    description:
+      "Listing optimisation, dynamic pricing, occupancy growth and positioning — Airbnb growth as a system, not guesswork.",
+    url: "/services",
+    siteName: "StayEdge",
+    locale: "en_IN",
+    type: "website",
+    images: [DEFAULT_OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "What We Do — Airbnb Listing Optimisation, Pricing & SEO · StayEdge",
+    description:
+      "Listing optimisation, dynamic pricing, occupancy growth and positioning — Airbnb growth as a system, not guesswork.",
+    images: [DEFAULT_OG_IMAGE],
+  },
 };
 
 const SERVICES = [

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Button } from "@/components/ui/Button";
-import { ROUTES } from "@/lib/config/site";
+import { ROUTES, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { CITIES, getCity } from "@/lib/content/cities";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, cityServiceSchema, faqSchema } from "@/lib/seo/schema";
@@ -24,10 +24,26 @@ export async function generateMetadata({
   const { city } = await params;
   const c = getCity(city);
   if (!c) return {};
+  const ogTitle = `Airbnb Listing Optimization in ${c.city} · StayEdge`;
   return {
     title: `Airbnb Listing Optimization in ${c.city}`,
     description: c.intro,
     alternates: { canonical: `/airbnb-listing-optimization/${c.slug}` },
+    openGraph: {
+      title: ogTitle,
+      description: c.intro,
+      url: `/airbnb-listing-optimization/${c.slug}`,
+      siteName: "StayEdge",
+      locale: "en_IN",
+      type: "website",
+      images: [DEFAULT_OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: ogTitle,
+      description: c.intro,
+      images: [DEFAULT_OG_IMAGE],
+    },
   };
 }
 

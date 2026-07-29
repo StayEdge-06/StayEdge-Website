@@ -38,12 +38,19 @@ export function AnalyticsProvider() {
   // declaration order).  Guards on analyticsReady — if consent was already
   // granted from a prior session the init effect sets the ref synchronously.
   useEffect(() => {
-    if (!analyticsReady.current) return;
+    if (!analyticsReady.current) {
+      console.log("[AP] route-change: analyticsReady false, returning");
+      return;
+    }
     const p =
       pathname +
       (searchParams?.toString() ? `?${searchParams.toString()}` : "");
-    if (p === prevPath.current) return;
+    if (p === prevPath.current) {
+      console.log("[AP] route-change: no path change, returning");
+      return;
+    }
     prevPath.current = p;
+    console.log("[AP] route-change: firing gtag config, path:", p);
     // gtag('config') with updated page_path is the standard GA4 SPA approach
     // — it triggers a page_view automatically and avoids racing with
     // gtag.js's own initial page_view from the first config call.
@@ -58,7 +65,9 @@ export function AnalyticsProvider() {
   useEffect(() => {
     const hasIds = Boolean(GA_ID || CLARITY_ID);
     const consent = getConsent();
+    console.log("[AP] init: consent=" + consent + " GA_ID=" + GA_ID + " CLARITY_ID=" + CLARITY_ID);
     if (consent === "granted") {
+      console.log("[AP] init: consent granted, calling loadAnalytics()");
       loadAnalytics();
       analyticsReady.current = true;
       // Record the initial path so the route-change effect skips the
@@ -115,9 +124,11 @@ export function AnalyticsProvider() {
   }, []);
 
   function choose(v: "granted" | "denied") {
+    console.log("[AP] choose: " + v);
     setConsent(v);
     setShowBanner(false);
     if (v === "granted") {
+      console.log("[AP] choose(granted): calling loadAnalytics()");
       loadAnalytics();
       analyticsReady.current = true;
       // Fire the initial page_view now that consent was just granted
@@ -129,6 +140,7 @@ export function AnalyticsProvider() {
         page_path: p,
         page_title: document.title,
       });
+      console.log("[AP] choose(granted): gtag config fired");
     }
   }
 

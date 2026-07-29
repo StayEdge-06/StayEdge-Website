@@ -49,16 +49,34 @@ export function loadAnalytics() {
   loaded = true;
 
   if (GA_ID) {
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function gtag(...args: unknown[]) {
-      window.dataLayer!.push(args);
-    };
-    window.gtag("js", new Date());
-    window.gtag("config", GA_ID, { anonymize_ip: true });
-    const s = document.createElement("script");
-    s.async = true;
-    s.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
-    document.head.appendChild(s);
+    try {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function gtag(...args: unknown[]) {
+        if (!window.dataLayer) {
+          window.dataLayer = [];
+        }
+        window.dataLayer.push(args);
+      };
+      window.gtag("js", new Date());
+      window.gtag("config", GA_ID, { send_page_view: true });
+      const s = document.createElement("script");
+      s.async = true;
+      s.onload = () => {
+        // Safety net: fire explicit page_view once gtag.js is fully loaded
+        try {
+          window.gtag?.("event", "page_view", {
+            page_location: window.location.href,
+            page_title: document.title,
+          });
+        } catch {
+          /* best-effort fallback */
+        }
+      };
+      s.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+      document.head.appendChild(s);
+    } catch {
+      /* analytics must never break the product */
+    }
   }
 
   // NOTE: Microsoft Clarity is loaded exclusively by components/analytics/
@@ -79,7 +97,11 @@ export type EventName =
 
 export function track(event: EventName, params?: Record<string, unknown>) {
   try {
-    if (getConsent() !== "granted") return;
+    if (getConsent() !== "granted") {
+      console.log("[analytics] track(" + event + ") skipped — consent not granted");
+      return;
+    }
+    console.log("[analytics] track(" + event + "): calling gtag event");
     window.gtag?.("event", event, params ?? {});
     // Clarity picks up custom tags for filtering sessions.
     window.clarity?.("set", event, JSON.stringify(params ?? {}));

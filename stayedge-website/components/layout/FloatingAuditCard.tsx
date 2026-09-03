@@ -15,11 +15,11 @@ import { CTA, ROUTES } from "@/lib/config/site";
  * visitor has scrolled about a viewport's worth down any page (so it never
  * competes with whatever's above the fold — a hero, a tool, a form),
  * collapsed to a slim tab that expands on hover/click. Mirrors Vira.tsx's
- * session-dismiss pattern. Hidden on /audit itself (redundant) and /os
+ * session-dismiss pattern. Hidden on /free-audit itself (redundant) and /os
  * (internal dashboard, not part of the marketing site).
  */
 const SESSION_DISMISS = "stayedge.auditCard.dismissed";
-const HIDDEN_ON = [ROUTES.audit, "/os"];
+const HIDDEN_ON = [ROUTES.freeAudit, "/os"];
 
 export function FloatingAuditCard() {
   const reduce = useReducedMotion();

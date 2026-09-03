@@ -109,8 +109,8 @@ export default async function CityPage({
               Hosting in {c.city}? See what your listing is leaving on the table.
             </p>
             <div className="mt-4">
-              <Button href={ROUTES.roast} variant="primary" size="md" haptic>
-                Roast my listing — free
+              <Button href={ROUTES.freeAudit} variant="primary" size="md" haptic>
+                Get your free audit
               </Button>
             </div>
           </div>

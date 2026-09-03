@@ -13,11 +13,11 @@ export default function NotFound() {
         Here&apos;s what most hosts came for anyway.
       </p>
       <div className="mt-8 flex flex-wrap justify-center gap-3">
-        <Button href={ROUTES.roast} variant="primary" size="md">
-          Roast my listing
+        <Button href={CTA.audit.href} variant="primary" size="md">
+          {CTA.audit.short}
         </Button>
-        <Button href={CTA.audit.href} variant="secondary" size="md">
-          {CTA.audit.label}
+        <Button href={CTA.video.href} variant="secondary" size="md">
+          {CTA.video.short}
         </Button>
         <Button href="/" variant="ghost" size="md">
           Back to home

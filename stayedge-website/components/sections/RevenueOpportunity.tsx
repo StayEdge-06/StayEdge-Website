@@ -101,7 +101,7 @@ export function RevenueOpportunity() {
               {inr(current)} → {inr(improved)} per month
             </p>
             <div className="mt-6">
-              <Button href={ROUTES.roast} variant="primary" size="md">
+              <Button href={ROUTES.freeAudit} variant="primary" size="md">
                 Find my real gaps
               </Button>
             </div>

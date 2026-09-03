@@ -22,7 +22,7 @@ export function MechanismTimeline() {
       <SectionHeading
         eyebrow="How Vira Thinks"
         title="We don't guess. We run a process."
-        intro="The same analysis behind every roast and every Property Growth Snapshot — so the numbers are earned, not invented."
+        intro="The same analysis behind every Property Growth Audit — so the numbers are earned, not invented."
       />
       <PinnedStages stages={STAGES} className="mx-auto mt-14 max-w-3xl" />
     </Section>

@@ -14,6 +14,10 @@ type Status = {
   integrations: {
     brain: { configured: boolean; reachable: boolean };
     lead: { configured: boolean; reachable: boolean };
+    sheet: { configured: boolean };
+    telegram: { configured: boolean };
+    /** False = forms accept submissions but nothing is recorded anywhere. */
+    leadCapture: { ok: boolean };
     metrics: { configured: boolean; loaded: boolean };
     ga4: { configured: boolean };
     clarity: { configured: boolean };
@@ -23,9 +27,9 @@ type Status = {
 
 const METRIC_TILES: { key: string; label: string }[] = [
   { key: "visitorsToday", label: "Visitors today" },
-  { key: "roastsToday", label: "Roasts today" },
-  { key: "roastsCompleted", label: "Completed roasts" },
-  { key: "snapshots", label: "Growth Snapshots" },
+  { key: "auditRequestsToday", label: "Audit requests today" },
+  { key: "auditsDelivered", label: "Audits delivered" },
+  { key: "videoRequests", label: "AI video requests" },
   { key: "qualifiedLeads", label: "Qualified leads" },
   { key: "discoveryCalls", label: "Discovery calls" },
   { key: "whatsappQueue", label: "WhatsApp queue" },
@@ -82,14 +86,43 @@ export function OSDashboard({ dashKey }: { dashKey: string }) {
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <HealthTile label="Website" state={status ? "ok" : error ? "down" : "wait"} detail="This surface" />
         <HealthTile
-          label="Brain (CAP-001 head)"
+          label="Brain (n8n web-head)"
           state={!i ? "wait" : !i.brain.configured ? "off" : i.brain.reachable ? "ok" : "down"}
-          detail={!i?.brain.configured ? "Set N8N_ROAST_WEBHOOK_URL" : "Roast webhook"}
+          detail={!i?.brain.configured ? "Set N8N_BRAIN_WEBHOOK_URL" : "Web-head webhook"}
+        />
+        {/* The tile that matters most: a green website with no lead sink is a
+            site quietly dropping every enquiry. */}
+        <HealthTile
+          label="Lead capture"
+          state={!i ? "wait" : i.leadCapture.ok ? "ok" : "down"}
+          detail={
+            !i
+              ? ""
+              : i.leadCapture.ok
+                ? "Submissions are being recorded"
+                : "NOTHING IS RECORDED — configure a sink"
+          }
         />
         <HealthTile
-          label="Lead pipeline"
+          label="CRM sheet"
+          state={!i ? "wait" : i.sheet.configured ? "ok" : "off"}
+          detail={
+            !i?.sheet.configured
+              ? "Set GOOGLE_SHEETS_ID + service account"
+              : "Google Sheets append"
+          }
+        />
+        <HealthTile
+          label="Telegram alerts"
+          state={!i ? "wait" : i.telegram.configured ? "ok" : "off"}
+          detail={
+            !i?.telegram.configured ? "Set TELEGRAM_BOT_TOKEN + CHAT_ID" : "Instant lead notify"
+          }
+        />
+        <HealthTile
+          label="Lead webhook (n8n)"
           state={!i ? "wait" : !i.lead.configured ? "off" : i.lead.reachable ? "ok" : "down"}
-          detail={!i?.lead.configured ? "Set N8N_LEAD_WEBHOOK_URL" : "CRM + Telegram via OS"}
+          detail={!i?.lead.configured ? "Set N8N_LEAD_WEBHOOK_URL" : "Automation fan-out"}
         />
         <HealthTile
           label="Analytics"
@@ -131,8 +164,8 @@ export function OSDashboard({ dashKey }: { dashKey: string }) {
       <h2 className="se-eyebrow mt-10 mb-3">Founder queue</h2>
       <ul className="space-y-2 text-sm text-se-offwhite/85">
         <li className="rounded-lg border border-[var(--se-line)] bg-se-ground-2 p-3">
-          Approve outreach: new website leads arrive on Telegram — paste the Airbnb URL into
-          CAP-001 to run Snapshot + WhatsApp.
+          Approve outreach: new website leads arrive on Telegram — open the listing link and
+          run the Property Growth Audit, then reply on WhatsApp.
         </li>
         <li className="rounded-lg border border-[var(--se-line)] bg-se-ground-2 p-3">
           Wire remaining env keys in the hosting dashboard (see .env.example).

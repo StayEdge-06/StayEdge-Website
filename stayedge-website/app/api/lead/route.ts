@@ -1,50 +1,67 @@
 import { NextResponse } from "next/server";
-import { z } from "zod";
-import "@/lib/server/net";
+import {
+  clientIp,
+  deliverLead,
+  isDuplicate,
+  leadSchema,
+  looksAutomated,
+  rateLimited,
+} from "@/lib/server/leads";
 
 /**
- * Lead HEAD endpoint — forwards unlock leads into StayEdge OS (n8n), which owns
- * CRM append + Telegram founder notify + the approval → WhatsApp pipeline.
- * The website never duplicates that intelligence; it only delivers the event.
+ * The one lead endpoint. Every form on the site (Free Property Growth Audit,
+ * AI Property Video) posts here; `lib/server/leads.ts` owns validation, spam
+ * control and the delivery fan-out to Sheets / Telegram / n8n.
  *
- * Env: N8N_LEAD_WEBHOOK_URL (+ optional N8N_ROAST_TOKEN reused as bearer).
- * Unconfigured/unreachable = graceful no-op (the client also stores the lead
- * on-device, so nothing is lost while the OS side is being wired).
+ * Response contract: `ok` means "we accepted your lead and it is recorded
+ * somewhere we will see it". `delivered` reports which sinks took it, so the
+ * /os dashboard and the client can tell a wiring problem from a spam block
+ * without exposing that detail to the visitor.
+ *
+ * Node runtime (not edge): the Sheets service-account JWT is signed with
+ * node:crypto.
  */
-const LEAD_URL = process.env.N8N_LEAD_WEBHOOK_URL;
-const TOKEN = process.env.N8N_ROAST_TOKEN;
-
-const leadSchema = z.object({
-  whatsapp: z.string().min(5).max(30),
-  email: z.string().email().max(200).optional().or(z.literal("")),
-  ref: z.string().max(500).optional(),
-  score: z.number().min(0).max(100).optional(),
-  city: z.string().max(120).optional(),
-  source: z.string().max(60).optional(),
-});
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
-  let forwarded = false;
+  let body: unknown;
   try {
-    const parsed = leadSchema.safeParse(await req.json());
-    if (parsed.success && LEAD_URL) {
-      const controller = new AbortController();
-      // n8n cloud can take ~15s cold; the client fires-and-forgets this call.
-      const timer = setTimeout(() => controller.abort(), 15_000);
-      const res = await fetch(LEAD_URL, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          ...(TOKEN ? { authorization: `Bearer ${TOKEN}` } : {}),
-        },
-        body: JSON.stringify({ type: "lead", ...parsed.data, ts: Date.now() }),
-        signal: controller.signal,
-      });
-      clearTimeout(timer);
-      forwarded = res.ok;
-    }
+    body = await req.json();
   } catch {
-    /* never block the visitor on delivery problems */
+    return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
   }
-  return NextResponse.json({ ok: true, forwarded });
+
+  const parsed = leadSchema.safeParse(body);
+  if (!parsed.success) {
+    // Field-level messages so the form can point at the offending input rather
+    // than showing one generic failure.
+    const fields: Record<string, string> = {};
+    for (const issue of parsed.error.issues) {
+      const key = issue.path[0];
+      if (typeof key === "string" && !fields[key]) fields[key] = issue.message;
+    }
+    return NextResponse.json({ ok: false, error: "invalid", fields }, { status: 400 });
+  }
+
+  const lead = parsed.data;
+
+  // Silent success for bots: a spammer that gets a 4xx just retries with the
+  // trap field removed, while a false positive on a real host would look like
+  // a broken site. Nothing is delivered either way.
+  if (looksAutomated(lead)) {
+    return NextResponse.json({ ok: true, delivered: null });
+  }
+
+  if (rateLimited(clientIp(req))) {
+    return NextResponse.json(
+      { ok: false, error: "rate_limited" },
+      { status: 429, headers: { "retry-after": "600" } },
+    );
+  }
+
+  const duplicate = isDuplicate(lead);
+  const delivered = await deliverLead(lead, duplicate);
+
+  return NextResponse.json({ ok: true, duplicate, delivered });
 }

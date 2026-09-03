@@ -80,7 +80,7 @@ export function Showcase() {
         </p>
 
         <div className="mt-8 text-center">
-          <Button href={ROUTES.audit} variant="primary" size="lg">
+          <Button href={ROUTES.freeAudit} variant="primary" size="lg">
             Get this breakdown for my listing — free
           </Button>
           <p className="mt-3 text-xs text-se-grey-lavender">

@@ -26,13 +26,22 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        {/* CTA hierarchy: Free Audit is the one primary; the roast supports it. */}
+        {/* CTA hierarchy: the Free Property Growth Audit is the ONE primary
+            action site-wide (V2 business goal); the video service is the
+            secondary enquiry. Full CTA wording is used on the page bodies —
+            here it would wrap, so the short form is used deliberately. */}
         <div className="flex items-center gap-2">
-          <Button href={CTA.roast.href} variant="ghost" size="sm" className="hidden sm:inline-flex">
-            {CTA.roast.label}
+          <Button href={CTA.video.href} variant="ghost" size="sm" className="hidden md:inline-flex">
+            {CTA.video.short}
           </Button>
-          <Button href={CTA.audit.href} variant="primary" size="sm" className="hidden sm:inline-flex">
-            Get Free Audit
+          <Button
+            href={CTA.audit.href}
+            variant="primary"
+            size="sm"
+            className="hidden sm:inline-flex"
+            aria-label={CTA.audit.label}
+          >
+            {CTA.audit.short}
           </Button>
         </div>
       </div>

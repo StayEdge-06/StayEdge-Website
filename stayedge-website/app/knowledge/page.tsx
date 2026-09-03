@@ -127,8 +127,8 @@ export default function KnowledgePage() {
             which of these actually applies to you — free.
           </p>
           <div className="mt-5 flex flex-wrap justify-center gap-3">
-            <Button href={ROUTES.roast} variant="primary" size="md" haptic>
-              Roast my listing
+            <Button href={ROUTES.freeAudit} variant="primary" size="md" haptic>
+              Get your free audit
             </Button>
             <Button href={WHATSAPP_URL} external variant="ghost" size="md">
               Ask us on WhatsApp

@@ -8,12 +8,12 @@ import { DEFAULT_OG_IMAGE } from "@/lib/config/site";
 export const metadata: Metadata = {
   title: "AI Lab",
   description:
-    "Free AI tools for Airbnb hosts — roast your listing, and soon: title rewriter, SEO checker, pricing checker, photo rating and more.",
+    "Free AI tools for Airbnb hosts — title rewriter, SEO checker, pricing checker, photo rating and more, in development.",
   alternates: { canonical: "/lab" },
   openGraph: {
     title: "AI Lab — StayEdge",
     description:
-      "Free AI tools for Airbnb hosts — roast your listing, and soon: title rewriter, SEO checker, pricing checker, photo rating and more.",
+      "Free AI tools for Airbnb hosts — title rewriter, SEO checker, pricing checker, photo rating and more, in development.",
     url: "/lab",
     siteName: "StayEdge",
     locale: "en_IN",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "AI Lab — StayEdge",
     description:
-      "Free AI tools for Airbnb hosts — roast your listing, and soon: title rewriter, SEO checker, pricing checker, photo rating and more.",
+      "Free AI tools for Airbnb hosts — title rewriter, SEO checker, pricing checker, photo rating and more, in development.",
     images: [DEFAULT_OG_IMAGE],
   },
 };

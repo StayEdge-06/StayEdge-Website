@@ -4,9 +4,13 @@ import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/motion/TiltCard";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Button } from "@/components/ui/Button";
-import { ROUTES, DEFAULT_OG_IMAGE } from "@/lib/config/site";
+import { CTA, ROUTES, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbSchema, servicesCatalogSchema } from "@/lib/seo/schema";
+import {
+  aiPropertyVideoServiceSchema,
+  breadcrumbSchema,
+  servicesCatalogSchema,
+} from "@/lib/seo/schema";
 
 export const metadata: Metadata = {
   title: "What We Do — Airbnb Listing Optimisation, Pricing & SEO",
@@ -77,17 +81,61 @@ export default function ServicesPage() {
         </RevealGroup>
         <RevealItem>
           <div className="mt-10 text-center">
-            <Button href={ROUTES.roast} variant="primary" size="lg" haptic>
+            <Button href={ROUTES.freeAudit} variant="primary" size="lg" haptic>
               See what we&apos;d fix first — free
             </Button>
           </div>
         </RevealItem>
       </Section>
+
+      {/* The video service is a separate discipline with its own page, so it
+          gets a band rather than a fifth grid card — and the link keeps the
+          child route inside the internal link graph. */}
+      <Section ground="deep">
+        <RevealGroup className="mx-auto grid max-w-4xl gap-8 md:grid-cols-[1.1fr_1fr] md:items-center">
+          <RevealItem>
+            <p className="se-eyebrow">Also from StayEdge</p>
+            <h2 className="mt-3 se-title text-3xl text-se-offwhite md:text-4xl">
+              AI Property Video
+            </h2>
+            <p className="mt-4 text-se-grey-lavender">
+              Cinematic video produced with AI from the photos and clips your property already
+              has — Reels, Shorts, walkthroughs, promos and website hero loops. A production
+              service, not a tool: you receive finished files.
+            </p>
+            <div className="mt-7">
+              <Button href={ROUTES.aiPropertyVideo} variant="secondary" size="lg">
+                {CTA.video.label}
+              </Button>
+            </div>
+          </RevealItem>
+          <RevealItem>
+            <ul className="grid gap-2">
+              {[
+                "Instagram Reels",
+                "YouTube Shorts",
+                "Property walkthrough",
+                "Promotional video",
+                "Website hero video",
+              ].map((f) => (
+                <li
+                  key={f}
+                  className="rounded-[var(--se-radius-md)] border border-[var(--se-line)] bg-se-charcoal px-4 py-3 text-sm text-se-offwhite/85"
+                >
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </RevealItem>
+        </RevealGroup>
+      </Section>
+
       <FinalCTA />
       <JsonLd
         schemas={[
           breadcrumbSchema([{ name: "What We Do", path: "/services" }]),
           servicesCatalogSchema(SERVICES),
+          aiPropertyVideoServiceSchema(),
         ]}
       />
     </>

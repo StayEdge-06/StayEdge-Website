@@ -6,13 +6,17 @@ import { WordReveal } from "@/components/motion/ScrollFX";
 import { EyebrowTypeOn } from "@/components/motion/EyebrowTypeOn";
 import { RisingEdgeBars } from "@/components/brand/RisingEdgeBars";
 import { PERSONA } from "@/lib/config/persona";
-import { ROUTES } from "@/lib/config/site";
+import { CTA } from "@/lib/config/site";
 
 /**
  * Homepage hero — the AI experience entry point (Experience Bible §3).
  * Live AI presence (3D diamond, cursor-reactive) behind a staggered-reveal
- * content column; the primary CTA is magnetic. The thinking theater + in-place
- * roast reveal are built in milestone 3.
+ * content column; the primary CTA is magnetic.
+ *
+ * V2: the hero form is no longer an in-page AI tool. It is the top of the ONE
+ * funnel — a GET to /free-audit carrying the listing link, so the audit form
+ * arrives pre-filled and the host has already taken the first step. A GET (not
+ * a client fetch) keeps the hero a server component and works without JS.
  */
 export function Hero() {
   return (
@@ -42,15 +46,15 @@ export function Hero() {
 
         <RevealItem>
           <p className="mx-auto mt-6 max-w-xl text-balance text-lg text-se-grey-lavender">
-            Paste your listing. Our AI finds what&apos;s quietly costing you bookings —
-            free, in seconds.
+            Paste your listing and we&apos;ll show you what&apos;s quietly costing you
+            bookings — free.
           </p>
         </RevealItem>
 
-        {/* Live-analysis input (submits to the Roast Engine) */}
+        {/* Funnel entry: carries the listing link into the audit form */}
         <RevealItem>
           <form
-            action={ROUTES.roast}
+            action={CTA.audit.href}
             method="get"
             className="se-glass se-float mx-auto mt-10 flex max-w-xl flex-col gap-3 rounded-[var(--se-radius-lg)] p-3 sm:flex-row sm:items-center sm:pl-5"
           >
@@ -66,17 +70,23 @@ export function Hero() {
               className="min-w-0 flex-1 bg-transparent py-3 text-se-offwhite placeholder:text-se-grey-lavender/70 focus:outline-none"
             />
             <Magnetic strength={0.35}>
-              <Button type="submit" variant="primary" size="md" haptic>
-                Roast My Listing
+              <Button
+                type="submit"
+                variant="primary"
+                size="md"
+                haptic
+                aria-label={CTA.audit.label}
+              >
+                {CTA.audit.short}
               </Button>
             </Magnetic>
           </form>
         </RevealItem>
 
-        {/* Mode chips — the persona auto-selects; these are the optional override */}
+        {/* The audit's actual scope, stated up front — no vague "AI analysis" */}
         <RevealItem>
           <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-sm text-se-grey-lavender">
-            <span className="se-eyebrow !tracking-[0.2em] !text-se-grey-lavender">Modes</span>
+            <span className="se-eyebrow !tracking-[0.2em] !text-se-grey-lavender">We check</span>
             {PERSONA.modes.map((m) => (
               <span
                 key={m.id}
@@ -90,14 +100,14 @@ export function Hero() {
 
         <RevealItem>
           <p className="mt-8 text-xs text-se-grey-lavender">
-            Free · No login · Your first 3 issues on the house.
+            Free · No login · A prioritised list of what to fix first.
           </p>
           <p className="mt-3 text-sm">
             <a
-              href={ROUTES.audit}
+              href={CTA.video.href}
               className="text-se-lavender underline-offset-4 hover:underline"
             >
-              Or skip straight to a free audit with a real person →
+              Or see our AI property video service →
             </a>
           </p>
         </RevealItem>

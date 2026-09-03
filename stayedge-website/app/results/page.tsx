@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 /**
  * Honest results page. Brand law: every claim provable, no invented numbers.
  * Until named case studies are cleared for publication, this page shows HOW we
- * measure — and the roast lets a visitor see the method on their own property.
+ * measure — and the free audit lets a visitor see the method on their own property.
  */
 const METRICS = [
   { label: "Occupancy", body: "Booked nights vs available nights — the first number we move." },

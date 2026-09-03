@@ -3,11 +3,12 @@ import { WordReveal } from "@/components/motion/ScrollFX";
 import { EyebrowTypeOn } from "@/components/motion/EyebrowTypeOn";
 import { Button } from "@/components/ui/Button";
 import { Magnetic } from "@/components/motion/Magnetic";
-import { ROUTES, CTA } from "@/lib/config/site";
+import { CTA } from "@/lib/config/site";
 
 /**
- * The closer — one last, low-friction chance to start the roast, plus the two
- * ladder alternatives. Sits just above the footer's emotional sign-off.
+ * The closer — one last, low-friction chance to start the free audit, plus the
+ * two alternatives (video service, WhatsApp). Sits just above the footer's
+ * emotional sign-off.
  */
 export function FinalCTA() {
   return (
@@ -26,17 +27,17 @@ export function FinalCTA() {
           className="mx-auto max-w-3xl font-display uppercase leading-[1.12] tracking-[-0.01em] text-[clamp(26px,5vw,56px)] text-se-offwhite [perspective:800px]"
         />
         <p className="mx-auto mt-5 max-w-xl text-se-grey-lavender">
-          One paste. A few seconds. Three things you can fix today — free.
+          One link. One reply. A prioritised list of what to fix first — free.
         </p>
 
         <div className="mt-9 flex flex-wrap justify-center gap-3">
           <Magnetic strength={0.35}>
             <Button href={CTA.audit.href} variant="primary" size="lg" haptic>
-              Get my free audit
+              {CTA.audit.label}
             </Button>
           </Magnetic>
-          <Button href={ROUTES.roast} variant="secondary" size="lg">
-            Roast my listing first
+          <Button href={CTA.video.href} variant="secondary" size="lg">
+            {CTA.video.label}
           </Button>
           <Button href={CTA.whatsapp.href} external variant="ghost" size="lg">
             {CTA.whatsapp.label}

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import "@/lib/server/net";
+import { leadSinkConfig } from "@/lib/server/leads";
 
 /**
  * OS status aggregator — the data source for the internal CEO dashboard (/os).
@@ -11,10 +12,10 @@ import "@/lib/server/net";
  */
 export const dynamic = "force-dynamic";
 
-const BRAIN_URL = process.env.N8N_ROAST_WEBHOOK_URL;
+const BRAIN_URL = process.env.N8N_BRAIN_WEBHOOK_URL;
 const LEAD_URL = process.env.N8N_LEAD_WEBHOOK_URL;
 const METRICS_URL = process.env.N8N_METRICS_WEBHOOK_URL;
-const TOKEN = process.env.N8N_ROAST_TOKEN;
+const TOKEN = process.env.N8N_WEBHOOK_TOKEN;
 const DASH_KEY = process.env.OS_DASHBOARD_KEY;
 
 async function probe(url: string | undefined, body: unknown, timeoutMs = 15000) {
@@ -71,6 +72,11 @@ export async function GET(req: Request) {
     }
   }
 
+  // Where a submitted lead actually lands. If every sink is false the forms
+  // still accept submissions but nothing is recorded anywhere — the one
+  // failure mode that must be visible on the dashboard, not silent.
+  const sinks = leadSinkConfig();
+
   return NextResponse.json({
     ok: true,
     ts: Date.now(),
@@ -78,6 +84,9 @@ export async function GET(req: Request) {
     integrations: {
       brain,
       lead,
+      sheet: { configured: sinks.sheet },
+      telegram: { configured: sinks.telegram },
+      leadCapture: { ok: sinks.sheet || sinks.telegram || sinks.n8n },
       metrics: { configured: Boolean(METRICS_URL), loaded: metrics !== null },
       ga4: {
         configured: Boolean(

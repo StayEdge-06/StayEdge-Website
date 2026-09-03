@@ -78,12 +78,12 @@ export default function ContactPage() {
             <p>{CONTACT.location}</p>
           </div>
           <p className="mt-6 border-t border-[var(--se-line)] pt-5 text-sm text-se-grey-lavender">
-            Not sure what to ask? Start with the free roast — it gives us both something
+            Not sure what to ask? Start with the free audit — it gives us both something
             specific to talk about.
           </p>
           <div className="mt-4">
-            <Button href={ROUTES.roast} variant="ghost" size="md">
-              Roast my listing first
+            <Button href={ROUTES.freeAudit} variant="ghost" size="md">
+              Get your free audit first
             </Button>
           </div>
         </div>

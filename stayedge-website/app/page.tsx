@@ -1,5 +1,4 @@
 import { Hero } from "@/components/sections/Hero";
-import { RoastPreview } from "@/components/sections/RoastPreview";
 import { MechanismTimeline } from "@/components/sections/MechanismTimeline";
 import { Showcase } from "@/components/sections/Showcase";
 import { RevenueOpportunity } from "@/components/sections/RevenueOpportunity";
@@ -7,6 +6,7 @@ import { WhyStayEdge } from "@/components/sections/WhyStayEdge";
 import { HostSegments } from "@/components/sections/HostSegments";
 import { SocialProof } from "@/components/sections/SocialProof";
 import { Process } from "@/components/sections/Process";
+import { VideoService } from "@/components/sections/VideoService";
 import { AILabPreview } from "@/components/sections/AILabPreview";
 import { FAQ, FAQS } from "@/components/sections/FAQ";
 import { FinalCTA } from "@/components/sections/FinalCTA";
@@ -23,7 +23,6 @@ export default function HomePage() {
     <>
       <Hero />
       <EdgeDividerWipe from="base" to="deep" />
-      <RoastPreview />
       <MechanismTimeline />
       <EdgeDividerWipe from="base" to="deep" />
       <Showcase />
@@ -33,6 +32,7 @@ export default function HomePage() {
       <SocialProof />
       <EdgeDividerWipe from="base" to="deep" />
       <Process />
+      <VideoService />
       <AILabPreview />
       <FAQ />
       <EdgeDividerWipe from="deep" to="base" />

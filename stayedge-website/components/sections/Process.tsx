@@ -3,13 +3,15 @@ import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/motion/TiltCard";
 
 /**
- * The value ladder, made legible — how a visitor goes from a free roast to a
+ * The value ladder, made legible — how a visitor goes from a listing link to a
  * growing listing. Every step is free until there's proof it's worth more.
+ * V2: the ladder is one funnel (the Property Growth Audit); the old
+ * roast → snapshot → audit chain was retired with the AI Roast.
  */
 const STEPS = [
-  { n: "01", title: "Roast", body: "Paste your listing. Get your score, three real issues and one genuine strength — free, no email.", free: true },
-  { n: "02", title: "Growth Snapshot", body: "Unlock the full picture: every issue, the revenue you're leaking, and your prioritised quick wins.", free: true },
-  { n: "03", title: "Free Audit", body: "A no-pressure call with a specialist to turn the snapshot into a plan for your property.", free: true },
+  { n: "01", title: "Send your link", body: "Paste your Airbnb listing link. No account, no login, no card.", free: true },
+  { n: "02", title: "Property Growth Audit", body: "We read your listing quality, pricing and search visibility the way a guest and the algorithm do.", free: true },
+  { n: "03", title: "Your priority plan", body: "A prioritised list of what to fix first, what it's likely costing you, and why.", free: true },
   { n: "04", title: "Growth", body: "We work the plan with you and prove the difference in your occupancy, ADR and revenue.", free: false },
 ];
 

@@ -4,14 +4,8 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Diamond } from "@/components/brand/Diamond";
 import { PERSONA } from "@/lib/config/persona";
-import { ROUTES } from "@/lib/config/site";
-import {
-  touchVisit,
-  mostRecentProperty,
-  isReturning,
-  type Passport,
-  type PropertyRecord,
-} from "@/lib/ai/memory";
+import { CTA } from "@/lib/config/site";
+import { touchVisit, isReturning, type Passport } from "@/lib/ai/memory";
 
 /**
  * Vira — the StayEdge AI consultant, present across the site (Experience Bible §5).
@@ -25,12 +19,10 @@ export function Vira() {
   const reduce = useReducedMotion();
   const [open, setOpen] = useState(false);
   const [returning, setReturning] = useState(false);
-  const [recent, setRecent] = useState<PropertyRecord | null>(null);
 
   useEffect(() => {
     const p: Passport | null = touchVisit();
     setReturning(isReturning(p));
-    setRecent(mostRecentProperty(p));
 
     const dismissed = sessionStorage.getItem(SESSION_DISMISS) === "1";
     if (dismissed) return;
@@ -47,20 +39,17 @@ export function Vira() {
     }
   }
 
-  const greeting =
-    returning && recent
-      ? {
-          title: "Welcome back.",
-          body: recent.label
-            ? `Last time we looked at your ${recent.label}. Want to pick up where we left off?`
-            : "Want to pick up where we left off, or look at a new listing?",
-          cta: { label: "Continue", href: `${ROUTES.roast}?ref=${encodeURIComponent(recent.ref)}` },
-        }
-      : {
-          title: `I'm ${PERSONA.name}.`,
-          body: "Paste your listing and I'll show you what's quietly costing you bookings — free.",
-          cta: { label: "Roast my listing", href: ROUTES.roast },
-        };
+  const greeting = returning
+    ? {
+        title: "Welcome back.",
+        body: "Still weighing it up? A Property Growth Audit is free and takes one message.",
+        cta: { label: CTA.audit.short, href: CTA.audit.href },
+      }
+    : {
+        title: `I'm ${PERSONA.name}.`,
+        body: "Send me your listing and I'll show you what's quietly costing you bookings — free.",
+        cta: { label: CTA.audit.short, href: CTA.audit.href },
+      };
 
   return (
     <div className="fixed bottom-[96px] right-4 z-[200] flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">

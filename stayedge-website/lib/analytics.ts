@@ -84,12 +84,20 @@ export function loadAnalytics() {
   // initialise twice.
 }
 
-/** Event taxonomy (founder-specified). */
+/**
+ * Event taxonomy (V2). One funnel, two services:
+ *   audit_*  — the primary conversion path (Free Property Growth Audit)
+ *   video_*  — the AI Property Video enquiry path
+ * The roast_* / snapshot_* events were retired with the AI Roast feature; any
+ * GA4 explorations still referencing them will show no data after this release.
+ */
 export type EventName =
-  | "roast_started"
-  | "roast_completed"
-  | "snapshot_unlocked"
-  | "discovery_call_click"
+  | "audit_form_start"
+  | "audit_form_submit"
+  | "audit_lead_captured"
+  | "video_form_submit"
+  | "video_lead_captured"
+  | "form_error"
   | "cta_click"
   | "whatsapp_click"
   | "scroll_depth"
@@ -97,11 +105,7 @@ export type EventName =
 
 export function track(event: EventName, params?: Record<string, unknown>) {
   try {
-    if (getConsent() !== "granted") {
-      console.log("[analytics] track(" + event + ") skipped — consent not granted");
-      return;
-    }
-    console.log("[analytics] track(" + event + "): calling gtag event");
+    if (getConsent() !== "granted") return;
     window.gtag?.("event", event, params ?? {});
     // Clarity picks up custom tags for filtering sessions.
     window.clarity?.("set", event, JSON.stringify(params ?? {}));

@@ -96,7 +96,7 @@ export default function HowWeWorkPage() {
 
         <RevealItem>
           <div className="mt-10 text-center">
-            <Button href={ROUTES.roast} variant="primary" size="lg" haptic>
+            <Button href={ROUTES.freeAudit} variant="primary" size="lg" haptic>
               Start with step one — free
             </Button>
           </div>

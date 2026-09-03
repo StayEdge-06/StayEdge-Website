@@ -22,15 +22,16 @@ export const WHATSAPP_URL = `https://wa.me/${CONTACT.phoneRaw}?text=${encodeURIC
 
 export const ROUTES = {
   home: "/",
-  roast: "/roast",
-  snapshot: "/snapshot",
+  /** THE conversion destination (V2). Every CTA, GBP, WhatsApp, Instagram bio,
+   * LinkedIn and future ad lands here. `/audit` and `/roast` 308 into it. */
+  freeAudit: "/free-audit",
+  services: "/services",
+  aiPropertyVideo: "/services/ai-property-video",
   lab: "/lab",
   howWeThink: "/how-we-think",
   howWeWork: "/how-we-work",
-  services: "/services",
   whoWeHelp: "/who-we-help",
   results: "/results",
-  audit: "/audit",
   knowledge: "/knowledge",
   about: "/about",
   contact: "/contact",
@@ -39,9 +40,9 @@ export const ROUTES = {
 /** Primary top-nav (desktop) — 5 browse items; CTAs live in the cluster. */
 export const PRIMARY_NAV = [
   { label: "What We Do", href: ROUTES.services },
+  { label: "AI Property Video", href: ROUTES.aiPropertyVideo },
   { label: "Who We Help", href: ROUTES.whoWeHelp },
   { label: "Results", href: ROUTES.results },
-  { label: "AI Lab", href: ROUTES.lab },
   { label: "How We Think", href: ROUTES.howWeThink },
 ] as const;
 
@@ -49,18 +50,29 @@ export const PRIMARY_NAV = [
 export const FULL_NAV = [
   ...PRIMARY_NAV,
   { label: "How We Work", href: ROUTES.howWeWork },
+  { label: "AI Lab", href: ROUTES.lab },
   { label: "Knowledge", href: ROUTES.knowledge },
   { label: "About", href: ROUTES.about },
   { label: "Contact", href: ROUTES.contact },
 ] as const;
 
 export const CTA = {
-  /** The top-of-ladder primary action across the site. */
-  roast: { label: "Roast My Listing", href: ROUTES.roast },
-  /** The money conversion (brand CTA library: "Book a free audit"). */
-  audit: { label: "Book Free Audit", href: ROUTES.audit },
+  /** The ONE primary action across the entire site (V2 business goal).
+   * `label` is the founder-specified full wording; `short` is for tight
+   * chrome (header, mobile bar) where the full string would wrap. */
+  audit: {
+    label: "Get Your Free Property Growth Audit",
+    short: "Get Free Audit",
+    href: ROUTES.freeAudit,
+  },
+  /** The premium service enquiry — secondary to the audit everywhere. */
+  video: {
+    label: "Request AI Property Video",
+    short: "AI Property Video",
+    href: ROUTES.aiPropertyVideo,
+  },
   /** Low-commitment secondary channel. */
-  whatsapp: { label: "WhatsApp Us", href: WHATSAPP_URL },
+  whatsapp: { label: "WhatsApp Us", short: "WhatsApp", href: WHATSAPP_URL },
 } as const;
 
 export const SITE = {

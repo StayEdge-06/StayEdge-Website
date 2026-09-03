@@ -69,7 +69,7 @@ export const ANSWERS: Answer[] = [
     a: "Low bookings almost always trace to one of five causes: weak first photo, a title that says nothing, uncompetitive or flat pricing, thin or unanswered reviews, or a listing that guests can't find because of calendar and response issues. Identifying which one applies is the first real step.",
     detail: [
       "Most hosts guess at the cause and change the wrong thing; a structured read of the listing removes the guesswork.",
-      "That diagnosis is exactly what Vira's free roast does — it reads the listing and names the specific issues, in minutes.",
+      "That diagnosis is exactly what a Property Growth Audit does — it reads the listing against all five causes and names the specific ones costing you bookings.",
     ],
   },
 ];

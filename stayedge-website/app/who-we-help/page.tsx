@@ -38,14 +38,14 @@ const SEGMENTS = [
     title: "First-time hosts",
     pain: "Launching soon or just live, and every decision feels like a guess.",
     how: "We get the launch right — title, photos, pricing posture and the first reviews — so you skip the expensive early mistakes.",
-    cta: "Start with a free roast",
+    cta: "Start with a free audit",
   },
   {
     id: "villa-owners",
     title: "Villa owners",
     pain: "A premium property that books like an average one.",
     how: "Positioning, photography direction and pricing that match what your villa is actually worth — so the right guests pay the right rate.",
-    cta: "Roast my villa",
+    cta: "Audit my villa",
   },
   {
     id: "boutique-hotels",
@@ -83,7 +83,7 @@ export default function WhoWeHelpPage() {
                 <p className="mt-2 font-editorial italic text-se-grey-lavender">{s.pain}</p>
                 <p className="mt-3 text-se-offwhite/85">{s.how}</p>
                 <div className="mt-5">
-                  <Button href={ROUTES.roast} variant="secondary" size="md">
+                  <Button href={ROUTES.freeAudit} variant="secondary" size="md">
                     {s.cta}
                   </Button>
                 </div>

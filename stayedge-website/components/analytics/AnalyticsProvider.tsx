@@ -16,8 +16,8 @@ import { readPassport, isReturning } from "@/lib/ai/memory";
  * Site-wide measurement, consent-first.
  * - Cookie banner (only when analytics IDs exist and no choice stored);
  *   decline = nothing loads, ever.
- * - Delegated click tracking: WhatsApp, audit/roast CTAs (one listener, no
- *   per-component wiring).
+ * - Delegated click tracking: WhatsApp, free-audit and AI-video CTAs (one
+ *   listener, no per-component wiring).
  * - SPA route-change tracking via usePathname() — fires gtag('config') with
  *   new page_path on every client-side navigation (fills the App Router gap).
  *   Uses analyticsReady ref to avoid racing against loadAnalytics().
@@ -38,19 +38,12 @@ export function AnalyticsProvider() {
   // declaration order).  Guards on analyticsReady — if consent was already
   // granted from a prior session the init effect sets the ref synchronously.
   useEffect(() => {
-    if (!analyticsReady.current) {
-      console.log("[AP] route-change: analyticsReady false, returning");
-      return;
-    }
+    if (!analyticsReady.current) return;
     const p =
       pathname +
       (searchParams?.toString() ? `?${searchParams.toString()}` : "");
-    if (p === prevPath.current) {
-      console.log("[AP] route-change: no path change, returning");
-      return;
-    }
+    if (p === prevPath.current) return;
     prevPath.current = p;
-    console.log("[AP] route-change: firing gtag config, path:", p);
     // gtag('config') with updated page_path is the standard GA4 SPA approach
     // — it triggers a page_view automatically and avoids racing with
     // gtag.js's own initial page_view from the first config call.
@@ -65,9 +58,7 @@ export function AnalyticsProvider() {
   useEffect(() => {
     const hasIds = Boolean(GA_ID || CLARITY_ID);
     const consent = getConsent();
-    console.log("[AP] init: consent=" + consent + " GA_ID=" + GA_ID + " CLARITY_ID=" + CLARITY_ID);
     if (consent === "granted") {
-      console.log("[AP] init: consent granted, calling loadAnalytics()");
       loadAnalytics();
       analyticsReady.current = true;
       // Record the initial path so the route-change effect skips the
@@ -90,10 +81,10 @@ export function AnalyticsProvider() {
       if (!a) return;
       const href = a.getAttribute("href") ?? "";
       if (href.includes("wa.me")) track("whatsapp_click", { href });
-      else if (href.startsWith("/audit"))
-        track("discovery_call_click", { href });
-      else if (href.startsWith("/roast"))
-        track("cta_click", { cta: "roast" });
+      else if (href.startsWith("/free-audit"))
+        track("cta_click", { cta: "free_audit", href });
+      else if (href.startsWith("/services/ai-property-video"))
+        track("cta_click", { cta: "ai_property_video", href });
     };
     document.addEventListener("click", onClick, {
       capture: true,
@@ -124,11 +115,9 @@ export function AnalyticsProvider() {
   }, []);
 
   function choose(v: "granted" | "denied") {
-    console.log("[AP] choose: " + v);
     setConsent(v);
     setShowBanner(false);
     if (v === "granted") {
-      console.log("[AP] choose(granted): calling loadAnalytics()");
       loadAnalytics();
       analyticsReady.current = true;
       // Fire the initial page_view now that consent was just granted
@@ -140,7 +129,6 @@ export function AnalyticsProvider() {
         page_path: p,
         page_title: document.title,
       });
-      console.log("[AP] choose(granted): gtag config fired");
     }
   }
 

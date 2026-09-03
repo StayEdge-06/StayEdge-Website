@@ -26,8 +26,8 @@ export function SiteFooter() {
           <Button href={CTA.audit.href} variant="primary" size="lg">
             {CTA.audit.label}
           </Button>
-          <Button href={CTA.roast.href} variant="secondary" size="lg">
-            {CTA.roast.label}
+          <Button href={CTA.video.href} variant="secondary" size="lg">
+            {CTA.video.label}
           </Button>
           <Button href={CTA.whatsapp.href} external variant="ghost" size="lg">
             {CTA.whatsapp.label}

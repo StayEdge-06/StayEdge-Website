@@ -53,7 +53,7 @@ export default function GlossaryPage() {
           </dl>
 
           <div className="mt-10 text-center">
-            <Button href={ROUTES.roast} variant="primary" size="md" haptic>
+            <Button href={ROUTES.freeAudit} variant="primary" size="md" haptic>
               See these numbers for your listing — free
             </Button>
           </div>

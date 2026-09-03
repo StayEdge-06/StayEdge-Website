@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/motion/TiltCard";
@@ -57,23 +58,35 @@ export default function AboutPage() {
           intro={SITE.promise}
         />
 
-        <Reveal className="mx-auto mt-12 max-w-2xl">
-          <div className="se-edge-strip rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 pl-7 md:p-8 md:pl-9">
-            <p className="se-eyebrow">The founder</p>
-            <h2 className="mt-2 font-body text-xl font-bold text-se-offwhite">
-              {CONTACT.founder}
-            </h2>
-            <p className="mt-3 text-se-grey-lavender">
-              StayEdge was founded in 2024 in {CONTACT.location.split(",")[0]}, built on a simple
-              observation: most Airbnb listings in India underperform not because the properties
-              are weak, but because the listings are. Titles that say nothing, one price for every
-              night, photos in the wrong order — fixable things, costing real money every week.
-            </p>
-            <p className="mt-3 text-se-grey-lavender">
-              So we built {PERSONA.name} — an AI that reads a listing the way a guest does, then
-              the way the algorithm does — and paired it with operator judgement. You get the
-              scale of software with the accountability of a person whose name is on the work.
-            </p>
+        <Reveal className="mx-auto mt-12 max-w-4xl">
+          <div className="se-edge-strip grid gap-6 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 pl-7 md:grid-cols-[220px_1fr] md:items-center md:p-8 md:pl-9">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--se-radius-md)] border border-[var(--se-line)] bg-se-charcoal">
+              <Image
+                src="/team/Sanjay%20Stephen%20photo.jpg"
+                alt="Sanjay Stephen, founder of StayEdge"
+                fill
+                className="object-cover"
+                sizes="(min-width: 768px) 220px, 100vw"
+                priority
+              />
+            </div>
+            <div>
+              <p className="se-eyebrow">The founder</p>
+              <h2 className="mt-2 font-body text-xl font-bold text-se-offwhite">
+                {CONTACT.founder}
+              </h2>
+              <p className="mt-3 text-se-grey-lavender">
+                StayEdge was founded in 2024 in {CONTACT.location.split(",")[0]}, built on a simple
+                observation: most Airbnb listings in India underperform not because the properties
+                are weak, but because the listings are. Titles that say nothing, one price for every
+                night, photos in the wrong order — fixable things, costing real money every week.
+              </p>
+              <p className="mt-3 text-se-grey-lavender">
+                So we built {PERSONA.name} — an AI that reads a listing the way a guest does, then
+                the way the algorithm does — and paired it with operator judgement. You get the
+                scale of software with the accountability of a person whose name is on the work.
+              </p>
+            </div>
           </div>
         </Reveal>
 

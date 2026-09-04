@@ -1,4 +1,4 @@
-import type { LeadInput } from "../../leads/schema";
+import type { LeadInput } from "../../leads/schema.ts";
 
 /**
  * Spam and abuse controls for the public lead form.

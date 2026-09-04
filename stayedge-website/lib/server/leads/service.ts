@@ -1,4 +1,4 @@
-import "../net";
+import "../net.ts";
 import {
   EMPTY_ATTRIBUTION,
   leadInputSchema,
@@ -10,12 +10,13 @@ import {
   type LeadDelivery,
   type LeadInput,
   type LeadStatus,
-} from "../../leads/schema";
-import { classifyChannel } from "../../leads/attribution";
-import { checkRate, detectAutomation } from "./abuse";
-import { getLeadRepository } from "./index";
-import { notifyTelegram, telegramConfigured } from "./telegram";
-import { forwardToN8n, n8nConfigured, n8nHealth } from "./n8n";
+} from "../../leads/schema.ts";
+import { classifyChannel } from "../../leads/attribution.ts";
+import { checkRate, detectAutomation } from "./abuse.ts";
+import { getLeadRepository } from "./index.ts";
+import { notifyTelegram, telegramConfigured } from "./telegram.ts";
+import { forwardToN8n, n8nConfigured, n8nHealth } from "./n8n.ts";
+import type { NamedIntegrationHealth } from "../../integrations/health.ts";
 
 /**
  * THE LEAD SERVICE — the one place a lead is turned from a form submission into
@@ -207,12 +208,8 @@ function settled(
  * Workflow monitoring
  * ------------------------------------------------------------------ */
 
-export type SinkHealth = {
-  name: string;
-  configured: boolean;
-  reachable: boolean;
-  detail: string;
-};
+/** Alias kept for call-site clarity — see lib/integrations/health.ts. */
+export type SinkHealth = NamedIntegrationHealth;
 
 /**
  * The state of every leg of the pipeline, for the /os Workflow Monitor.

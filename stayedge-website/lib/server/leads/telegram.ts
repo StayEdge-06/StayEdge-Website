@@ -1,5 +1,5 @@
-import { whatsappDigits, type CanonicalLead } from "../../leads/schema";
-import { withRetry, type Attempt } from "./retry";
+import { whatsappDigits, type CanonicalLead } from "../../leads/schema.ts";
+import { withRetry, type Attempt } from "./retry.ts";
 
 /**
  * Telegram notifier — the founder's phone buzzing within seconds of a real

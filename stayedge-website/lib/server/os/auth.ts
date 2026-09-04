@@ -5,7 +5,7 @@ import {
   keyMatches,
   mintToken,
   tokenValid,
-} from "./session-token";
+} from "./session-token.ts";
 
 /**
  * /os authentication — the Next.js binding.
@@ -83,4 +83,4 @@ export async function hasOsSession(): Promise<boolean> {
   return tokenValid(jar.get(COOKIE)?.value, signingSecret());
 }
 
-export { clearThrottle, loginThrottled } from "./session-token";
+export { clearThrottle, loginThrottled } from "./session-token.ts";

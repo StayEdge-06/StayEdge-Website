@@ -1,4 +1,5 @@
-import type { CanonicalLead, LeadDelivery, LeadStatus, Service } from "../../leads/schema";
+import type { CanonicalLead, LeadDelivery, LeadStatus, Service } from "../../leads/schema.ts";
+import type { IntegrationHealth } from "../../integrations/health.ts";
 
 /**
  * The LeadRepository PORT.
@@ -29,14 +30,9 @@ export type LeadListOptions = {
   service?: Service;
 };
 
-export type RepositoryHealth = {
-  /** Credentials/target are present in the environment. */
-  configured: boolean;
-  /** A real round-trip succeeded just now. */
-  reachable: boolean;
-  /** Human-readable, safe to show on the internal dashboard. Never a secret. */
-  detail: string;
-};
+/** Alias kept for call-site clarity — a repository health check is exactly
+ * the shared {@link IntegrationHealth} shape (see lib/integrations/health.ts). */
+export type RepositoryHealth = IntegrationHealth;
 
 export interface LeadRepository {
   /** Stable identifier for the dashboard, e.g. "google-sheets". */

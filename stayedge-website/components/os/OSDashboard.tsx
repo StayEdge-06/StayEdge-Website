@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { LEAD_STATUSES, type CanonicalLead, type LeadStatus } from "@/lib/leads/schema";
+import type { NamedIntegrationHealth } from "@/lib/integrations/health";
 
 /**
  * StayEdge OS — the founder's operations view.
@@ -24,7 +25,10 @@ import { LEAD_STATUSES, type CanonicalLead, type LeadStatus } from "@/lib/leads/
  * is worse off than one looking at an empty tile.
  */
 
-type SinkHealth = { name: string; configured: boolean; reachable: boolean; detail: string };
+/** Wire shape from /api/os/status — the same type the server-side health
+ * checks report in (lib/integrations/health.ts), imported rather than
+ * hand-duplicated so the two can never silently drift apart. */
+type SinkHealth = NamedIntegrationHealth;
 type Notice = { level: "critical" | "warn" | "info"; text: string };
 
 type Status = {

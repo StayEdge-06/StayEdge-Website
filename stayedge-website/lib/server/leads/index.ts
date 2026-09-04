@@ -1,8 +1,8 @@
-import { InMemoryLeadRepository } from "./memory-repository";
-import { GoogleSheetsLeadRepository, sheetsConfigured } from "./sheets-repository";
-import type { LeadRepository } from "./repository";
+import { InMemoryLeadRepository } from "./memory-repository.ts";
+import { GoogleSheetsLeadRepository, sheetsConfigured } from "./sheets-repository.ts";
+import type { LeadRepository } from "./repository.ts";
 
-export type { LeadListOptions, LeadRepository, RepositoryHealth } from "./repository";
+export type { LeadListOptions, LeadRepository, RepositoryHealth } from "./repository.ts";
 
 /**
  * Adapter selection.

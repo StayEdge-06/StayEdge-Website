@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
-import { SCHEMA_VERSION, type CanonicalLead } from "../../leads/schema";
-import { withRetry, type Attempt } from "./retry";
+import { SCHEMA_VERSION, type CanonicalLead } from "../../leads/schema.ts";
+import { withRetry, type Attempt } from "./retry.ts";
+import type { IntegrationHealth } from "../../integrations/health.ts";
 
 /**
  * n8n — the automation plane.
@@ -110,7 +111,7 @@ export async function forwardToN8n(
  * an n8n Webhook node returns 404 to a GET when the workflow is inactive, which
  * is itself the most useful signal this can give.
  */
-export async function n8nHealth(): Promise<{ configured: boolean; reachable: boolean; detail: string }> {
+export async function n8nHealth(): Promise<IntegrationHealth> {
   const url = process.env.N8N_LEAD_WEBHOOK_URL;
   if (!url) return { configured: false, reachable: false, detail: "Set N8N_LEAD_WEBHOOK_URL" };
   try {

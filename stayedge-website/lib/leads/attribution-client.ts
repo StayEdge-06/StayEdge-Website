@@ -2,8 +2,8 @@ import {
   EMPTY_ATTRIBUTION,
   attributionInputSchema,
   type AttributionInput,
-} from "./schema";
-import { isInternalReferrer, readCampaignParams } from "./attribution";
+} from "./schema.ts";
+import { isInternalReferrer, readCampaignParams } from "./attribution.ts";
 
 /**
  * First-touch attribution capture, browser side.

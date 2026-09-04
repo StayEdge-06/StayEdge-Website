@@ -1,4 +1,4 @@
-import type { AttributionInput, Channel } from "./schema";
+import type { AttributionInput, Channel } from "./schema.ts";
 
 /**
  * Source attribution — turning the evidence a browser gives us into one

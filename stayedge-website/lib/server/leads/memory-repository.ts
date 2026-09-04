@@ -4,8 +4,8 @@ import {
   type LeadDelivery,
   type LeadStatus,
   type Service,
-} from "../../leads/schema";
-import type { LeadListOptions, LeadRepository, RepositoryHealth } from "./repository";
+} from "../../leads/schema.ts";
+import type { LeadListOptions, LeadRepository, RepositoryHealth } from "./repository.ts";
 
 /**
  * In-memory adapter — development, tests, and any environment where the Sheets

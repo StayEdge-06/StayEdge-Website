@@ -79,6 +79,7 @@ export const ARTICLES: Article[] = [
           "Airbnb's algorithm also considers booking velocity — how quickly your available nights get booked after they become available. A listing that consistently gets booked within days of opening its calendar signals strong demand, and the algorithm rewards that signal.",
           "This is where pricing directly feeds SEO: a listing priced too high sits unbooked longer, which the algorithm reads as lower demand. The listing then appears less often in search, reducing impressions, which reduces bookings — a downward spiral that starts with a static price.",
           "The practical implication is that rapid response to market signals — adjusting price as soon as nearby events, holidays or competitor changes happen — doesn't just earn revenue; it also earns algorithmic visibility. Listings whose owners review and adjust pricing weekly outperform those whose owners check once a month or less.",
+          "Working through these signals systematically — rather than fixing one and hoping — is what our [[/services/airbnb-seo|Airbnb SEO service]] does for a listing end to end.",
         ],
         checklist: [
           "Track booking velocity: how many days does an available night take to fill?",
@@ -139,6 +140,7 @@ export const ARTICLES: Article[] = [
         h2: "Photo order: walk them through the door",
         paras: [
           "After the opener, sequence photos the way a guest would tour: living space, bedrooms, bathroom, kitchen, then exteriors and neighbourhood. Caption photos with use, not labels — 'Reading corner that gets the evening sun' beats 'Living room'.",
+          "This checklist is the manual version of what our [[/services/airbnb-listing-optimization|Airbnb Listing Optimization service]] does structurally — the same inspection order, applied to your specific listing.",
         ],
       },
       {
@@ -189,6 +191,7 @@ export const ARTICLES: Article[] = [
         h2: "The simplest structure that works",
         paras: [
           "You don't need software to price better than flat. Start with three tiers: a weekday base, a weekend rate meaningfully above it, and event/festival pricing above that. In pilgrimage and event cities, the calendar of demand is largely predictable — price it in advance.",
+          "This is the manual version of what our [[/services/pricing-strategy|Pricing Strategy service]] builds against your specific comp set and calendar.",
         ],
         checklist: [
           "Set a weekday base your occupancy can sustain",
@@ -445,6 +448,7 @@ export const ARTICLES: Article[] = [
         h2: "RevPAR: the number that actually matters",
         paras: [
           "RevPAR — revenue per available night — multiplies ADR by occupancy, folding both into one figure that reflects real earning power across your whole calendar, not just the nights you sold. Two listings with wildly different ADR and occupancy can land on the same RevPAR; that's the fair way to compare them.",
+          "Moving RevPAR deliberately — rather than chasing occupancy or ADR in isolation — is the core of our [[/services/revenue-growth|Revenue Growth service]].",
         ],
         checklist: [
           "Track ADR, occupancy and RevPAR monthly, not just booking count",
@@ -668,6 +672,7 @@ export const ARTICLES: Article[] = [
         h2: "Clear the space before you shoot",
         paras: [
           "Cables, clutter, personal items and half-open cupboards read as neglect even in an otherwise nice room. Ten minutes of tidying before a shoot changes more than most editing does afterward.",
+          "This guide is the self-serve version of our [[/services/photography-guidance|Photography Guidance service]] — a property-specific shot list and staging review instead of a general checklist.",
         ],
         checklist: [
           "Shoot each room from a corner to capture depth, not straight-on which flattens the space",

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Button } from "@/components/ui/Button";
+import Link from "next/link";
 import { ROUTES, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { CITIES, getCity } from "@/lib/content/cities";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -63,6 +64,7 @@ export default async function CityPage({
           eyebrow={`${c.city}, ${c.state}`}
           title={`Airbnb listing optimization in ${c.city}.`}
           center={false}
+          as="h1"
         />
 
         <div className="mx-auto max-w-3xl">
@@ -114,6 +116,14 @@ export default async function CityPage({
               </Button>
             </div>
           </div>
+
+          <p className="mt-8 text-center text-sm text-se-ink-muted">
+            This is the {c.city}-specific market read. See the full{" "}
+            <Link href={ROUTES.listingOptimization} className="text-se-accent underline-offset-4 hover:underline">
+              Airbnb Listing Optimization service
+            </Link>{" "}
+            for how we approach the title, photos and description themselves.
+          </p>
         </div>
       </Section>
       <FinalCTA />

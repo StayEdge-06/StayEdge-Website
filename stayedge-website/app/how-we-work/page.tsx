@@ -71,6 +71,7 @@ export default function HowWeWorkPage() {
           eyebrow="How We Work"
           title="Outcomes first. Pricing after understanding."
           intro="We never quote a property we haven't studied — and you see real value from us before spending a rupee."
+          as="h1"
         />
 
         <RevealGroup className="mx-auto mt-14 max-w-3xl">

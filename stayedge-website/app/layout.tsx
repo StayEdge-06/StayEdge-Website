@@ -40,14 +40,14 @@ import { THEME_COLOR, THEME_INIT_SCRIPT } from "@/lib/theme";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "StayEdge — AI-Powered Airbnb Growth",
+    default: "StayEdge — Airbnb Growth Consultancy for Hosts in India",
     template: "%s · StayEdge",
   },
   description: SITE.descriptor,
   applicationName: "StayEdge",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "StayEdge — AI-Powered Airbnb Growth",
+    title: "StayEdge — Airbnb Growth Consultancy for Hosts in India",
     description: SITE.descriptor,
     url: SITE.url,
     siteName: "StayEdge",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "StayEdge — AI-Powered Airbnb Growth",
+    title: "StayEdge — Airbnb Growth Consultancy for Hosts in India",
     description: SITE.descriptor,
     images: [DEFAULT_OG_IMAGE],
   },

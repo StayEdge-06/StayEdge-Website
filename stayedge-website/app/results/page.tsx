@@ -54,6 +54,7 @@ export default function ResultsPage() {
           eyebrow="Results"
           title="We measure. We don't embellish."
           intro="Every engagement is tracked on the same four numbers, and we only publish case studies our clients approve — with real figures, or not at all."
+          as="h1"
         />
         <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2">
           {METRICS.map((m) => (

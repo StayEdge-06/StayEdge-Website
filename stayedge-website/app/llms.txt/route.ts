@@ -29,7 +29,22 @@ export async function GET() {
   lines.push(
     `- [Free Property Growth Audit](${SITE.url}${ROUTES.freeAudit}): the main entry point — a free review of a host's listing covering listing quality, pricing and search visibility, returned as a prioritised fix list. Delivered by a person, not an automated tool.`,
   );
-  lines.push(`- [What We Do](${SITE.url}${ROUTES.services}): the four service disciplines (listing & Airbnb SEO, pricing & ADR, occupancy & conversion, positioning).`);
+  lines.push(`- [What We Do](${SITE.url}${ROUTES.services}): the six service disciplines below.`);
+  lines.push(
+    `- [Airbnb Listing Optimization](${SITE.url}${ROUTES.listingOptimization}): title, photo order, description and amenities rewritten to convert.`,
+  );
+  lines.push(
+    `- [Airbnb SEO](${SITE.url}${ROUTES.airbnbSeo}): ranking inside Airbnb's own search — response behaviour, completeness, review velocity, calendar accuracy, price competitiveness.`,
+  );
+  lines.push(
+    `- [Pricing Strategy](${SITE.url}${ROUTES.pricingStrategy}): deliberate calendar pricing — weekday/weekend, seasonality, minimum stays, gap nights.`,
+  );
+  lines.push(
+    `- [Revenue Growth](${SITE.url}${ROUTES.revenueGrowth}): occupancy and ADR moved together toward RevPAR, plus positioning and guest-segment targeting.`,
+  );
+  lines.push(
+    `- [Photography Guidance](${SITE.url}${ROUTES.photographyGuidance}): shot list, sequencing and staging guidance for the camera a host already has.`,
+  );
   lines.push(
     `- [AI Property Video](${SITE.url}${ROUTES.aiPropertyVideo}): cinematic AI-produced property video — Instagram Reels, YouTube Shorts, walkthroughs, promotional films and website hero video.`,
   );

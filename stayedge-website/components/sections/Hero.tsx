@@ -32,7 +32,7 @@ export function Hero() {
         </RevealItem>
 
         <RevealItem>
-          <EyebrowTypeOn text="AI-Powered Airbnb Growth" className="mt-5 mb-6" />
+          <EyebrowTypeOn text="Airbnb Growth Consultancy · AI-Powered" className="mt-5 mb-6" />
         </RevealItem>
 
         {/* Cinematic word-by-word reveal (flagship). Explicit display utilities
@@ -46,8 +46,9 @@ export function Hero() {
 
         <RevealItem>
           <p className="mx-auto mt-6 max-w-xl text-balance text-lg text-se-ink-muted">
-            Paste your listing and we&apos;ll show you what&apos;s quietly costing you
-            bookings — free.
+            Strategy plus AI-powered execution for hosts, villas and boutique hotels. Paste
+            your listing and we&apos;ll show you what&apos;s quietly costing you bookings —
+            free.
           </p>
         </RevealItem>
 

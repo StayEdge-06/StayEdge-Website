@@ -71,6 +71,7 @@ export default function WhoWeHelpPage() {
           eyebrow="Who We Help"
           title="The plan changes with the property."
           intro="Find yours. The method is the same — the priorities are not."
+          as="h1"
         />
         <RevealGroup className="mt-14 space-y-6">
           {SEGMENTS.map((s) => (

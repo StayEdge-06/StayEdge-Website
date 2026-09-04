@@ -121,6 +121,12 @@ export default function FreeAuditPage() {
                 </p>
               </RevealItem>
               <RevealItem>
+                <p className="mt-3 max-w-xl text-sm text-se-ink-muted">
+                  For first-time hosts, villa owners, boutique hotels and anyone managing more
+                  than one Airbnb listing across South India.
+                </p>
+              </RevealItem>
+              <RevealItem>
                 <ul className="mt-8 space-y-3 text-se-ink/85">
                   {[
                     "No login, no card, no obligation",

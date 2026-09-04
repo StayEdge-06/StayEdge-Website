@@ -49,6 +49,7 @@ export default function KnowledgePage() {
           eyebrow="Knowledge"
           title="The Airbnb growth library."
           intro="Guides, answers and definitions for hosts — written from real work, no hype."
+          as="h1"
         />
 
         {/* Topic clusters (Authority Engine) */}

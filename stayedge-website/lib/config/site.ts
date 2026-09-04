@@ -27,6 +27,14 @@ export const ROUTES = {
   freeAudit: "/free-audit",
   services: "/services",
   aiPropertyVideo: "/services/ai-property-video",
+  /** Phase 4 — the six-discipline service architecture. Each is a dedicated,
+   * indexable page under /services so commercial intent has somewhere to land
+   * beyond the /services hub. */
+  listingOptimization: "/services/airbnb-listing-optimization",
+  airbnbSeo: "/services/airbnb-seo",
+  pricingStrategy: "/services/pricing-strategy",
+  revenueGrowth: "/services/revenue-growth",
+  photographyGuidance: "/services/photography-guidance",
   lab: "/lab",
   howWeThink: "/how-we-think",
   howWeWork: "/how-we-work",
@@ -80,7 +88,8 @@ export const SITE = {
   tagline: "AIRBNB GROWTH CONSULTING",
   promise:
     "We turn your listing into the smartest-run stay on your street — and prove it in the numbers.",
-  descriptor: "AI-powered Airbnb growth for hosts across South India.",
+  descriptor:
+    "Airbnb growth consultancy for hosts, villas and boutique hotels — AI-powered listing optimization, pricing strategy and Airbnb SEO across South India.",
   /** Canonical production domain (founder decision); env-overridable.
    * Must match the host Vercel actually serves (apex 308-redirects to
    * www) — otherwise every canonical tag, sitemap URL, and JSON-LD @id

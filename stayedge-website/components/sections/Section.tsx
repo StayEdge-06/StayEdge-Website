@@ -38,24 +38,30 @@ export function SectionHeading({
   intro,
   center = true,
   light = false,
+  as: Tag = "h2",
 }: {
   eyebrow: string;
   title: React.ReactNode;
   intro?: React.ReactNode;
   center?: boolean;
   light?: boolean;
+  /** Page-level heading rank — defaults to h2 (a section inside a page that
+   * already has its own h1). Set "h1" on a page's first SectionHeading when
+   * the page has no hero-style h1 elsewhere (accessibility/SEO audit,
+   * Phase 4: every indexable page needs exactly one h1). */
+  as?: "h1" | "h2";
 }) {
   return (
     <Reveal className={cn(center && "text-center", "mx-auto max-w-3xl")}>
       <EyebrowTypeOn text={eyebrow} className="mb-4" />
-      <h2
+      <Tag
         className={cn(
           "se-title text-[clamp(26px,4vw,44px)]",
           light ? "text-se-invert-ink" : "text-se-ink",
         )}
       >
         {title}
-      </h2>
+      </Tag>
       {intro && (
         <p
           className={cn(

@@ -29,13 +29,14 @@ const TOOLS = [
  * homepage redesign plan). On its own dedicated page (/lab) it's the page's
  * one signature moment, so app/lab/page.tsx opts in.
  */
-export function AILabPreview({ tilt = false }: { tilt?: boolean }) {
+export function AILabPreview({ tilt = false, headingAs }: { tilt?: boolean; headingAs?: "h1" | "h2" }) {
   return (
     <Section>
       <SectionHeading
         eyebrow="AI Lab"
         title="A free tool for every weak spot."
         intro="These are in build. Until they land, a Property Growth Audit finds all of them at once — free."
+        as={headingAs}
       />
 
       <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

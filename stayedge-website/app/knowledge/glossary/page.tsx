@@ -40,6 +40,7 @@ export default function GlossaryPage() {
           eyebrow="Knowledge · Glossary"
           title="The host glossary."
           intro="The numbers and terms that decide your revenue — defined in plain language."
+          as="h1"
         />
 
         <Reveal className="mx-auto mt-12 max-w-3xl">

@@ -56,6 +56,7 @@ export default function AboutPage() {
           eyebrow="About StayEdge"
           title="The sharp operator, not the loud guru."
           intro={SITE.promise}
+          as="h1"
         />
 
         <Reveal className="mx-auto mt-12 max-w-4xl">

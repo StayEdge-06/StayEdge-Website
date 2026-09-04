@@ -38,6 +38,7 @@ export default function ContactPage() {
         eyebrow="Contact"
         title="Talk to a person."
         intro="WhatsApp is fastest — you'll get a reply from a real operator, not a queue."
+        as="h1"
       />
 
       <Reveal className="mx-auto mt-12 max-w-xl">

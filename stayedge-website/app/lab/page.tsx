@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 export default function LabPage() {
   return (
     <>
-      <AILabPreview tilt />
+      <AILabPreview tilt headingAs="h1" />
       <FinalCTA />
       <JsonLd schemas={[breadcrumbSchema([{ name: "AI Lab", path: "/lab" }])]} />
     </>

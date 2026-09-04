@@ -268,6 +268,79 @@ export function aiPropertyVideoServiceSchema() {
   };
 }
 
+/** The six-discipline service architecture (Phase 4). Each builder mirrors
+ * aiPropertyVideoServiceSchema's shape so every service page carries a
+ * consistent, real (non-fabricated) Service entity. */
+export function listingOptimizationServiceSchema() {
+  return {
+    "@type": "Service",
+    "@id": `${SITE.url}${ROUTES.listingOptimization}#service`,
+    name: "Airbnb Listing Optimization",
+    url: `${SITE.url}${ROUTES.listingOptimization}`,
+    serviceType: "Airbnb listing optimization",
+    provider: { "@id": ORG_ID },
+    areaServed: { "@type": "Country", name: "India" },
+    description:
+      "A structured review and rewrite of an Airbnb listing's title, photo order, description, amenities and house rules, so it communicates value the moment a guest scrolls past it.",
+  };
+}
+
+export function airbnbSeoServiceSchema() {
+  return {
+    "@type": "Service",
+    "@id": `${SITE.url}${ROUTES.airbnbSeo}#service`,
+    name: "Airbnb SEO",
+    url: `${SITE.url}${ROUTES.airbnbSeo}`,
+    serviceType: "Airbnb search ranking optimization",
+    provider: { "@id": ORG_ID },
+    areaServed: { "@type": "Country", name: "India" },
+    description:
+      "Improving how a listing ranks inside Airbnb's own search — response behaviour, completeness, review velocity, calendar accuracy and price competitiveness — for hosts who want to be found without paying for placement.",
+  };
+}
+
+export function pricingStrategyServiceSchema() {
+  return {
+    "@type": "Service",
+    "@id": `${SITE.url}${ROUTES.pricingStrategy}#service`,
+    name: "Airbnb Pricing Strategy",
+    url: `${SITE.url}${ROUTES.pricingStrategy}`,
+    serviceType: "Dynamic pricing and rate strategy",
+    provider: { "@id": ORG_ID },
+    areaServed: { "@type": "Country", name: "India" },
+    description:
+      "Deliberate calendar pricing — weekday/weekend spread, seasonality, minimum-stay rules and gap-night strategy — set against what comparable listings nearby actually charge.",
+  };
+}
+
+export function revenueGrowthServiceSchema() {
+  return {
+    "@type": "Service",
+    "@id": `${SITE.url}${ROUTES.revenueGrowth}#service`,
+    name: "Airbnb Revenue Growth",
+    url: `${SITE.url}${ROUTES.revenueGrowth}`,
+    serviceType: "Short-term rental revenue management",
+    provider: { "@id": ORG_ID },
+    areaServed: { "@type": "Country", name: "India" },
+    description:
+      "Moving occupancy and ADR together rather than trading one for the other — positioning, guest-segment targeting and a reporting cadence built around RevPAR, not vanity metrics.",
+  };
+}
+
+export function photographyGuidanceServiceSchema() {
+  return {
+    "@type": "Service",
+    "@id": `${SITE.url}${ROUTES.photographyGuidance}#service`,
+    name: "Airbnb Photography Guidance",
+    url: `${SITE.url}${ROUTES.photographyGuidance}`,
+    serviceType: "Property photography consulting",
+    provider: { "@id": ORG_ID },
+    areaServed: { "@type": "Country", name: "India" },
+    description:
+      "A shot list, sequencing and staging review built for the camera a host already has — which photo leads, what order follows, and what to reshoot before the listing goes live.",
+  };
+}
+
 export function breadcrumbSchema(items: { name: string; path: string }[]) {
   return {
     "@type": "BreadcrumbList",

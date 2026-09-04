@@ -105,8 +105,11 @@ export function AnalyticsProvider() {
       if (href.includes("wa.me")) track("whatsapp_click", { href });
       else if (href.startsWith("/free-audit"))
         track("cta_click", { cta: "free_audit", href });
-      else if (href.startsWith("/services/ai-property-video"))
-        track("cta_click", { cta: "ai_property_video", href });
+      else if (href.startsWith("/services/"))
+        // Generic per-service tracking (Phase 4) — covers every dedicated
+        // service page (ai-property-video, airbnb-seo, pricing-strategy, …)
+        // without needing a new branch each time one is added.
+        track("cta_click", { cta: href.replace("/services/", "").replace(/\/$/, "") || "services_hub", href });
     };
     document.addEventListener("click", onClick, {
       capture: true,

@@ -41,8 +41,14 @@ N8N_BRAIN_WEBHOOK_URL=https://stayedge.app.n8n.cloud/webhook/stayedge-web-head
 N8N_LEAD_WEBHOOK_URL=https://stayedge.app.n8n.cloud/webhook/stayedge-web-head
 N8N_METRICS_WEBHOOK_URL=https://stayedge.app.n8n.cloud/webhook/stayedge-web-head
 N8N_WEBHOOK_TOKEN=<the token in Route Input>
-OS_DASHBOARD_KEY=<choose a private key for /os>
+N8N_WEBHOOK_SECRET=<HMAC secret; signs the lead webhook body>
+OS_DASHBOARD_KEY=<>= 16 chars; the /os login key>
+OS_SESSION_SECRET=<optional; signs the /os session cookie>
 ```
+
+Phase 3 note: `/os` no longer takes `?key=`. The key is typed once at
+`/os/login` and exchanged for an httpOnly session cookie (12 hours). A key
+shorter than 16 characters is treated as unconfigured and `/os` 404s.
 
 ## Reliability layer (added 2026-07-18)
 

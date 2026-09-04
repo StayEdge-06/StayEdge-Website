@@ -13,6 +13,7 @@ import {
   CLARITY_ID,
 } from "@/lib/analytics";
 import { readPassport, isReturning } from "@/lib/ai/memory";
+import { captureAttribution } from "@/lib/leads/attribution-client";
 
 /**
  * Site-wide measurement, consent-first.
@@ -70,6 +71,13 @@ export function AnalyticsProvider() {
   // ── Initialisation effect ─────────────────────────────────────────────
   // Declared FIRST so it runs before the route-change effect above.
   useEffect(() => {
+    // First-touch attribution, captured before anything else can navigate away
+    // from the landing URL. Deliberately OUTSIDE the consent gate and above the
+    // consent check: it writes to the visitor's own sessionStorage and sends
+    // nothing anywhere unless they later submit a form. See
+    // lib/leads/attribution-client.ts for the full reasoning.
+    captureAttribution();
+
     const hasIds = Boolean(GA_ID || CLARITY_ID);
     const consent = getConsent();
     if (consent === "granted") {

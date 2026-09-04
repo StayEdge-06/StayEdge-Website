@@ -10,6 +10,8 @@ import { track } from "@/lib/analytics";
 import { rememberLead } from "@/lib/ai/memory";
 import { CONTACT, WHATSAPP_URL } from "@/lib/config/site";
 import { cn } from "@/lib/utils";
+import { PROPERTY_TYPES, leadInputSchema, type LeadInput } from "@/lib/leads/schema";
+import { currentAttribution } from "@/lib/leads/attribution-client";
 
 /**
  * The site's only lead form. Two variants share one component so the CRM
@@ -19,16 +21,15 @@ import { cn } from "@/lib/utils";
  * Progressive by design: name + phone are the only required fields, because
  * every extra required field on an Indian mobile form costs completions. The
  * rest is optional context that makes the first reply better.
+ *
+ * VALIDATION IS THE SAME CODE ON BOTH SIDES. The form parses the submission
+ * with `leadInputSchema` — the exact schema the API route enforces — before it
+ * sends anything. That is what makes the client checks safe to trust as UX and
+ * impossible to trust as security: a visitor gets an instant, specific error
+ * with no round trip, and the server re-runs the identical parse on input it
+ * never assumes came from this form. The two can't drift, because there is only
+ * one schema.
  */
-export const PROPERTY_TYPES = [
-  "Apartment",
-  "Villa",
-  "Homestay",
-  "Boutique hotel",
-  "Serviced apartment",
-  "Other",
-] as const;
-
 type Variant = "audit" | "video";
 
 type State = "idle" | "sending" | "done" | "error";
@@ -68,9 +69,21 @@ export function LeadForm({
   const [state, setState] = useState<State>("idle");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [message, setMessage] = useState("");
+  const [leadId, setLeadId] = useState("");
   const startedRef = useRef(false);
   const renderedAtRef = useRef(0);
   const listingRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  /**
+   * Hard guard against a second submission of the same lead.
+   *
+   * The disabled button and the `state === "sending"` check both depend on a
+   * React render having happened. A double-tap on a slow phone, or Enter held
+   * down in the last field, can fire two submit events inside one frame — this
+   * ref is set synchronously in the handler, so the second one never reaches
+   * the network. It is cleared only on a failure the visitor can retry.
+   */
+  const inFlightRef = useRef(false);
 
   // Both are client-only on purpose. A server-rendered timestamp would be the
   // build time on a static page, which would fail the time-to-fill check for
@@ -96,31 +109,63 @@ export function LeadForm({
     if (variant === "audit") track("audit_form_start", { service: copy.service });
   }
 
+  /** Put the caret on the first thing the visitor has to fix. */
+  function focusFirstError(errors: Record<string, string>) {
+    const first = Object.keys(errors)[0];
+    if (!first) return;
+    const el = formRef.current?.querySelector<HTMLElement>(`[name="${first}"]`);
+    el?.focus();
+    el?.scrollIntoView({ block: "center", behavior: "smooth" });
+  }
+
+  function fail(reason: string, text: string, errors: Record<string, string> = {}) {
+    inFlightRef.current = false;
+    setFieldErrors(errors);
+    setMessage(text);
+    setState("error");
+    track("form_error", { service: copy.service, reason });
+    if (Object.keys(errors).length) focusFirstError(errors);
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (state === "sending") return;
-    setState("sending");
+    if (inFlightRef.current) return;
+    inFlightRef.current = true;
+
     setFieldErrors({});
     setMessage("");
 
     const fd = new FormData(e.currentTarget);
-    const payload = {
+    const raw = {
       name: String(fd.get("name") ?? ""),
       phone: String(fd.get("phone") ?? ""),
       email: String(fd.get("email") ?? ""),
       whatsapp: String(fd.get("whatsapp") ?? ""),
       city: String(fd.get("city") ?? ""),
-      propertyType: (String(fd.get("propertyType") ?? "") || undefined) as
-        | (typeof PROPERTY_TYPES)[number]
-        | undefined,
+      propertyType: String(fd.get("propertyType") ?? "") || undefined,
       listingUrl: String(fd.get("listingUrl") ?? ""),
       message: String(fd.get("message") ?? ""),
       service: copy.service,
-      source: pathname ?? "/",
+      attribution: currentAttribution(pathname ?? "/"),
       hp: String(fd.get("company") ?? ""),
       renderedAt: renderedAtRef.current,
     };
 
+    // Client-side pass with the server's own schema: instant, specific errors
+    // and one less pointless round trip. The server re-validates regardless.
+    const parsed = leadInputSchema.safeParse(raw);
+    if (!parsed.success) {
+      const errors: Record<string, string> = {};
+      for (const issue of parsed.error.issues) {
+        const key = issue.path[0];
+        if (typeof key === "string" && !errors[key]) errors[key] = issue.message;
+      }
+      fail("client_validation", "Please check the highlighted fields.", errors);
+      return;
+    }
+    const payload: LeadInput = parsed.data;
+
+    setState("sending");
     track(variant === "audit" ? "audit_form_submit" : "video_form_submit", {
       service: copy.service,
     });
@@ -130,22 +175,44 @@ export function LeadForm({
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(payload),
+        // A request that never comes back leaves the visitor staring at
+        // "Sending…" forever; 20s is past any realistic cold start.
+        signal: AbortSignal.timeout(20_000),
       });
-      const json = (await res.json()) as {
-        ok: boolean;
+
+      // A non-JSON body means something upstream answered instead of the route
+      // (a proxy error page, an outage splash). Treated as a server failure
+      // rather than crashing on the parse.
+      let json: {
+        ok?: boolean;
+        id?: string | null;
         error?: string;
         fields?: Record<string, string>;
       };
+      try {
+        json = await res.json();
+      } catch {
+        fail("bad_response", "Something went wrong on our side. WhatsApp us and we'll pick it up there.");
+        return;
+      }
 
-      if (!json.ok) {
-        if (json.fields) setFieldErrors(json.fields);
-        setMessage(
-          json.error === "rate_limited"
-            ? "That's a few requests in a short time. Give it ten minutes, or just WhatsApp us."
-            : "Please check the highlighted fields and try again.",
+      if (!res.ok || !json.ok) {
+        if (json.error === "rate_limited") {
+          const wait = Number(res.headers.get("retry-after"));
+          const mins = Number.isFinite(wait) && wait > 0 ? Math.ceil(wait / 60) : 10;
+          fail(
+            "rate_limited",
+            `That's a few requests in a short time. Try again in about ${mins} minute${mins === 1 ? "" : "s"}, or just WhatsApp us.`,
+          );
+          return;
+        }
+        fail(
+          json.error ?? "server",
+          json.fields
+            ? "Please check the highlighted fields and try again."
+            : "We couldn't record that just now. WhatsApp us and we'll pick it up there.",
+          json.fields ?? {},
         );
-        setState("error");
-        track("form_error", { service: copy.service, reason: json.error ?? "invalid" });
         return;
       }
 
@@ -155,20 +222,24 @@ export function LeadForm({
       track(variant === "audit" ? "audit_lead_captured" : "video_lead_captured", {
         service: copy.service,
       });
+      setLeadId(json.id ?? "");
+      // inFlightRef stays true: this form is finished and unmounts next render.
       setState("done");
-    } catch {
-      setMessage("Something went wrong on our side. WhatsApp us and we'll pick it up there.");
-      setState("error");
-      track("form_error", { service: copy.service, reason: "network" });
+    } catch (err) {
+      fail(
+        err instanceof Error && err.name === "TimeoutError" ? "timeout" : "network",
+        "That didn't get through — check your connection, or WhatsApp us and we'll pick it up there.",
+      );
     }
   }
 
   if (state === "done") {
-    return <LeadFormSuccess copy={copy} className={className} />;
+    return <LeadFormSuccess copy={copy} leadId={leadId} className={className} />;
   }
 
   return (
     <form
+      ref={formRef}
       onSubmit={handleSubmit}
       onInput={handleFirstInput}
       noValidate
@@ -290,9 +361,12 @@ export function LeadForm({
  */
 function LeadFormSuccess({
   copy,
+  leadId,
   className,
 }: {
   copy: (typeof COPY)[Variant];
+  /** Shown so the visitor has something concrete to quote back to us. */
+  leadId?: string;
   className?: string;
 }) {
   const reduce = useReducedMotion();
@@ -364,6 +438,11 @@ function LeadFormSuccess({
       <motion.p className="mt-4 text-xs text-se-ink-muted" {...step(0.34)}>
         Prefer email? {CONTACT.email}
       </motion.p>
+      {leadId && (
+        <motion.p className="mt-2 text-xs text-se-ink-muted/70" {...step(0.38)}>
+          Reference <span className="font-mono">{leadId}</span>
+        </motion.p>
+      )}
     </motion.div>
   );
 }

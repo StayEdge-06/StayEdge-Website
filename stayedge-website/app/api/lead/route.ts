@@ -1,22 +1,24 @@
 import { NextResponse } from "next/server";
-import {
-  clientIp,
-  deliverLead,
-  isDuplicate,
-  leadSchema,
-  looksAutomated,
-  rateLimited,
-} from "@/lib/server/leads";
+import { clientIp } from "@/lib/server/leads/abuse";
+import { submitLead } from "@/lib/server/leads/service";
 
 /**
- * The one lead endpoint. Every form on the site (Free Property Growth Audit,
- * AI Property Video) posts here; `lib/server/leads.ts` owns validation, spam
- * control and the delivery fan-out to Sheets / Telegram / n8n.
+ * The one lead endpoint. Every form on the site posts here.
  *
- * Response contract: `ok` means "we accepted your lead and it is recorded
- * somewhere we will see it". `delivered` reports which sinks took it, so the
- * /os dashboard and the client can tell a wiring problem from a spam block
- * without exposing that detail to the visitor.
+ * This file is deliberately thin: it speaks HTTP (status codes, headers, JSON)
+ * and nothing else. Validation, spam control, duplicate detection, storage and
+ * notification all live in the lead service, so the same rules apply no matter
+ * what calls them — a future server action, an admin re-submit, or a test.
+ *
+ * RESPONSE CONTRACT
+ *   200 { ok: true, id, duplicate, delivered }  accepted (delivered is per-sink)
+ *   200 { ok: true, id: null, delivered: null } silently discarded as automated
+ *   400 { ok: false, error: "invalid", fields } field-level validation messages
+ *   429 { ok: false, error: "rate_limited" }    with a Retry-After header
+ *
+ * WHY BOTS GET A 200: a spammer who receives a 4xx simply retries with the trap
+ * field removed. A silent 200 teaches them nothing and costs a false positive
+ * nothing visible either.
  *
  * Node runtime (not edge): the Sheets service-account JWT is signed with
  * node:crypto.
@@ -32,36 +34,40 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
   }
 
-  const parsed = leadSchema.safeParse(body);
-  if (!parsed.success) {
-    // Field-level messages so the form can point at the offending input rather
-    // than showing one generic failure.
-    const fields: Record<string, string> = {};
-    for (const issue of parsed.error.issues) {
-      const key = issue.path[0];
-      if (typeof key === "string" && !fields[key]) fields[key] = issue.message;
-    }
-    return NextResponse.json({ ok: false, error: "invalid", fields }, { status: 400 });
+  const result = await submitLead(body, {
+    ip: clientIp(req),
+    fallbackPath: new URL(req.url).pathname,
+  });
+
+  switch (result.outcome) {
+    case "invalid":
+      return NextResponse.json(
+        { ok: false, error: "invalid", fields: result.fieldErrors },
+        { status: 400 },
+      );
+
+    case "rate_limited":
+      return NextResponse.json(
+        { ok: false, error: "rate_limited" },
+        {
+          status: 429,
+          headers: { "retry-after": String(result.retryAfterSeconds) },
+        },
+      );
+
+    case "discarded":
+      // The signal that caught it is never returned — it would tell a bot
+      // exactly which check to defeat next.
+      return NextResponse.json({ ok: true, id: null, delivered: null });
+
+    case "accepted":
+      return NextResponse.json({
+        ok: true,
+        // The lead id is safe to return and genuinely useful: the founder can
+        // ask a host to quote it, and the success screen can show it.
+        id: result.lead.id,
+        duplicate: result.duplicate,
+        delivered: result.lead.delivery,
+      });
   }
-
-  const lead = parsed.data;
-
-  // Silent success for bots: a spammer that gets a 4xx just retries with the
-  // trap field removed, while a false positive on a real host would look like
-  // a broken site. Nothing is delivered either way.
-  if (looksAutomated(lead)) {
-    return NextResponse.json({ ok: true, delivered: null });
-  }
-
-  if (rateLimited(clientIp(req))) {
-    return NextResponse.json(
-      { ok: false, error: "rate_limited" },
-      { status: 429, headers: { "retry-after": "600" } },
-    );
-  }
-
-  const duplicate = isDuplicate(lead);
-  const delivered = await deliverLead(lead, duplicate);
-
-  return NextResponse.json({ ok: true, duplicate, delivered });
 }

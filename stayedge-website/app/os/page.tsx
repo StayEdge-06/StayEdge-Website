@@ -1,26 +1,24 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { OSDashboard } from "@/components/os/OSDashboard";
+import { hasOsSession, osConfigured } from "@/lib/server/os/auth";
 
 export const metadata: Metadata = {
   title: "StayEdge OS",
-  robots: { index: false, follow: false },
+  robots: { index: false, follow: false, nocache: true },
 };
 
 export const dynamic = "force-dynamic";
 
 /**
- * Internal CEO dashboard (founder-only). Token-gated: /os?key=<OS_DASHBOARD_KEY>.
- * Wrong or missing key renders 404 so the surface is invisible from outside.
+ * Internal operations dashboard (founder-only).
+ *
+ * Gate order matters: an unconfigured deployment 404s, so /os does not exist at
+ * all; a configured one without a session redirects to the sign-in page. The
+ * Phase 1 `?key=` scheme is gone — see lib/server/os/auth.ts for why.
  */
-export default async function OSPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ key?: string }>;
-}) {
-  const { key } = await searchParams;
-  const expected = process.env.OS_DASHBOARD_KEY;
-  if (!expected || key !== expected) notFound();
-
-  return <OSDashboard dashKey={key!} />;
+export default async function OSPage() {
+  if (!osConfigured()) notFound();
+  if (!(await hasOsSession())) redirect("/os/login");
+  return <OSDashboard />;
 }

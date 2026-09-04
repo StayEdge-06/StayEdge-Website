@@ -21,7 +21,7 @@ export function Section({
     ground === "deep"
       ? "bg-se-ground-2"
       : ground === "light"
-        ? "bg-se-offwhite text-se-charcoal"
+        ? "bg-se-invert-ground text-se-invert-ink"
         : "bg-se-ground";
   return (
     <section id={id} className={cn("relative", bg)}>
@@ -51,7 +51,7 @@ export function SectionHeading({
       <h2
         className={cn(
           "se-title text-[clamp(26px,4vw,44px)]",
-          light ? "text-se-charcoal" : "text-se-offwhite",
+          light ? "text-se-invert-ink" : "text-se-ink",
         )}
       >
         {title}
@@ -60,7 +60,7 @@ export function SectionHeading({
         <p
           className={cn(
             "mt-4 text-lg",
-            light ? "text-se-charcoal/70" : "text-se-grey-lavender",
+            light ? "text-se-invert-ink/70" : "text-se-ink-muted",
           )}
         >
           {intro}

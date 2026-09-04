@@ -70,7 +70,7 @@ export function RevenueOpportunity() {
       />
 
       <Reveal className="mx-auto mt-12 max-w-3xl">
-        <div className="grid gap-8 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-charcoal p-6 md:grid-cols-2 md:p-8">
+        <div className="grid gap-8 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-surface p-6 md:grid-cols-2 md:p-8">
           <div className="space-y-6">
             <Field label="Your nightly rate" value={inr(rate)}>
               <input type="range" min={1000} max={20000} step={100} value={rate}
@@ -85,7 +85,7 @@ export function RevenueOpportunity() {
             <Field label="If occupancy rose by" value={`${lift} points`}>
               <input type="range" min={3} max={30} value={lift}
                 onChange={(e) => setLift(Number(e.target.value))}
-                aria-label="Occupancy lift" className="w-full cursor-pointer accent-[var(--se-lavender)]" />
+                aria-label="Occupancy lift" className="w-full cursor-pointer accent-[var(--se-accent)]" />
             </Field>
           </div>
 
@@ -97,7 +97,7 @@ export function RevenueOpportunity() {
             >
               +{inr(gap)}
             </p>
-            <p className="mt-2 text-sm text-se-grey-lavender">
+            <p className="mt-2 text-sm text-se-ink-muted">
               {inr(current)} → {inr(improved)} per month
             </p>
             <div className="mt-6">
@@ -105,7 +105,7 @@ export function RevenueOpportunity() {
                 Find my real gaps
               </Button>
             </div>
-            <p className="mt-3 text-xs text-se-grey-lavender">
+            <p className="mt-3 text-xs text-se-ink-muted">
               Illustrative only — based on the numbers you entered.
             </p>
           </div>
@@ -127,8 +127,8 @@ function Field({
   return (
     <div>
       <div className="flex items-baseline justify-between">
-        <span className="text-sm text-se-grey-lavender">{label}</span>
-        <span className="se-num text-se-offwhite">{value}</span>
+        <span className="text-sm text-se-ink-muted">{label}</span>
+        <span className="se-num text-se-ink">{value}</span>
       </div>
       <div className="mt-2">{children}</div>
     </div>

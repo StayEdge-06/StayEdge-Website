@@ -48,7 +48,7 @@ export function BeforeAfter() {
 
           {/* 18° seam */}
           <div
-            className="pointer-events-none absolute inset-y-0 w-[2px] bg-se-lavender"
+            className="pointer-events-none absolute inset-y-0 w-[2px] bg-se-accent"
             style={{ left: `${pos}%`, transform: "skewX(-18deg)" }}
           />
         </div>
@@ -79,16 +79,16 @@ function ListingCard({
 }) {
   const isAfter = variant === "after";
   return (
-    <div className={isAfter ? "bg-se-ground-2" : "bg-se-charcoal"}>
+    <div className={isAfter ? "bg-se-ground-2" : "bg-se-surface"}>
       <div className="p-6 md:p-8">
         <span className="se-eyebrow" style={{ color: isAfter ? "var(--se-positive)" : "var(--se-negative)" }}>
           {isAfter ? "After" : "Before"}
         </span>
-        <h3 className="mt-3 min-h-[3.5rem] font-body text-lg font-bold text-se-offwhite">
+        <h3 className="mt-3 min-h-[3.5rem] font-body text-lg font-bold text-se-ink">
           {data.title}
         </h3>
-        <p className="se-num mt-2 text-se-lavender">{data.price}</p>
-        <p className="mt-4 border-t border-[var(--se-line)] pt-4 text-sm text-se-grey-lavender">
+        <p className="se-num mt-2 text-se-accent">{data.price}</p>
+        <p className="mt-4 border-t border-[var(--se-line)] pt-4 text-sm text-se-ink-muted">
           {data.note}
         </p>
       </div>

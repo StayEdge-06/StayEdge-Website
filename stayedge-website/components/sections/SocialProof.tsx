@@ -37,8 +37,8 @@ export function SocialProof() {
         {SIGNALS.map((s) => (
           <RevealItem key={s.title}>
             <div className="h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6">
-              <h3 className="font-body text-lg font-bold text-se-offwhite">{s.title}</h3>
-              <p className="mt-2 text-se-grey-lavender">{s.body}</p>
+              <h3 className="font-body text-lg font-bold text-se-ink">{s.title}</h3>
+              <p className="mt-2 text-se-ink-muted">{s.body}</p>
             </div>
           </RevealItem>
         ))}
@@ -49,20 +49,20 @@ export function SocialProof() {
         <div className="mx-auto mt-8 flex max-w-2xl flex-col gap-5 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 sm:flex-row sm:items-center md:p-8">
           <div
             aria-hidden
-            className="grid h-16 w-16 shrink-0 place-items-center rounded-full text-xl font-bold text-se-offwhite"
+            className="grid h-16 w-16 shrink-0 place-items-center rounded-full text-xl font-bold text-se-ink"
             style={{ background: "linear-gradient(135deg, var(--se-purple), var(--se-lavender))" }}
           >
             {CONTACT.founder.split(" ").map((n) => n[0]).join("")}
           </div>
           <div>
-            <p className="font-body font-bold text-se-offwhite">
+            <p className="font-body font-bold text-se-ink">
               {CONTACT.founder} · Founder, {CONTACT.location.split(",")[0]}
             </p>
-            <blockquote className="mt-2 font-editorial italic text-se-offwhite/90">
+            <blockquote className="mt-2 font-editorial italic text-se-ink/90">
               &ldquo;We turn your listing into the smartest-run stay on your street — and prove
               it in the numbers.&rdquo;
             </blockquote>
-            <p className="mt-2 text-sm text-se-grey-lavender">
+            <p className="mt-2 text-sm text-se-ink-muted">
               Your audit is read and replied to by me — not a queue.
             </p>
           </div>

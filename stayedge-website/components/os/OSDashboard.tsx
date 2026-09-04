@@ -69,10 +69,10 @@ export function OSDashboard({ dashKey }: { dashKey: string }) {
     <div className="mx-auto max-w-[1100px] px-5 py-14 md:px-8">
       <p className="se-eyebrow mb-2">StayEdge OS</p>
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h1 className="se-title text-[clamp(24px,4vw,38px)] text-se-offwhite">
+        <h1 className="se-title text-[clamp(24px,4vw,38px)] text-se-ink">
           The acquisition machine, live.
         </h1>
-        <p className="text-xs text-se-grey-lavender">
+        <p className="text-xs text-se-ink-muted">
           {error
             ? "Status unreachable — retrying"
             : updatedAt
@@ -141,8 +141,8 @@ export function OSDashboard({ dashKey }: { dashKey: string }) {
         <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
           {METRIC_TILES.map((m) => (
             <div key={m.key} className="rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-4">
-              <p className="text-xs text-se-grey-lavender">{m.label}</p>
-              <p className="se-num mt-1 text-2xl text-se-offwhite">
+              <p className="text-xs text-se-ink-muted">{m.label}</p>
+              <p className="se-num mt-1 text-2xl text-se-ink">
                 {String(status.metrics?.[m.key] ?? "—")}
               </p>
             </div>
@@ -150,10 +150,10 @@ export function OSDashboard({ dashKey }: { dashKey: string }) {
         </div>
       ) : (
         <div className="rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6">
-          <p className="text-se-offwhite">
+          <p className="text-se-ink">
             Metrics flow from the OS (single source of truth — the CRM sheet via n8n).
           </p>
-          <p className="mt-1 text-sm text-se-grey-lavender">
+          <p className="mt-1 text-sm text-se-ink-muted">
             Set N8N_METRICS_WEBHOOK_URL once the WEB-HEAD workflow is live. No numbers are
             invented in the meantime.
           </p>
@@ -162,7 +162,7 @@ export function OSDashboard({ dashKey }: { dashKey: string }) {
 
       {/* Founder tasks — the human queue */}
       <h2 className="se-eyebrow mt-10 mb-3">Founder queue</h2>
-      <ul className="space-y-2 text-sm text-se-offwhite/85">
+      <ul className="space-y-2 text-sm text-se-ink/85">
         <li className="rounded-lg border border-[var(--se-line)] bg-se-ground-2 p-3">
           Approve outreach: new website leads arrive on Telegram — open the listing link and
           run the Property Growth Audit, then reply on WhatsApp.
@@ -189,18 +189,18 @@ function HealthTile({
       ? "var(--se-positive)"
       : state === "down"
         ? "var(--se-negative)"
-        : "var(--se-grey-lavender)";
+        : "var(--se-ink-muted)";
   const text = state === "ok" ? "Healthy" : state === "down" ? "Unreachable" : state === "off" ? "Not connected" : "…";
   return (
     <div className="rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-4">
       <div className="flex items-center justify-between">
-        <p className="font-body font-bold text-se-offwhite">{label}</p>
+        <p className="font-body font-bold text-se-ink">{label}</p>
         <span aria-hidden className="h-2.5 w-2.5 rounded-full" style={{ background: color }} />
       </div>
       <p className="mt-1 text-xs" style={{ color }}>
         {text}
       </p>
-      <p className="mt-1 text-xs text-se-grey-lavender">{detail}</p>
+      <p className="mt-1 text-xs text-se-ink-muted">{detail}</p>
     </div>
   );
 }

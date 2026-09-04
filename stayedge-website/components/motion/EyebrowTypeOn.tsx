@@ -56,7 +56,7 @@ export function EyebrowTypeOn({
       <span
         ref={spanRef}
         data-typing="false"
-        className="relative inline-block w-0 overflow-hidden whitespace-nowrap align-bottom after:absolute after:right-0 after:top-0 after:h-full after:w-[2px] after:bg-se-lavender after:opacity-0 after:content-[''] data-[typing=true]:after:animate-[se-cue-caret_0.8s_steps(2)_infinite] data-[typing=true]:after:opacity-100"
+        className="relative inline-block w-0 overflow-hidden whitespace-nowrap align-bottom after:absolute after:right-0 after:top-0 after:h-full after:w-[2px] after:bg-se-accent after:opacity-0 after:content-[''] data-[typing=true]:after:animate-[se-cue-caret_0.8s_steps(2)_infinite] data-[typing=true]:after:opacity-100"
       >
         {text}
       </span>

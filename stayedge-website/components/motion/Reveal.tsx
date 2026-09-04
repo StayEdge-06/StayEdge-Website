@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { EASE_EDGE } from "@/lib/motion/ease";
 import { cn } from "@/lib/utils";
 
 /**
@@ -8,7 +9,6 @@ import { cn } from "@/lib/utils";
  * short vertical offset once on viewport entry. Respects reduced-motion by
  * rendering statically. Content is always in the DOM (SEO/crawler-safe).
  */
-const EASE_EDGE = [0.2, 0.8, 0.2, 1] as const;
 
 export function Reveal({
   children,
@@ -60,12 +60,20 @@ const itemVariants: Variants = {
 export function RevealGroup({
   children,
   className,
+  // data-* passes straight through to the rendered element in both the reduced
+  // and animated branches — card grids mark themselves `data-vira-avoid` here.
+  ...rest
 }: {
   children: React.ReactNode;
   className?: string;
-}) {
+} & Record<`data-${string}`, string | boolean | undefined>) {
   const reduce = useReducedMotion();
-  if (reduce) return <div className={className}>{children}</div>;
+  if (reduce)
+    return (
+      <div className={className} {...rest}>
+        {children}
+      </div>
+    );
   return (
     <motion.div
       className={className}
@@ -73,6 +81,7 @@ export function RevealGroup({
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-8% 0px" }}
+      {...rest}
     >
       {children}
     </motion.div>

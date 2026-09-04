@@ -29,12 +29,12 @@ export function VideoService() {
             <p className="se-eyebrow">AI Property Video</p>
           </RevealItem>
           <RevealItem>
-            <h2 className="mt-3 se-title text-3xl leading-[1.15] text-se-offwhite md:text-[42px]">
+            <h2 className="mt-3 se-title text-3xl leading-[1.15] text-se-ink md:text-[42px]">
               Your property, filmed the way it deserves.
             </h2>
           </RevealItem>
           <RevealItem>
-            <p className="mt-5 max-w-lg text-lg text-se-grey-lavender">
+            <p className="mt-5 max-w-lg text-lg text-se-ink-muted">
               Cinematic video produced with AI from the photos and clips you already have.
               No shoot, no crew, no travel days — you receive finished files, sized and
               captioned for where they&apos;re going.
@@ -47,7 +47,7 @@ export function VideoService() {
               </Button>
               <Link
                 href={CTA.video.href}
-                className="text-sm text-se-lavender underline-offset-4 hover:underline"
+                className="text-sm text-se-accent underline-offset-4 hover:underline"
               >
                 See the formats →
               </Link>
@@ -60,7 +60,7 @@ export function VideoService() {
             {FORMATS.map((f) => (
               <li
                 key={f}
-                className="se-edge-strip rounded-[var(--se-radius-md)] border border-[var(--se-line)] bg-se-charcoal px-5 py-4 pl-6 text-sm text-se-offwhite/85"
+                className="se-edge-strip rounded-[var(--se-radius-md)] border border-[var(--se-line)] bg-se-surface px-5 py-4 pl-6 text-sm text-se-ink/85"
               >
                 {f}
               </li>

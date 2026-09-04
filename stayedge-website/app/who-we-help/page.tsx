@@ -79,9 +79,9 @@ export default function WhoWeHelpPage() {
                 id={s.id}
                 className="se-edge-strip block scroll-mt-24 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 pl-7 md:p-8 md:pl-9"
               >
-                <h2 className="font-body text-xl font-bold text-se-offwhite">{s.title}</h2>
-                <p className="mt-2 font-editorial italic text-se-grey-lavender">{s.pain}</p>
-                <p className="mt-3 text-se-offwhite/85">{s.how}</p>
+                <h2 className="font-body text-xl font-bold text-se-ink">{s.title}</h2>
+                <p className="mt-2 font-editorial italic text-se-ink-muted">{s.pain}</p>
+                <p className="mt-3 text-se-ink/85">{s.how}</p>
                 <div className="mt-5">
                   <Button href={ROUTES.freeAudit} variant="secondary" size="md">
                     {s.cta}

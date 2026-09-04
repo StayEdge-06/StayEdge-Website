@@ -4,14 +4,51 @@
    NOT a second brand. Every value here derives from the brand tokens in
    brand-tokens.css (the synced source of truth). No new colours are
    introduced; depth is built from the brand's own purples and light.
+
+   V2 — THEME LAYER (Phase 2)
+   ------------------------------------------------------------
+   brand-tokens.css holds the LITERAL brand colours. They never change.
+   This file holds the SEMANTIC roles those colours play in the UI —
+   ink, ground, surface, line, accent — and it is the only layer that
+   swaps between themes.
+
+   The rule that keeps this maintainable: components address roles
+   (text-se-ink, bg-se-surface), never literals (text-se-offwhite). A
+   component that names a literal is locked to one theme by definition.
+
+   Dark is the default and the brand's home register (Brand Book: "Rich
+   Charcoal ground, never pure black"). Light is an explicit, remembered
+   user choice — the site does not auto-flip on prefers-color-scheme,
+   because the identity, the purple glow and the 3D scenes are all
+   composed for the dark ground.
    ============================================================ */
 :root {
-  /* Grounds (dark-first, from brand supporting purples) */
+  /* ── Ink (foreground) ───────────────────────────────────── */
+  --se-ink: var(--se-offwhite);
+  --se-ink-muted: var(--se-grey-lavender);
+  /* The accent that carries small text — eyebrows, links, numerals. */
+  --se-accent: var(--se-lavender);
+  /* Ink for anything sitting ON a purple fill (primary/secondary CTAs, the
+     consent Allow button, Vira's CTA). Deliberately does NOT flip with the
+     theme and is NOT overridden in the light block: Primary Purple and Deep
+     Purple are brand constants, so off-white is the only ink that clears
+     contrast on them. Using --se-ink here put charcoal text on a purple pill
+     the moment the light theme shipped. */
+  --se-on-accent: var(--se-offwhite);
+
+  /* ── Grounds (dark-first, from brand supporting purples) ── */
   --se-ground: var(--se-charcoal);
   --se-ground-2: var(--se-dark-plum);
   --se-ground-3: var(--se-deep-purple);
+  /* Card/panel surface that sits ON a ground. */
+  --se-surface: var(--se-charcoal);
 
-  /* Lines & light — derived from brand colours via color-mix, never new hex */
+  /* Inversion band — a section that flips the page's contrast to punctuate
+     the scroll. On dark it reads as light; on light it reads as dark. */
+  --se-invert-ground: var(--se-offwhite);
+  --se-invert-ink: var(--se-charcoal);
+
+  /* ── Lines & light — derived via color-mix, never new hex ─ */
   --se-line: color-mix(in srgb, var(--se-lavender) 16%, transparent);
   --se-line-strong: color-mix(in srgb, var(--se-lavender) 32%, transparent);
   --se-glow: color-mix(in srgb, var(--se-purple) 35%, transparent); /* purple light, never neon */
@@ -19,14 +56,29 @@
   --se-scrim: color-mix(in srgb, var(--se-charcoal) 82%, transparent);
   --se-focus: var(--se-lavender);
 
-  /* Glass (charcoal/lavender tint — never frosted white) */
+  /* ── Glass (charcoal/lavender tint — never frosted white) ─ */
   --se-glass-dark: color-mix(in srgb, var(--se-charcoal) 68%, transparent);
   --se-glass-light: color-mix(in srgb, var(--se-offwhite) 68%, transparent);
+  /* The glass the .se-glass primitive actually paints — role, not literal. */
+  --se-glass-bg: var(--se-glass-dark);
   --se-glass-blur: 16px;
 
-  /* Radii */
+  /* Semantic status, contrast-corrected per theme. The brand values in
+     brand-tokens.css are tuned for the dark ground and stay untouched. */
+  --se-positive-ink: var(--se-positive);
+  --se-negative-ink: var(--se-negative);
+
+  /* The header's condensed glass, and the 3D scene's clear colour. */
+  --se-header-bg: color-mix(in srgb, var(--se-charcoal) 92%, transparent);
+  --se-scene-fog: var(--se-charcoal);
+
+  /* ── Non-themed constants ────────────────────────────────── */
+  /* Radii. --se-radius-md is the input/pill radius components actually
+     reference; it matches the brand token file's card radius so a form field
+     and a card share one corner. (It was previously named --se-radius-input
+     and therefore resolved to nothing, silently squaring every input.) */
   --se-radius-pill: 999px;
-  --se-radius-input: 10px;
+  --se-radius-md: var(--se-radius-card);
   --se-radius-lg: 16px;
 
   /* The signature geometry: the logo's 18deg shear is the product's motion axis */
@@ -39,4 +91,48 @@
   --se-ease-edge: cubic-bezier(0.2, 0.8, 0.2, 1); /* confident rise */
   --se-ease-settle: cubic-bezier(0.16, 1, 0.3, 1); /* score settle */
   --se-stagger: 50ms;
+}
+
+/* ------------------------------------------------------------------
+   LIGHT THEME — the same brand, lit from the other side.
+   Purple becomes the anchor that lavender is on dark: Soft Lavender
+   only reaches ~3.8:1 on a light canvas, so every ink-bearing accent
+   steps up to Primary Purple (~7.8:1) and lavender is kept for
+   decorative fills. The canvas is a lilac-tinted off-white rather than
+   pure white, so cards can be genuinely offwhite and still separate.
+   ------------------------------------------------------------------ */
+[data-theme="light"] {
+  color-scheme: light;
+
+  --se-ink: var(--se-charcoal);
+  --se-ink-muted: color-mix(in srgb, var(--se-charcoal) 68%, var(--se-light-lilac));
+  --se-accent: var(--se-purple);
+
+  --se-ground: color-mix(in srgb, var(--se-light-lilac) 30%, var(--se-offwhite));
+  --se-ground-2: color-mix(in srgb, var(--se-light-lilac) 62%, var(--se-offwhite));
+  --se-ground-3: var(--se-pale-lavender);
+  --se-surface: var(--se-offwhite);
+
+  --se-invert-ground: var(--se-charcoal);
+  --se-invert-ink: var(--se-offwhite);
+
+  /* Lavender at 16% is invisible on a light ground — lines step to purple. */
+  --se-line: color-mix(in srgb, var(--se-purple) 18%, transparent);
+  --se-line-strong: color-mix(in srgb, var(--se-purple) 36%, transparent);
+  /* Ambient light reads as a tint here, not a glow: heavily reduced so the
+     blurred blobs stay atmospheric instead of muddying the canvas. */
+  --se-glow: color-mix(in srgb, var(--se-lavender) 26%, transparent);
+  --se-glow-soft: color-mix(in srgb, var(--se-lavender) 14%, transparent);
+  --se-scrim: color-mix(in srgb, var(--se-offwhite) 86%, transparent);
+  --se-focus: var(--se-purple);
+
+  --se-glass-bg: color-mix(in srgb, var(--se-offwhite) 72%, transparent);
+
+  /* Mint and rose are tuned for a dark ground; on light they need to be
+     driven toward charcoal to clear 4.5:1. */
+  --se-positive-ink: color-mix(in srgb, var(--se-positive) 55%, var(--se-charcoal));
+  --se-negative-ink: color-mix(in srgb, var(--se-negative) 58%, var(--se-charcoal));
+
+  --se-header-bg: color-mix(in srgb, var(--se-offwhite) 88%, transparent);
+  --se-scene-fog: var(--se-light-lilac);
 }

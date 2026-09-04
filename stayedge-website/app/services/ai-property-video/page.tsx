@@ -130,11 +130,11 @@ export default function AIPropertyVideoPage() {
             as="h1"
             text="Your property, filmed the way it deserves."
             accentFrom={4}
-            className="mx-auto max-w-3xl font-display uppercase leading-[1.12] tracking-[-0.01em] text-[clamp(28px,5.5vw,62px)] text-se-offwhite [perspective:800px]"
+            className="mx-auto max-w-3xl font-display uppercase leading-[1.12] tracking-[-0.01em] text-[clamp(28px,5.5vw,62px)] text-se-ink [perspective:800px]"
           />
           <RevealGroup>
             <RevealItem>
-              <p className="mx-auto mt-6 max-w-xl text-balance text-lg text-se-grey-lavender">
+              <p className="mx-auto mt-6 max-w-xl text-balance text-lg text-se-ink-muted">
                 Cinematic video produced with AI — from the photos and clips you already have.
                 No shoot, no crew, no travel days.
               </p>
@@ -150,7 +150,7 @@ export default function AIPropertyVideoPage() {
               </div>
             </RevealItem>
             <RevealItem>
-              <p className="mt-5 text-xs text-se-grey-lavender">
+              <p className="mt-5 text-xs text-se-ink-muted">
                 A production service, not a tool — you receive finished files.
               </p>
             </RevealItem>
@@ -168,12 +168,12 @@ export default function AIPropertyVideoPage() {
         <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {FORMATS.map((f) => (
             <RevealItem key={f.title}>
-              <div className="se-edge-strip flex h-full flex-col rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-charcoal p-6 pl-7">
+              <div className="se-edge-strip flex h-full flex-col rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-surface p-6 pl-7">
                 <div className="flex items-start justify-between gap-3">
-                  <h3 className="font-body text-lg font-bold text-se-offwhite">{f.title}</h3>
-                  <span className="se-eyebrow shrink-0 !text-se-grey-lavender">{f.spec}</span>
+                  <h3 className="font-body text-lg font-bold text-se-ink">{f.title}</h3>
+                  <span className="se-eyebrow shrink-0 !text-se-ink-muted">{f.spec}</span>
                 </div>
-                <p className="mt-3 flex-1 text-sm text-se-grey-lavender">{f.body}</p>
+                <p className="mt-3 flex-1 text-sm text-se-ink-muted">{f.body}</p>
               </div>
             </RevealItem>
           ))}
@@ -191,9 +191,9 @@ export default function AIPropertyVideoPage() {
           {PROCESS.map((p) => (
             <RevealItem key={p.n}>
               <div className="h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6">
-                <span className="se-num text-2xl text-se-lavender">{p.n}</span>
-                <h3 className="mt-4 font-body text-lg font-bold text-se-offwhite">{p.title}</h3>
-                <p className="mt-2 text-sm text-se-grey-lavender">{p.body}</p>
+                <span className="se-num text-2xl text-se-accent">{p.n}</span>
+                <h3 className="mt-4 font-body text-lg font-bold text-se-ink">{p.title}</h3>
+                <p className="mt-2 text-sm text-se-ink-muted">{p.body}</p>
               </div>
             </RevealItem>
           ))}
@@ -219,13 +219,13 @@ export default function AIPropertyVideoPage() {
           <div className="divide-y divide-[var(--se-line)] border-y border-[var(--se-line)]">
             {VIDEO_FAQS.map((f) => (
               <details key={f.q} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-body font-semibold text-se-offwhite">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-body font-semibold text-se-ink">
                   {f.q}
-                  <span className="shrink-0 text-se-lavender transition-transform group-open:rotate-45">
+                  <span className="shrink-0 text-se-accent transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>
-                <p className="mt-3 text-se-grey-lavender">{f.a}</p>
+                <p className="mt-3 text-se-ink-muted">{f.a}</p>
               </details>
             ))}
           </div>

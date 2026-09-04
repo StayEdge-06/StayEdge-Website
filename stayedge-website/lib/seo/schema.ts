@@ -1,4 +1,5 @@
 import { SITE, CONTACT, ROUTES } from "@/lib/config/site";
+import { GBP_URL } from "@/lib/config/gbp";
 
 const WHATSAPP_URL = "https://wa.me/916309348354";
 
@@ -41,12 +42,12 @@ function toE164(phone: string) {
  * so Organization and LocalBusiness can never drift apart — inconsistent
  * sameAs sets across two entities on the same page weakens both.
  *
- * The Google Business Profile URL is env-supplied (NEXT_PUBLIC_GBP_URL) rather
- * than hardcoded: HONESTY LAW — a guessed or placeholder maps URL in sameAs is
+ * The Google Business Profile URL is env-supplied and host-validated in
+ * lib/config/gbp.ts (HONESTY LAW — a guessed or malformed maps URL in sameAs is
  * a false claim about identity, and a wrong one actively hurts entity
- * resolution. Set the env var and the profile joins the graph automatically.
+ * resolution). Set NEXT_PUBLIC_GBP_URL and the profile joins the graph
+ * automatically; leave it unset and no claim is made at all.
  */
-const GBP_URL = process.env.NEXT_PUBLIC_GBP_URL;
 
 export const SOCIAL_PROFILES = [
   "https://www.instagram.com/stayedgeofficial",

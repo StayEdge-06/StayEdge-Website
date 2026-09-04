@@ -50,8 +50,8 @@ export function Showcase() {
                     : "opacity-75 hover:opacity-100",
                 )}
               >
-                <span className="se-eyebrow !text-se-grey-lavender">{ex.label}</span>
-                <p className="mt-2 font-body font-bold text-se-offwhite">{ex.propertyType}</p>
+                <span className="se-eyebrow !text-se-ink-muted">{ex.label}</span>
+                <p className="mt-2 font-body font-bold text-se-ink">{ex.propertyType}</p>
               </button>
             </TiltCard>
           </RevealItem>
@@ -75,7 +75,7 @@ export function Showcase() {
           <Breakdown title="Amenities added" items={active.amenities} />
         </div>
 
-        <p className="mx-auto mt-6 max-w-2xl text-center font-editorial italic text-se-offwhite/85">
+        <p className="mx-auto mt-6 max-w-2xl text-center font-editorial italic text-se-ink/85">
           {active.positioning}
         </p>
 
@@ -83,7 +83,7 @@ export function Showcase() {
           <Button href={ROUTES.freeAudit} variant="primary" size="lg">
             Get this breakdown for my listing — free
           </Button>
-          <p className="mt-3 text-xs text-se-grey-lavender">
+          <p className="mt-3 text-xs text-se-ink-muted">
             Illustrative examples of our method — not real client listings or results.
           </p>
         </div>
@@ -100,8 +100,8 @@ function ListingMock({ variant, ex }: { variant: "before" | "after"; ex: Showcas
       className={cn(
         "overflow-hidden rounded-[var(--se-radius-lg)] border",
         after
-          ? "border-[var(--se-line-strong)] bg-se-charcoal shadow-[0_20px_60px_-24px_var(--se-glow)]"
-          : "border-[var(--se-line)] bg-se-charcoal/60",
+          ? "border-[var(--se-line-strong)] bg-se-surface shadow-[0_20px_60px_-24px_var(--se-glow)]"
+          : "border-[var(--se-line)] bg-se-surface/60",
       )}
     >
       <div className="flex items-center justify-between border-b border-[var(--se-line)] px-4 py-2">
@@ -111,7 +111,7 @@ function ListingMock({ variant, ex }: { variant: "before" | "after"; ex: Showcas
         >
           {after ? "After" : "Before"}
         </span>
-        <span className="text-[10px] uppercase tracking-widest text-se-grey-lavender">
+        <span className="text-[10px] uppercase tracking-widest text-se-ink-muted">
           Listing mockup
         </span>
       </div>
@@ -135,7 +135,7 @@ function ListingMock({ variant, ex }: { variant: "before" | "after"; ex: Showcas
             <div
               key={i}
               className={cn("flex-1 rounded-md", after ? "opacity-80" : "opacity-30")}
-              style={{ background: "color-mix(in srgb, var(--se-lavender) 30%, transparent)" }}
+              style={{ background: "color-mix(in srgb, var(--se-accent) 30%, transparent)" }}
             />
           ))}
         </div>
@@ -145,12 +145,12 @@ function ListingMock({ variant, ex }: { variant: "before" | "after"; ex: Showcas
         <h3
           className={cn(
             "font-body font-bold leading-snug",
-            after ? "text-se-offwhite" : "text-se-grey-lavender",
+            after ? "text-se-ink" : "text-se-ink-muted",
           )}
         >
           {after ? ex.afterTitle : ex.beforeTitle}
         </h3>
-        <p className="se-num text-sm" style={{ color: after ? "var(--se-lavender)" : "var(--se-grey-lavender)" }}>
+        <p className="se-num text-sm" style={{ color: after ? "var(--se-accent)" : "var(--se-ink-muted)" }}>
           {after ? ex.afterPrice : ex.beforePrice}
         </p>
       </div>
@@ -160,11 +160,11 @@ function ListingMock({ variant, ex }: { variant: "before" | "after"; ex: Showcas
 
 function Breakdown({ title, items }: { title: string; items: string[] }) {
   return (
-    <div className="rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-charcoal p-5">
+    <div className="rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-surface p-5">
       <h4 className="se-eyebrow">{title}</h4>
       <ul className="mt-3 space-y-2">
         {items.map((it) => (
-          <li key={it.slice(0, 24)} className="flex gap-2 text-sm text-se-offwhite/85">
+          <li key={it.slice(0, 24)} className="flex gap-2 text-sm text-se-ink/85">
             <span aria-hidden className="text-se-positive">✓</span>
             {it}
           </li>

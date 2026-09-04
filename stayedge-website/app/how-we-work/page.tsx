@@ -77,10 +77,10 @@ export default function HowWeWorkPage() {
           {STEPS.map((s) => (
             <RevealItem key={s.n}>
               <div className="se-edge-strip flex gap-5 py-6 pl-5">
-                <span className="se-num shrink-0 text-2xl text-se-lavender">{s.n}</span>
+                <span className="se-num shrink-0 text-2xl text-se-accent">{s.n}</span>
                 <div>
-                  <h2 className="font-body text-lg font-bold text-se-offwhite">{s.title}</h2>
-                  <p className="mt-1 text-se-grey-lavender">{s.body}</p>
+                  <h2 className="font-body text-lg font-bold text-se-ink">{s.title}</h2>
+                  <p className="mt-1 text-se-ink-muted">{s.body}</p>
                 </div>
               </div>
             </RevealItem>
@@ -88,7 +88,7 @@ export default function HowWeWorkPage() {
         </RevealGroup>
 
         <Reveal className="mx-auto mt-10 max-w-2xl rounded-[var(--se-radius-lg)] border-l-2 border-se-purple bg-se-ground-2 p-6 text-center">
-          <p className="font-editorial italic text-se-offwhite/90">
+          <p className="font-editorial italic text-se-ink/90">
             &ldquo;We don&apos;t compete on price. We compete on what your property earns after
             we&apos;ve worked on it.&rdquo;
           </p>

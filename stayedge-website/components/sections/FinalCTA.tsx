@@ -24,9 +24,9 @@ export function FinalCTA() {
           as="h2"
           text="Find out what your listing is really worth."
           accentFrom={6}
-          className="mx-auto max-w-3xl font-display uppercase leading-[1.12] tracking-[-0.01em] text-[clamp(26px,5vw,56px)] text-se-offwhite [perspective:800px]"
+          className="mx-auto max-w-3xl font-display uppercase leading-[1.12] tracking-[-0.01em] text-[clamp(26px,5vw,56px)] text-se-ink [perspective:800px]"
         />
-        <p className="mx-auto mt-5 max-w-xl text-se-grey-lavender">
+        <p className="mx-auto mt-5 max-w-xl text-se-ink-muted">
           One link. One reply. A prioritised list of what to fix first — free.
         </p>
 

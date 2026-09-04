@@ -46,8 +46,8 @@ export default function GlossaryPage() {
           <dl className="divide-y divide-[var(--se-line)] border-y border-[var(--se-line)]">
             {GLOSSARY.map((g) => (
               <div key={g.term} className="py-5">
-                <dt className="se-num text-lg text-se-lavender">{g.term}</dt>
-                <dd className="mt-1 text-se-grey-lavender">{g.definition}</dd>
+                <dt className="se-num text-lg text-se-accent">{g.term}</dt>
+                <dd className="mt-1 text-se-ink-muted">{g.definition}</dd>
               </div>
             ))}
           </dl>

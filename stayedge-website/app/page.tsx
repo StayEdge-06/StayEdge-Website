@@ -1,4 +1,5 @@
 import { Hero } from "@/components/sections/Hero";
+import { IllustrativeExamples } from "@/components/sections/IllustrativeExamples";
 import { MechanismTimeline } from "@/components/sections/MechanismTimeline";
 import { Showcase } from "@/components/sections/Showcase";
 import { RevenueOpportunity } from "@/components/sections/RevenueOpportunity";
@@ -23,6 +24,10 @@ export default function HomePage() {
     <>
       <Hero />
       <EdgeDividerWipe from="base" to="deep" />
+      {/* The case-studies slot sits directly under the Hero (V2 brief). With no
+          client-approved case studies yet, it runs as labelled illustrations. */}
+      <IllustrativeExamples />
+      <EdgeDividerWipe from="deep" to="base" />
       <MechanismTimeline />
       <EdgeDividerWipe from="base" to="deep" />
       <Showcase />

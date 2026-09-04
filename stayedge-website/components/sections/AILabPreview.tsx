@@ -50,10 +50,10 @@ export function AILabPreview({ tilt = false }: { tilt?: boolean }) {
             >
               <div className="flex h-full flex-col">
                 <div className="flex items-center justify-between">
-                  <h3 className="font-body font-bold text-se-offwhite">{t.title}</h3>
-                  <span className="se-eyebrow !text-se-grey-lavender">{t.live ? "Live" : "Soon"}</span>
+                  <h3 className="font-body font-bold text-se-ink">{t.title}</h3>
+                  <span className="se-eyebrow !text-se-ink-muted">{t.live ? "Live" : "Soon"}</span>
                 </div>
-                <p className="mt-2 flex-1 text-sm text-se-grey-lavender">{t.body}</p>
+                <p className="mt-2 flex-1 text-sm text-se-ink-muted">{t.body}</p>
               </div>
             </TiltCard>
           </RevealItem>
@@ -67,16 +67,16 @@ export function AILabPreview({ tilt = false }: { tilt?: boolean }) {
           >
             <div className="flex h-full flex-col">
               <div className="flex items-center justify-between">
-                <h3 className="font-body font-bold text-se-offwhite">Property Growth Audit</h3>
-                <span className="se-eyebrow !text-se-grey-lavender">Live</span>
+                <h3 className="font-body font-bold text-se-ink">Property Growth Audit</h3>
+                <span className="se-eyebrow !text-se-ink-muted">Live</span>
               </div>
-              <p className="mt-2 flex-1 text-sm text-se-offwhite/85">
+              <p className="mt-2 flex-1 text-sm text-se-ink/85">
                 Listing quality, pricing and search visibility — read together, returned as a
                 prioritised list of what to fix first. Free.
               </p>
               <Link
                 href={CTA.audit.href}
-                className="mt-4 text-sm text-se-lavender underline-offset-4 hover:underline"
+                className="mt-4 text-sm text-se-accent underline-offset-4 hover:underline"
               >
                 Start your free audit →
               </Link>

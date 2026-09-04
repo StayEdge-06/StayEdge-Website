@@ -27,23 +27,23 @@ export function Process() {
       <RevealGroup className="mt-14 grid gap-4 md:grid-cols-4">
         {STEPS.map((s) => (
           <RevealItem key={s.n}>
-            <TiltCard className="se-edge-strip block h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-charcoal p-6 pl-7">
+            <TiltCard className="se-edge-strip block h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-surface p-6 pl-7">
               <div className="flex items-center justify-between">
-                <span className="se-num text-2xl text-se-lavender">{s.n}</span>
+                <span className="se-num text-2xl text-se-accent">{s.n}</span>
                 <span
                   className="rounded-full px-2 py-0.5 text-xs"
                   style={{
-                    color: s.free ? "var(--se-positive)" : "var(--se-lavender)",
+                    color: s.free ? "var(--se-positive)" : "var(--se-accent)",
                     background: s.free
                       ? "color-mix(in srgb, var(--se-positive) 14%, transparent)"
-                      : "color-mix(in srgb, var(--se-lavender) 14%, transparent)",
+                      : "color-mix(in srgb, var(--se-accent) 14%, transparent)",
                   }}
                 >
                   {s.free ? "Free" : "Paid"}
                 </span>
               </div>
-              <h3 className="mt-4 font-body text-lg font-bold text-se-offwhite">{s.title}</h3>
-              <p className="mt-2 text-sm text-se-grey-lavender">{s.body}</p>
+              <h3 className="mt-4 font-body text-lg font-bold text-se-ink">{s.title}</h3>
+              <p className="mt-2 text-sm text-se-ink-muted">{s.body}</p>
             </TiltCard>
           </RevealItem>
         ))}

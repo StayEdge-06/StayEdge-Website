@@ -110,38 +110,38 @@ export default function FreeAuditPage() {
               as="h1"
               text="Find out what your listing is quietly costing you."
               accentFrom={5}
-              className="max-w-2xl font-display uppercase leading-[1.12] tracking-[-0.01em] text-[clamp(28px,5.5vw,60px)] text-se-offwhite [perspective:800px]"
+              className="max-w-2xl font-display uppercase leading-[1.12] tracking-[-0.01em] text-[clamp(28px,5.5vw,60px)] text-se-ink [perspective:800px]"
             />
             <RevealGroup>
               <RevealItem>
-                <p className="mt-6 max-w-xl text-lg text-se-grey-lavender">
+                <p className="mt-6 max-w-xl text-lg text-se-ink-muted">
                   Send us your Airbnb listing link. We&apos;ll read it across listing quality,
                   pricing and search visibility, and send back a prioritised list of what to
                   fix first — free.
                 </p>
               </RevealItem>
               <RevealItem>
-                <ul className="mt-8 space-y-3 text-se-offwhite/85">
+                <ul className="mt-8 space-y-3 text-se-ink/85">
                   {[
                     "No login, no card, no obligation",
                     "A real person reads your listing — not an instant score",
                     "Reply on WhatsApp, usually the same day",
                   ].map((line) => (
                     <li key={line} className="flex gap-3">
-                      <span aria-hidden className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-se-lavender" />
+                      <span aria-hidden className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-se-accent" />
                       {line}
                     </li>
                   ))}
                 </ul>
               </RevealItem>
               <RevealItem>
-                <p className="mt-8 text-sm text-se-grey-lavender">
+                <p className="mt-8 text-sm text-se-ink-muted">
                   Rather just talk?{" "}
                   <a
                     href={WHATSAPP_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-se-lavender underline-offset-4 hover:underline"
+                    className="text-se-accent underline-offset-4 hover:underline"
                   >
                     WhatsApp {CONTACT.founder.split(" ")[0]} directly →
                   </a>
@@ -166,9 +166,9 @@ export default function FreeAuditPage() {
         <RevealGroup className="mt-14 grid gap-4 md:grid-cols-3">
           {COVERAGE.map((c) => (
             <RevealItem key={c.title}>
-              <div className="se-edge-strip h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-charcoal p-6 pl-7">
-                <h3 className="font-body text-lg font-bold text-se-offwhite">{c.title}</h3>
-                <p className="mt-2 text-sm text-se-grey-lavender">{c.body}</p>
+              <div className="se-edge-strip h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-surface p-6 pl-7">
+                <h3 className="font-body text-lg font-bold text-se-ink">{c.title}</h3>
+                <p className="mt-2 text-sm text-se-ink-muted">{c.body}</p>
               </div>
             </RevealItem>
           ))}
@@ -182,9 +182,9 @@ export default function FreeAuditPage() {
           {STEPS.map((s) => (
             <RevealItem key={s.n}>
               <div className="h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6">
-                <span className="se-num text-2xl text-se-lavender">{s.n}</span>
-                <h3 className="mt-4 font-body text-lg font-bold text-se-offwhite">{s.title}</h3>
-                <p className="mt-2 text-sm text-se-grey-lavender">{s.body}</p>
+                <span className="se-num text-2xl text-se-accent">{s.n}</span>
+                <h3 className="mt-4 font-body text-lg font-bold text-se-ink">{s.title}</h3>
+                <p className="mt-2 text-sm text-se-ink-muted">{s.body}</p>
               </div>
             </RevealItem>
           ))}
@@ -198,13 +198,13 @@ export default function FreeAuditPage() {
           <div className="divide-y divide-[var(--se-line)] border-y border-[var(--se-line)]">
             {AUDIT_FAQS.map((f) => (
               <details key={f.q} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-body font-semibold text-se-offwhite">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-body font-semibold text-se-ink">
                   {f.q}
-                  <span className="shrink-0 text-se-lavender transition-transform group-open:rotate-45">
+                  <span className="shrink-0 text-se-accent transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>
-                <p className="mt-3 text-se-grey-lavender">{f.a}</p>
+                <p className="mt-3 text-se-ink-muted">{f.a}</p>
               </details>
             ))}
           </div>

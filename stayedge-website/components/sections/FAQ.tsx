@@ -41,13 +41,13 @@ export function FAQ() {
         <div className="divide-y divide-[var(--se-line)] border-y border-[var(--se-line)]">
           {FAQS.map((f) => (
             <details key={f.q} className="group py-5">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-body font-semibold text-se-offwhite">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-body font-semibold text-se-ink">
                 {f.q}
-                <span className="shrink-0 text-se-lavender transition-transform group-open:rotate-45">
+                <span className="shrink-0 text-se-accent transition-transform group-open:rotate-45">
                   +
                 </span>
               </summary>
-              <p className="mt-3 text-se-grey-lavender">{f.a}</p>
+              <p className="mt-3 text-se-ink-muted">{f.a}</p>
             </details>
           ))}
         </div>

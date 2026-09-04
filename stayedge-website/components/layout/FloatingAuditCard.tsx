@@ -79,15 +79,15 @@ export function FloatingAuditCard() {
                   <button
                     onClick={dismiss}
                     aria-label="Dismiss"
-                    className="cursor-pointer rounded-full px-1 text-se-grey-lavender hover:text-se-offwhite"
+                    className="cursor-pointer rounded-full px-1 text-se-ink-muted hover:text-se-ink"
                   >
                     ✕
                   </button>
                 </div>
-                <p className="text-sm font-semibold text-se-offwhite">
+                <p className="text-sm font-semibold text-se-ink">
                   Skip straight to a real audit.
                 </p>
-                <p className="mt-1 text-sm text-se-grey-lavender">
+                <p className="mt-1 text-sm text-se-ink-muted">
                   A specialist reviews your listing and hands you a prioritized plan — free.
                 </p>
                 <Magnetic strength={0.3} className="mt-3 block">

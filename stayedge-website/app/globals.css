@@ -17,13 +17,80 @@
 }
 
 /* ------------------------------------------------------------------
+   brand-tokens.css is the PRINT-first source of truth, so a few of its
+   primitives hardcode a colour that assumes the dark ground. Same
+   unlayered-override pattern as the font families above: the primitives
+   keep their brand geometry and pick up the themed ink role instead of a
+   literal, so they survive the light theme.
+   ------------------------------------------------------------------ */
+.se-display {
+  color: var(--se-ink);
+  /* brand-tokens.css pins font-size + line-height on this class, and because
+     that file is imported UNLAYERED it outranks every Tailwind text-* /
+     leading-* utility no matter how specific — a `text-[clamp(...)]` on a
+     display headline silently did nothing, which is what blew up the 404 h1.
+     Re-declare both here (also unlayered) routed through variables, so a call
+     site sizes a headline with [--se-display-size:…] / [--se-display-leading:…]
+     instead of fighting the cascade with !important. Unset, it still resolves
+     to the brand's own display size. */
+  font-size: var(--se-display-size, var(--se-size-display));
+  line-height: var(--se-display-leading, 1.05);
+}
+.se-eyebrow {
+  color: var(--se-accent);
+}
+.se-quote {
+  border-left-color: var(--se-purple);
+}
+
+/* ------------------------------------------------------------------
+   Logo lockup theme swap — UNLAYERED for the same cascade reason.
+   <Mark> always ships `display: block` as a Tailwind utility, and
+   @layer utilities beats @layer components, so a `display: none` written
+   inside the components layer lost and BOTH lockups painted at once in
+   both themes. The mark is never recoloured (LOGO-RULES) — the correct
+   lockup is shown and the other is removed outright.
+   ------------------------------------------------------------------ */
+.se-logo-light {
+  display: none;
+}
+[data-theme="light"] .se-logo-dark {
+  display: none;
+}
+[data-theme="light"] .se-logo-light {
+  display: block;
+}
+
+/* ------------------------------------------------------------------
    Tailwind theme mapping — expose the brand + web tokens as utilities.
    Values REFERENCE the brand variables (single source of truth); no hex
    is re-typed here. Utilities are namespaced `se-` to avoid clashing with
    Tailwind defaults (e.g. bg-se-purple, text-se-offwhite, font-display).
    ------------------------------------------------------------------ */
 @theme inline {
-  /* Colours */
+  /* ── Semantic roles (THEMED — use these in components) ──────────
+     These flip with [data-theme]. Everything a component paints —
+     text, panels, accents — should come from this group, so the
+     component never needs to know which theme it is rendering in. */
+  --color-se-ink: var(--se-ink);
+  --color-se-ink-muted: var(--se-ink-muted);
+  --color-se-accent: var(--se-accent);
+  --color-se-on-accent: var(--se-on-accent);
+  --color-se-surface: var(--se-surface);
+  --color-se-ground: var(--se-ground);
+  --color-se-ground-2: var(--se-ground-2);
+  --color-se-ground-3: var(--se-ground-3);
+  --color-se-invert-ground: var(--se-invert-ground);
+  --color-se-invert-ink: var(--se-invert-ink);
+  /* Status colours resolve through the contrast-corrected role, so mint
+     and rose stay legible on a light canvas too. */
+  --color-se-positive: var(--se-positive-ink);
+  --color-se-negative: var(--se-negative-ink);
+
+  /* ── Literal brand colours (NOT themed) ─────────────────────────
+     The palette itself, for the places that mean the actual brand
+     colour: a purple fill, the lavender diamond, a logo field. Using
+     one of these for body ink locks that text to a single theme. */
   --color-se-purple: var(--se-purple);
   --color-se-lavender: var(--se-lavender);
   --color-se-charcoal: var(--se-charcoal);
@@ -33,11 +100,6 @@
   --color-se-pale-lavender: var(--se-pale-lavender);
   --color-se-grey-lavender: var(--se-grey-lavender);
   --color-se-light-lilac: var(--se-light-lilac);
-  --color-se-positive: var(--se-positive);
-  --color-se-negative: var(--se-negative);
-  --color-se-ground: var(--se-ground);
-  --color-se-ground-2: var(--se-ground-2);
-  --color-se-ground-3: var(--se-ground-3);
 
   /* Type families (brand faces — six only) */
   --font-display: var(--se-font-display);
@@ -62,7 +124,13 @@
 
   html {
     height: 100%;
+    /* Native smooth scrolling. Deliberately not a scroll-hijacking library:
+       the sticky header, in-page anchors and the browser's own restore
+       behaviour all keep working, it costs no JS on the main thread, and it
+       switches off cleanly under reduced-motion below. */
     scroll-behavior: smooth;
+    /* Anchor targets clear the 64px sticky header instead of hiding under it. */
+    scroll-padding-top: 5rem;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
   }
@@ -70,10 +138,19 @@
   body {
     min-height: 100%;
     background-color: var(--se-ground);
-    color: var(--se-offwhite);
+    color: var(--se-ink);
     font-family: var(--se-font-body);
     font-size: 16px;
     line-height: 1.6;
+  }
+
+  /* Theme crossfade. Scoped to the two properties that actually change, and
+     only while the toggle marks the document — so it never adds a transition
+     to hover states or to the first paint. */
+  [data-theme-switching] * {
+    transition:
+      background-color 260ms var(--se-ease-settle),
+      border-color 260ms var(--se-ease-settle) !important;
   }
 
   /* Numbers & data always render in IBM Plex Serif (brand signature) */
@@ -88,16 +165,16 @@
     font-weight: 300;
     letter-spacing: 0.35em;
     text-transform: uppercase;
-    color: var(--se-lavender);
+    color: var(--se-accent);
     font-size: 0.75rem;
   }
 
   /* Display headline: Boldonse, impact only.
      Boldonse ink overshoots the em box, so 1.05 is the tightest safe leading for
-     multi-line headlines; single-line hero usages may set their own via utilities. */
+     multi-line headlines — that default plus the size now live in the unlayered
+     block at the top of this file, where they can actually beat brand-tokens. */
   .se-display {
     font-family: var(--se-font-display);
-    line-height: 1.05;
     text-transform: uppercase;
     letter-spacing: -0.01em;
   }
@@ -110,7 +187,7 @@
 
   ::selection {
     background: color-mix(in srgb, var(--se-purple) 55%, transparent);
-    color: var(--se-offwhite);
+    color: var(--se-ink);
   }
 
   /* Focus — lavender ring, always visible for keyboard users (a11y §24) */
@@ -125,12 +202,86 @@
    Signature primitives
    ------------------------------------------------------------------ */
 @layer components {
-  /* Charcoal glass surface (never frosted white) */
+  /* Glass surface — charcoal on the dark ground, off-white on the light one.
+     Never a frosted white pane floating on charcoal (brand law). */
   .se-glass {
-    background: var(--se-glass-dark);
+    background: var(--se-glass-bg);
     backdrop-filter: blur(var(--se-glass-blur));
     -webkit-backdrop-filter: blur(var(--se-glass-blur));
     border: 1px solid var(--se-line);
+  }
+
+  /* ── Theme swaps driven by the document attribute ─────────────────
+     Both the toggle's two icons and the logo's two lockups ship in the
+     markup, and CSS picks one from `data-theme`. That attribute is set by
+     the blocking script in <body>, so the correct mark is in the FIRST
+     painted frame — no hydration swap, and it works inside a server
+     component with no client JS at all. */
+  .se-theme-icon {
+    grid-area: 1 / 1;
+    transition:
+      opacity var(--se-dur-std) var(--se-ease-edge),
+      transform var(--se-dur-std) var(--se-ease-edge);
+  }
+  .se-theme-icon--moon {
+    opacity: 0;
+    transform: rotate(-45deg) scale(0.6);
+  }
+  [data-theme="light"] .se-theme-icon--sun {
+    opacity: 0;
+    transform: rotate(45deg) scale(0.6);
+  }
+  [data-theme="light"] .se-theme-icon--moon {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* (Logo lockup swap lives unlayered near the top of this file — it has to
+     outrank the `block` utility that <Mark> always carries.) */
+
+  /* ── Skeleton (loading placeholder) ───────────────────────────────
+     A tinted block with a light pass over it. The tint is the token that
+     already carries "soft brand light", so the placeholder belongs to the
+     page in either theme instead of being a grey rectangle. Pure
+     transform on the sweep, so it never triggers layout; the global
+     reduced-motion guard collapses the sweep and leaves the tint. */
+  .se-skeleton {
+    position: relative;
+    overflow: hidden;
+    background: var(--se-glow-soft);
+  }
+  .se-skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, var(--se-glow), transparent);
+    animation: se-shimmer 1.6s var(--se-ease-settle) infinite;
+  }
+  @keyframes se-shimmer {
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  /* ── Loading mark ─────────────────────────────────────────────────
+     The brand diamond, breathing on the 18deg axis. CSS-only so the
+     route-loading UI ships no JavaScript of its own — it exists to be
+     shown while JavaScript is still on its way. */
+  .se-loading-diamond {
+    animation: se-breathe 1.8s var(--se-ease-settle) infinite;
+    transform-origin: center;
+  }
+  @keyframes se-breathe {
+    0%,
+    100% {
+      transform: rotate(45deg) scale(0.86);
+      opacity: 0.55;
+    }
+    50% {
+      transform: rotate(calc(45deg + var(--se-edge-angle))) scale(1);
+      opacity: 1;
+    }
   }
 
   /* Ambient purple light for AI regions — drifts slowly, never neon */
@@ -194,7 +345,7 @@
     height: 8px;
     margin-left: -2px;
     border-radius: 999px;
-    background: var(--se-lavender);
+    background: var(--se-accent);
     animation: se-cue 1.8s ease-in-out infinite;
   }
   @keyframes se-cue {

@@ -41,11 +41,11 @@ export function Hero() {
           as="h1"
           text="Your Airbnb should be fully booked."
           accentFrom={4}
-          className="mx-auto max-w-4xl font-display uppercase tracking-[-0.01em] leading-[1.12] text-[clamp(28px,7vw,76px)] text-se-offwhite [perspective:800px]"
+          className="mx-auto max-w-4xl font-display uppercase tracking-[-0.01em] leading-[1.12] text-[clamp(28px,7vw,76px)] text-se-ink [perspective:800px]"
         />
 
         <RevealItem>
-          <p className="mx-auto mt-6 max-w-xl text-balance text-lg text-se-grey-lavender">
+          <p className="mx-auto mt-6 max-w-xl text-balance text-lg text-se-ink-muted">
             Paste your listing and we&apos;ll show you what&apos;s quietly costing you
             bookings — free.
           </p>
@@ -67,7 +67,7 @@ export function Hero() {
               type="url"
               inputMode="url"
               placeholder="Paste your Airbnb listing link…"
-              className="min-w-0 flex-1 bg-transparent py-3 text-se-offwhite placeholder:text-se-grey-lavender/70 focus:outline-none"
+              className="min-w-0 flex-1 bg-transparent py-3 text-se-ink placeholder:text-se-ink-muted/70 focus:outline-none"
             />
             <Magnetic strength={0.35}>
               <Button
@@ -85,12 +85,12 @@ export function Hero() {
 
         {/* The audit's actual scope, stated up front — no vague "AI analysis" */}
         <RevealItem>
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-sm text-se-grey-lavender">
-            <span className="se-eyebrow !tracking-[0.2em] !text-se-grey-lavender">We check</span>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-sm text-se-ink-muted">
+            <span className="se-eyebrow !tracking-[0.2em] !text-se-ink-muted">We check</span>
             {PERSONA.modes.map((m) => (
               <span
                 key={m.id}
-                className="rounded-full border border-[var(--se-line)] px-3 py-1 text-se-offwhite/80"
+                className="rounded-full border border-[var(--se-line)] px-3 py-1 text-se-ink/80"
               >
                 {m.glyph} {m.label}
               </span>
@@ -99,13 +99,13 @@ export function Hero() {
         </RevealItem>
 
         <RevealItem>
-          <p className="mt-8 text-xs text-se-grey-lavender">
+          <p className="mt-8 text-xs text-se-ink-muted">
             Free · No login · A prioritised list of what to fix first.
           </p>
           <p className="mt-3 text-sm">
             <a
               href={CTA.video.href}
-              className="text-se-lavender underline-offset-4 hover:underline"
+              className="text-se-accent underline-offset-4 hover:underline"
             >
               Or see our AI property video service →
             </a>

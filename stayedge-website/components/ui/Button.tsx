@@ -11,16 +11,18 @@ import { fireHaptic } from "@/lib/motion/haptics";
  * this defines the visual contract + states.
  */
 const button = cva(
-  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-[var(--se-radius-pill)] font-body font-bold whitespace-nowrap transition-[transform,background-color,box-shadow] duration-[var(--se-dur-std)] ease-[cubic-bezier(0.2,0.8,0.2,1)] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-se-lavender",
+  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-[var(--se-radius-pill)] font-body font-bold whitespace-nowrap transition-[transform,background-color,box-shadow] duration-[var(--se-dur-std)] ease-[cubic-bezier(0.2,0.8,0.2,1)] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]",
   {
     variants: {
       variant: {
+        // text-se-on-accent, not text-se-ink: the fill is a brand constant in
+        // both themes, so the ink on it must not flip with the theme.
         primary:
-          "bg-se-purple text-se-offwhite hover:shadow-[0_0_0_1px_var(--se-line-strong),0_10px_40px_-12px_var(--se-glow)]",
+          "bg-se-purple text-se-on-accent hover:shadow-[0_0_0_1px_var(--se-line-strong),0_10px_40px_-12px_var(--se-glow)]",
         secondary:
-          "bg-se-deep-purple text-se-offwhite hover:bg-[color-mix(in_srgb,var(--se-deep-purple)_82%,white)]",
+          "bg-se-deep-purple text-se-on-accent hover:bg-[color-mix(in_srgb,var(--se-deep-purple)_82%,white)]",
         ghost:
-          "bg-transparent text-se-offwhite border border-[var(--se-line-strong)] hover:bg-[color-mix(in_srgb,var(--se-lavender)_10%,transparent)]",
+          "bg-transparent text-se-ink border border-[var(--se-line-strong)] hover:bg-[color-mix(in_srgb,var(--se-lavender)_10%,transparent)]",
         whatsapp:
           "bg-[#25D366] text-[#0b3d1e] hover:brightness-105",
       },

@@ -45,14 +45,14 @@ export default function ContactPage() {
           <Button href={WHATSAPP_URL} external variant="whatsapp" size="lg" haptic className="w-full">
             WhatsApp us
           </Button>
-          <div className="mt-6 space-y-2 text-sm text-se-grey-lavender">
+          <div className="mt-6 space-y-2 text-sm text-se-ink-muted">
             <p>
-              <a className="hover:text-se-offwhite" href={`tel:${CONTACT.phone}`}>
+              <a className="hover:text-se-ink" href={`tel:${CONTACT.phone}`}>
                 {CONTACT.phone}
               </a>
             </p>
             <p>
-              <a className="hover:text-se-offwhite" href={`mailto:${CONTACT.email}`}>
+              <a className="hover:text-se-ink" href={`mailto:${CONTACT.email}`}>
                 {CONTACT.email}
               </a>
             </p>
@@ -61,7 +61,7 @@ export default function ContactPage() {
                 href="https://www.instagram.com/stayedgeofficial"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-se-offwhite"
+                className="hover:text-se-ink"
               >
                 Instagram
               </a>
@@ -70,14 +70,14 @@ export default function ContactPage() {
                 href="https://www.linkedin.com/company/stayedge/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-se-offwhite"
+                className="hover:text-se-ink"
               >
                 LinkedIn
               </a>
             </p>
             <p>{CONTACT.location}</p>
           </div>
-          <p className="mt-6 border-t border-[var(--se-line)] pt-5 text-sm text-se-grey-lavender">
+          <p className="mt-6 border-t border-[var(--se-line)] pt-5 text-sm text-se-ink-muted">
             Not sure what to ask? Start with the free audit — it gives us both something
             specific to talk about.
           </p>

@@ -2,8 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { Magnetic } from "@/components/motion/Magnetic";
+import { EASE_EDGE, EASE_SETTLE } from "@/lib/motion/ease";
 import { track } from "@/lib/analytics";
 import { rememberLead } from "@/lib/ai/memory";
 import { CONTACT, WHATSAPP_URL } from "@/lib/config/site";
@@ -61,6 +63,7 @@ export function LeadForm({
   prefillFromQuery?: boolean;
 }) {
   const pathname = usePathname();
+  const reduce = useReducedMotion();
   const copy = COPY[variant];
   const [state, setState] = useState<State>("idle");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -161,28 +164,7 @@ export function LeadForm({
   }
 
   if (state === "done") {
-    return (
-      <div
-        className={cn(
-          "rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-8 text-center",
-          className,
-        )}
-        role="status"
-        aria-live="polite"
-      >
-        <p className="se-eyebrow mb-3 !text-se-positive">Received</p>
-        <h3 className="se-title text-2xl text-se-offwhite">{copy.done}</h3>
-        <p className="mx-auto mt-3 max-w-md text-se-grey-lavender">{copy.note}</p>
-        <div className="mt-7">
-          <Button href={WHATSAPP_URL} external variant="whatsapp" size="md">
-            Message us now instead
-          </Button>
-        </div>
-        <p className="mt-4 text-xs text-se-grey-lavender">
-          Prefer email? {CONTACT.email}
-        </p>
-      </div>
-    );
+    return <LeadFormSuccess copy={copy} className={className} />;
   }
 
   return (
@@ -215,11 +197,11 @@ export function LeadForm({
         <Field label="Email" name="email" type="email" error={fieldErrors.email} autoComplete="email" />
         <Field label="City" name="city" error={fieldErrors.city} placeholder="Tirupati" />
         <label className="block">
-          <span className="mb-2 block text-sm text-se-grey-lavender">Property type</span>
+          <span className="mb-2 block text-sm text-se-ink-muted">Property type</span>
           <select
             name="propertyType"
             defaultValue=""
-            className="w-full rounded-[var(--se-radius-md)] border border-[var(--se-line)] bg-se-charcoal px-4 py-3 text-se-offwhite focus:border-[var(--se-line-strong)] focus:outline-2 focus:outline-offset-2 focus:outline-se-lavender"
+            className="w-full rounded-[var(--se-radius-md)] border border-[var(--se-line)] bg-se-surface px-4 py-3 text-se-ink focus:border-[var(--se-line-strong)] focus:outline-2 focus:outline-offset-2 focus:outline-[var(--se-focus)]"
           >
             <option value="">Select…</option>
             {PROPERTY_TYPES.map((p) => (
@@ -243,7 +225,7 @@ export function LeadForm({
       </div>
 
       <label className="mt-5 block">
-        <span className="mb-2 block text-sm text-se-grey-lavender">
+        <span className="mb-2 block text-sm text-se-ink-muted">
           {variant === "audit"
             ? "Anything you already suspect is wrong? (optional)"
             : "What do you want the video to do? (optional)"}
@@ -251,7 +233,7 @@ export function LeadForm({
         <textarea
           name="message"
           rows={3}
-          className="w-full rounded-[var(--se-radius-md)] border border-[var(--se-line)] bg-se-charcoal px-4 py-3 text-se-offwhite placeholder:text-se-grey-lavender/60 focus:border-[var(--se-line-strong)] focus:outline-2 focus:outline-offset-2 focus:outline-se-lavender"
+          className="w-full rounded-[var(--se-radius-md)] border border-[var(--se-line)] bg-se-surface px-4 py-3 text-se-ink placeholder:text-se-ink-muted/60 focus:border-[var(--se-line-strong)] focus:outline-2 focus:outline-offset-2 focus:outline-[var(--se-focus)]"
         />
       </label>
 
@@ -263,11 +245,24 @@ export function LeadForm({
         </label>
       </div>
 
-      {state === "error" && message && (
-        <p role="alert" className="mt-5 text-sm text-se-negative">
-          {message}
-        </p>
-      )}
+      <AnimatePresence initial={false}>
+        {state === "error" && message && (
+          <motion.p
+            role="alert"
+            key="lead-error"
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.24, ease: EASE_EDGE }}
+            className="mt-5 flex items-start gap-2 rounded-[var(--se-radius-md)] border border-se-negative/40 bg-[color-mix(in_srgb,var(--se-negative-ink)_10%,transparent)] px-4 py-3 text-sm text-se-negative"
+          >
+            <span aria-hidden className="mt-[2px] leading-none">
+              !
+            </span>
+            <span>{message}</span>
+          </motion.p>
+        )}
+      </AnimatePresence>
 
       <div className="mt-7 flex flex-wrap items-center gap-4">
         <Magnetic strength={0.3}>
@@ -275,11 +270,101 @@ export function LeadForm({
             {state === "sending" ? "Sending…" : copy.submit}
           </Button>
         </Magnetic>
-        <p className="text-xs text-se-grey-lavender">
+        <p className="text-xs text-se-ink-muted">
           No spam, no calls you didn&apos;t ask for. We reply on WhatsApp.
         </p>
       </div>
     </form>
+  );
+}
+
+/**
+ * The success state. This is the single most important frame in the funnel —
+ * it is the moment a visitor becomes a lead — so it gets a real, choreographed
+ * beat rather than a swapped paragraph: the panel settles in, the tick draws
+ * itself, then the copy and the WhatsApp fallback arrive behind it.
+ *
+ * The `role="status"` + `aria-live="polite"` wrapper is what actually announces
+ * the outcome; the animation is decoration on top of an announcement that works
+ * with motion switched off entirely.
+ */
+function LeadFormSuccess({
+  copy,
+  className,
+}: {
+  copy: (typeof COPY)[Variant];
+  className?: string;
+}) {
+  const reduce = useReducedMotion();
+  const step = (delay: number) =>
+    reduce
+      ? { initial: { opacity: 1 }, animate: { opacity: 1 }, transition: { duration: 0 } }
+      : {
+          initial: { opacity: 0, y: 8 },
+          animate: { opacity: 1, y: 0 },
+          transition: { duration: 0.4, delay, ease: EASE_SETTLE },
+        };
+
+  return (
+    <motion.div
+      role="status"
+      aria-live="polite"
+      initial={reduce ? false : { opacity: 0, scale: 0.985 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.35, ease: EASE_SETTLE }}
+      className={cn(
+        "rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-8 text-center",
+        className,
+      )}
+    >
+      <motion.svg
+        width="48"
+        height="48"
+        viewBox="0 0 48 48"
+        aria-hidden
+        className="mx-auto mb-5"
+        {...step(0.05)}
+      >
+        <circle
+          cx="24"
+          cy="24"
+          r="21"
+          fill="none"
+          stroke="var(--se-positive-ink)"
+          strokeWidth="1.5"
+          opacity="0.4"
+        />
+        <motion.path
+          d="M15 24.5 L21.5 31 L33 19"
+          fill="none"
+          stroke="var(--se-positive-ink)"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          initial={reduce ? false : { pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 0.45, delay: 0.18, ease: EASE_EDGE }}
+        />
+      </motion.svg>
+
+      <motion.p className="se-eyebrow mb-3 !text-se-positive" {...step(0.12)}>
+        Received
+      </motion.p>
+      <motion.h3 className="se-title text-2xl text-se-ink" {...step(0.18)}>
+        {copy.done}
+      </motion.h3>
+      <motion.p className="mx-auto mt-3 max-w-md text-se-ink-muted" {...step(0.24)}>
+        {copy.note}
+      </motion.p>
+      <motion.div className="mt-7" {...step(0.3)}>
+        <Button href={WHATSAPP_URL} external variant="whatsapp" size="md">
+          Message us now instead
+        </Button>
+      </motion.div>
+      <motion.p className="mt-4 text-xs text-se-ink-muted" {...step(0.34)}>
+        Prefer email? {CONTACT.email}
+      </motion.p>
+    </motion.div>
   );
 }
 
@@ -302,9 +387,9 @@ function Field({
   const id = `lead-${name}`;
   return (
     <label htmlFor={id} className="block">
-      <span className="mb-2 block text-sm text-se-grey-lavender">
+      <span className="mb-2 block text-sm text-se-ink-muted">
         {label}
-        {required && <span className="text-se-lavender"> *</span>}
+        {required && <span className="text-se-accent"> *</span>}
       </span>
       <input
         id={id}
@@ -314,7 +399,7 @@ function Field({
         aria-invalid={error ? true : undefined}
         aria-describedby={error ? `${id}-error` : undefined}
         className={cn(
-          "w-full rounded-[var(--se-radius-md)] border bg-se-charcoal px-4 py-3 text-se-offwhite placeholder:text-se-grey-lavender/60 focus:outline-2 focus:outline-offset-2 focus:outline-se-lavender",
+          "w-full rounded-[var(--se-radius-md)] border bg-se-surface px-4 py-3 text-se-ink placeholder:text-se-ink-muted/60 focus:outline-2 focus:outline-offset-2 focus:outline-[var(--se-focus)]",
           error ? "border-se-negative" : "border-[var(--se-line)] focus:border-[var(--se-line-strong)]",
         )}
         {...rest}

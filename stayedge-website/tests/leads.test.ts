@@ -494,8 +494,31 @@ describe("lead service", () => {
     assert.equal(result.outcome, "accepted");
     if (result.outcome !== "accepted") return;
     assert.equal(result.lead.formPath, ctx.fallbackPath);
+    assert.equal(result.lead.landingPath, ctx.fallbackPath);
     // Nothing was captured, so the channel must not be invented.
     assert.equal(result.lead.channel, "Unknown");
+  });
+
+  it("trusts a genuinely captured root path instead of falling back", async () => {
+    // Regression: attr.formPath/landingPath default to "/" even when nothing
+    // was captured, so a naive `attr.formPath || fallbackPath` never falls
+    // back. Once capture actually ran and legitimately recorded "/", that
+    // real value must win over the request's fallback path.
+    const result = await submitLead(
+      submission({
+        attribution: {
+          ...EMPTY_ATTRIBUTION,
+          captured: true,
+          landingPath: "/",
+          formPath: "/",
+        },
+      }),
+      ctx,
+    );
+    assert.equal(result.outcome, "accepted");
+    if (result.outcome !== "accepted") return;
+    assert.equal(result.lead.formPath, "/");
+    assert.equal(result.lead.landingPath, "/");
   });
 });
 

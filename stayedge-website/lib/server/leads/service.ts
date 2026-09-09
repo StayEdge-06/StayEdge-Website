@@ -92,8 +92,11 @@ function buildLead(
     duplicateOf,
 
     channel: classifyChannel(attr),
-    landingPath: attr.landingPath || fallbackPath,
-    formPath: attr.formPath || fallbackPath,
+    // attr.landingPath/formPath default to "/" even when nothing was captured
+    // (see attributionInputSchema), so `||` never actually falls back — branch
+    // on `captured` instead of string truthiness.
+    landingPath: attr.captured ? attr.landingPath : fallbackPath,
+    formPath: attr.captured ? attr.formPath : fallbackPath,
     referrer: attr.referrer,
     campaign: packCampaign(attr),
 

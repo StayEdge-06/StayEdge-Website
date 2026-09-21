@@ -1,7 +1,7 @@
 import { SITE, CONTACT, ROUTES } from "@/lib/config/site";
+import { GBP_URL } from "@/lib/config/gbp";
 
 const WHATSAPP_URL = "https://wa.me/916309348354";
-import { PERSONA } from "@/lib/config/persona";
 
 /**
  * StayEdge entity graph — the single source of truth for structured data
@@ -36,6 +36,25 @@ export const ENTITY_TOPICS = [
 function toE164(phone: string) {
   return phone.replace(/[^\d+]/g, "");
 }
+
+/**
+ * Verified profiles the StayEdge entity controls, for `sameAs`. Single source
+ * so Organization and LocalBusiness can never drift apart — inconsistent
+ * sameAs sets across two entities on the same page weakens both.
+ *
+ * The Google Business Profile URL is env-supplied and host-validated in
+ * lib/config/gbp.ts (HONESTY LAW — a guessed or malformed maps URL in sameAs is
+ * a false claim about identity, and a wrong one actively hurts entity
+ * resolution). Set NEXT_PUBLIC_GBP_URL and the profile joins the graph
+ * automatically; leave it unset and no claim is made at all.
+ */
+
+export const SOCIAL_PROFILES = [
+  "https://www.instagram.com/stayedgeofficial",
+  "https://www.linkedin.com/company/stayedge/",
+  WHATSAPP_URL,
+  ...(GBP_URL ? [GBP_URL] : []),
+];
 
 export function organizationSchema() {
   return {
@@ -83,19 +102,16 @@ export function organizationSchema() {
       { "@type": "Country", name: "India" },
     ],
     knowsAbout: [...ENTITY_TOPICS],
-    sameAs: [
-      "https://www.instagram.com/stayedgeofficial",
-      "https://www.linkedin.com/company/stayedge/",
-      WHATSAPP_URL,
-    ],
+    sameAs: SOCIAL_PROFILES,
+    ...(GBP_URL ? { hasMap: GBP_URL } : {}),
     makesOffer: [
       {
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
-          name: "Property Growth Snapshot",
+          name: "Free Property Growth Audit",
           description:
-            "A free AI-assisted diagnostic of an Airbnb listing: issues, revenue leaks and prioritised quick wins.",
+            "A free review of an Airbnb listing covering listing quality, pricing and search visibility, with a prioritised list of what to fix first.",
         },
         price: "0",
         priceCurrency: "INR",
@@ -107,6 +123,15 @@ export function organizationSchema() {
           name: "Airbnb Growth Consulting",
           description:
             "Listing optimisation, pricing strategy, Airbnb SEO and guest-psychology work for hosts, villas and boutique hotels.",
+        },
+      },
+      {
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: "AI Property Video",
+          description:
+            "Cinematic AI-produced property video for short-term rentals: Instagram Reels, YouTube Shorts, walkthroughs, promotional films and website hero video.",
         },
       },
     ],
@@ -150,11 +175,8 @@ export function localBusinessSchema() {
       { "@type": "Country", name: "India" },
     ],
     knowsAbout: [...ENTITY_TOPICS],
-    sameAs: [
-      "https://www.instagram.com/stayedgeofficial",
-      "https://www.linkedin.com/company/stayedge/",
-      WHATSAPP_URL,
-    ],
+    sameAs: SOCIAL_PROFILES,
+    ...(GBP_URL ? { hasMap: GBP_URL } : {}),
     image: `${SITE.url}/brand/logos/stayedge-logo-primary-dark.png`,
   };
 }
@@ -196,18 +218,126 @@ export function websiteSchema() {
   };
 }
 
-/** The software entity for Vira / the Roast tool (real, live product surface). */
-export function roastToolSchema() {
+/** The primary conversion offer — a real, human-delivered free audit. */
+export function freeAuditServiceSchema() {
   return {
-    "@type": "WebApplication",
-    name: `${PERSONA.name} — Roast My Listing`,
-    url: `${SITE.url}${ROUTES.roast}`,
-    applicationCategory: "BusinessApplication",
-    operatingSystem: "Web",
-    description:
-      "Free AI listing check for Airbnb hosts: a Roast Score, the top issues costing bookings, and one genuine strength.",
-    offers: { "@type": "Offer", price: "0", priceCurrency: "INR" },
+    "@type": "Service",
+    "@id": `${SITE.url}${ROUTES.freeAudit}#service`,
+    name: "Free Property Growth Audit",
+    url: `${SITE.url}${ROUTES.freeAudit}`,
+    serviceType: "Airbnb listing audit",
     provider: { "@id": ORG_ID },
+    areaServed: { "@type": "Country", name: "India" },
+    description:
+      "A free review of your Airbnb listing covering listing quality, pricing and search visibility, returned as a prioritised list of what to fix first.",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "INR",
+      availability: "https://schema.org/InStock",
+    },
+  };
+}
+
+/** The premium production service that replaced the AI Roast tool in V2. */
+export function aiPropertyVideoServiceSchema() {
+  return {
+    "@type": "Service",
+    "@id": `${SITE.url}${ROUTES.aiPropertyVideo}#service`,
+    name: "AI Property Video",
+    url: `${SITE.url}${ROUTES.aiPropertyVideo}`,
+    serviceType: "Property video production",
+    provider: { "@id": ORG_ID },
+    areaServed: { "@type": "Country", name: "India" },
+    description:
+      "Cinematic AI-produced video for short-term rental properties: Instagram Reels, YouTube Shorts, property walkthroughs, promotional films and website hero video.",
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "AI Property Video Formats",
+      itemListElement: [
+        "Instagram Reels",
+        "YouTube Shorts",
+        "Property walkthrough",
+        "Promotional video",
+        "Website hero video",
+      ].map((name) => ({
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name },
+      })),
+    },
+  };
+}
+
+/** The six-discipline service architecture (Phase 4). Each builder mirrors
+ * aiPropertyVideoServiceSchema's shape so every service page carries a
+ * consistent, real (non-fabricated) Service entity. */
+export function listingOptimizationServiceSchema() {
+  return {
+    "@type": "Service",
+    "@id": `${SITE.url}${ROUTES.listingOptimization}#service`,
+    name: "Airbnb Listing Optimization",
+    url: `${SITE.url}${ROUTES.listingOptimization}`,
+    serviceType: "Airbnb listing optimization",
+    provider: { "@id": ORG_ID },
+    areaServed: { "@type": "Country", name: "India" },
+    description:
+      "A structured review and rewrite of an Airbnb listing's title, photo order, description, amenities and house rules, so it communicates value the moment a guest scrolls past it.",
+  };
+}
+
+export function airbnbSeoServiceSchema() {
+  return {
+    "@type": "Service",
+    "@id": `${SITE.url}${ROUTES.airbnbSeo}#service`,
+    name: "Airbnb SEO",
+    url: `${SITE.url}${ROUTES.airbnbSeo}`,
+    serviceType: "Airbnb search ranking optimization",
+    provider: { "@id": ORG_ID },
+    areaServed: { "@type": "Country", name: "India" },
+    description:
+      "Improving how a listing ranks inside Airbnb's own search — response behaviour, completeness, review velocity, calendar accuracy and price competitiveness — for hosts who want to be found without paying for placement.",
+  };
+}
+
+export function pricingStrategyServiceSchema() {
+  return {
+    "@type": "Service",
+    "@id": `${SITE.url}${ROUTES.pricingStrategy}#service`,
+    name: "Airbnb Pricing Strategy",
+    url: `${SITE.url}${ROUTES.pricingStrategy}`,
+    serviceType: "Dynamic pricing and rate strategy",
+    provider: { "@id": ORG_ID },
+    areaServed: { "@type": "Country", name: "India" },
+    description:
+      "Deliberate calendar pricing — weekday/weekend spread, seasonality, minimum-stay rules and gap-night strategy — set against what comparable listings nearby actually charge.",
+  };
+}
+
+export function revenueGrowthServiceSchema() {
+  return {
+    "@type": "Service",
+    "@id": `${SITE.url}${ROUTES.revenueGrowth}#service`,
+    name: "Airbnb Revenue Growth",
+    url: `${SITE.url}${ROUTES.revenueGrowth}`,
+    serviceType: "Short-term rental revenue management",
+    provider: { "@id": ORG_ID },
+    areaServed: { "@type": "Country", name: "India" },
+    description:
+      "Moving occupancy and ADR together rather than trading one for the other — positioning, guest-segment targeting and a reporting cadence built around RevPAR, not vanity metrics.",
+  };
+}
+
+export function photographyGuidanceServiceSchema() {
+  return {
+    "@type": "Service",
+    "@id": `${SITE.url}${ROUTES.photographyGuidance}#service`,
+    name: "Airbnb Photography Guidance",
+    url: `${SITE.url}${ROUTES.photographyGuidance}`,
+    serviceType: "Property photography consulting",
+    provider: { "@id": ORG_ID },
+    areaServed: { "@type": "Country", name: "India" },
+    description:
+      "A shot list, sequencing and staging review built for the camera a host already has — which photo leads, what order follows, and what to reshoot before the listing goes live.",
   };
 }
 
@@ -291,7 +421,7 @@ export function glossarySchema(terms: { term: string; definition: string }[]) {
 /** Service catalog schema for the /services page — the single biggest
  * structured-data gap flagged by the SEO/schema audit (2026-07-20): nothing
  * previously told Google/AI systems what StayEdge's actual service
- * disciplines are, beyond the roast-ladder Offers on the org entity. */
+ * disciplines are, beyond the Offers on the org entity. */
 export function servicesCatalogSchema(services: { title: string; body: string }[]) {
   return {
     "@type": "Service",

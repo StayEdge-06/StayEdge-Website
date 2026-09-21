@@ -16,13 +16,14 @@ const STAGES = [
   { n: "06", title: "Recommendations", body: "A clear, specific plan — what to change, why, and what to expect." },
 ];
 
-export function MechanismTimeline() {
+export function MechanismTimeline({ headingAs }: { headingAs?: "h1" | "h2" } = {}) {
   return (
     <Section id="how-we-think">
       <SectionHeading
         eyebrow="How Vira Thinks"
         title="We don't guess. We run a process."
-        intro="The same analysis behind every roast and every Property Growth Snapshot — so the numbers are earned, not invented."
+        intro="The same analysis behind every Property Growth Audit — so the numbers are earned, not invented."
+        as={headingAs}
       />
       <PinnedStages stages={STAGES} className="mx-auto mt-14 max-w-3xl" />
     </Section>

@@ -7,8 +7,8 @@ import { Reveal } from "@/components/motion/Reveal";
  */
 export const FAQS = [
   {
-    q: "Is the roast really free? What's the catch?",
-    a: "Your score, three issues and one strength are free, with no email. There's no catch — it's how we show you we know Airbnb before asking for anything.",
+    q: "Is the Property Growth Audit really free? What's the catch?",
+    a: "The audit is free and there's no catch. You get a prioritised list of what's costing you bookings, whether or not you ever work with us — it's how we show you we know Airbnb before asking for anything.",
   },
   {
     q: "Are you property managers?",
@@ -20,7 +20,7 @@ export const FAQS = [
   },
   {
     q: "Do you need access to my Airbnb account?",
-    a: "Not to roast your listing — a public link is enough. If we work together, we only ask for what a specific change needs, with your permission.",
+    a: "Not for the audit — a public listing link is enough. If we work together, we only ask for what a specific change needs, with your permission.",
   },
   {
     q: "My listing is new / has few reviews. Can you still help?",
@@ -28,7 +28,7 @@ export const FAQS = [
   },
   {
     q: "What does it cost after the audit?",
-    a: "That depends on your property and goals, and we'll only quote once there's a clear return to aim at. The roast, snapshot and audit are free.",
+    a: "That depends on your property and goals, and we'll only quote once there's a clear return to aim at. The Property Growth Audit itself is free.",
   },
 ];
 
@@ -41,13 +41,13 @@ export function FAQ() {
         <div className="divide-y divide-[var(--se-line)] border-y border-[var(--se-line)]">
           {FAQS.map((f) => (
             <details key={f.q} className="group py-5">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-body font-semibold text-se-offwhite">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-body font-semibold text-se-ink">
                 {f.q}
-                <span className="shrink-0 text-se-lavender transition-transform group-open:rotate-45">
+                <span className="shrink-0 text-se-accent transition-transform group-open:rotate-45">
                   +
                 </span>
               </summary>
-              <p className="mt-3 text-se-grey-lavender">{f.a}</p>
+              <p className="mt-3 text-se-ink-muted">{f.a}</p>
             </details>
           ))}
         </div>

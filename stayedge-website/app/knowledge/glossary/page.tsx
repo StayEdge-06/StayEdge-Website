@@ -40,20 +40,21 @@ export default function GlossaryPage() {
           eyebrow="Knowledge · Glossary"
           title="The host glossary."
           intro="The numbers and terms that decide your revenue — defined in plain language."
+          as="h1"
         />
 
         <Reveal className="mx-auto mt-12 max-w-3xl">
           <dl className="divide-y divide-[var(--se-line)] border-y border-[var(--se-line)]">
             {GLOSSARY.map((g) => (
               <div key={g.term} className="py-5">
-                <dt className="se-num text-lg text-se-lavender">{g.term}</dt>
-                <dd className="mt-1 text-se-grey-lavender">{g.definition}</dd>
+                <dt className="se-num text-lg text-se-accent">{g.term}</dt>
+                <dd className="mt-1 text-se-ink-muted">{g.definition}</dd>
               </div>
             ))}
           </dl>
 
           <div className="mt-10 text-center">
-            <Button href={ROUTES.roast} variant="primary" size="md" haptic>
+            <Button href={ROUTES.freeAudit} variant="primary" size="md" haptic>
               See these numbers for your listing — free
             </Button>
           </div>

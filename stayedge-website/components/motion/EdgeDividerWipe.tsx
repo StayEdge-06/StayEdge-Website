@@ -13,7 +13,7 @@ type Ground = "base" | "deep" | "light";
 const GROUND_BG: Record<Ground, string> = {
   base: "bg-se-ground",
   deep: "bg-se-ground-2",
-  light: "bg-se-offwhite",
+  light: "bg-se-invert-ground",
 };
 
 /**

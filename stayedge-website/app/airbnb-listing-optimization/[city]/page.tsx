@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Button } from "@/components/ui/Button";
+import Link from "next/link";
 import { ROUTES, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { CITIES, getCity } from "@/lib/content/cities";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -63,28 +64,29 @@ export default async function CityPage({
           eyebrow={`${c.city}, ${c.state}`}
           title={`Airbnb listing optimization in ${c.city}.`}
           center={false}
+          as="h1"
         />
 
         <div className="mx-auto max-w-3xl">
-          <p className="mt-6 rounded-[var(--se-radius-lg)] border-l-2 border-se-purple bg-se-ground-2 p-5 text-lg text-se-offwhite/90">
+          <p className="mt-6 rounded-[var(--se-radius-lg)] border-l-2 border-se-purple bg-se-ground-2 p-5 text-lg text-se-ink/90">
             {c.intro}
           </p>
 
-          <h2 className="mt-10 font-body text-xl font-bold text-se-offwhite">
+          <h2 className="mt-10 font-body text-xl font-bold text-se-ink">
             How demand actually works in {c.city}
           </h2>
           {c.market.map((p) => (
-            <p key={p.slice(0, 32)} className="mt-3 text-se-grey-lavender">
+            <p key={p.slice(0, 32)} className="mt-3 text-se-ink-muted">
               {p}
             </p>
           ))}
 
-          <h2 className="mt-10 font-body text-xl font-bold text-se-offwhite">
+          <h2 className="mt-10 font-body text-xl font-bold text-se-ink">
             The {c.city} playbook
           </h2>
           <ul className="mt-4 space-y-3">
             {c.playbook.map((p) => (
-              <li key={p.slice(0, 32)} className="flex gap-3 text-se-offwhite/85">
+              <li key={p.slice(0, 32)} className="flex gap-3 text-se-ink/85">
                 <span aria-hidden className="text-se-positive">✓</span>
                 {p}
               </li>
@@ -95,25 +97,33 @@ export default async function CityPage({
             <h2 className="se-eyebrow">Common questions</h2>
             {c.faqs.map((f) => (
               <details key={f.q} className="group border-b border-[var(--se-line)] py-4">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-body font-semibold text-se-offwhite">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-body font-semibold text-se-ink">
                   {f.q}
-                  <span className="shrink-0 text-se-lavender transition-transform group-open:rotate-45">+</span>
+                  <span className="shrink-0 text-se-accent transition-transform group-open:rotate-45">+</span>
                 </summary>
-                <p className="mt-3 text-se-grey-lavender">{f.a}</p>
+                <p className="mt-3 text-se-ink-muted">{f.a}</p>
               </details>
             ))}
           </section>
 
           <div className="mt-10 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 text-center">
-            <p className="text-se-offwhite">
+            <p className="text-se-ink">
               Hosting in {c.city}? See what your listing is leaving on the table.
             </p>
             <div className="mt-4">
-              <Button href={ROUTES.roast} variant="primary" size="md" haptic>
-                Roast my listing — free
+              <Button href={ROUTES.freeAudit} variant="primary" size="md" haptic>
+                Get your free audit
               </Button>
             </div>
           </div>
+
+          <p className="mt-8 text-center text-sm text-se-ink-muted">
+            This is the {c.city}-specific market read. See the full{" "}
+            <Link href={ROUTES.listingOptimization} className="text-se-accent underline-offset-4 hover:underline">
+              Airbnb Listing Optimization service
+            </Link>{" "}
+            for how we approach the title, photos and description themselves.
+          </p>
         </div>
       </Section>
       <FinalCTA />

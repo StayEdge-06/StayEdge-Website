@@ -38,14 +38,14 @@ const SEGMENTS = [
     title: "First-time hosts",
     pain: "Launching soon or just live, and every decision feels like a guess.",
     how: "We get the launch right — title, photos, pricing posture and the first reviews — so you skip the expensive early mistakes.",
-    cta: "Start with a free roast",
+    cta: "Start with a free audit",
   },
   {
     id: "villa-owners",
     title: "Villa owners",
     pain: "A premium property that books like an average one.",
     how: "Positioning, photography direction and pricing that match what your villa is actually worth — so the right guests pay the right rate.",
-    cta: "Roast my villa",
+    cta: "Audit my villa",
   },
   {
     id: "boutique-hotels",
@@ -71,6 +71,7 @@ export default function WhoWeHelpPage() {
           eyebrow="Who We Help"
           title="The plan changes with the property."
           intro="Find yours. The method is the same — the priorities are not."
+          as="h1"
         />
         <RevealGroup className="mt-14 space-y-6">
           {SEGMENTS.map((s) => (
@@ -79,11 +80,11 @@ export default function WhoWeHelpPage() {
                 id={s.id}
                 className="se-edge-strip block scroll-mt-24 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 pl-7 md:p-8 md:pl-9"
               >
-                <h2 className="font-body text-xl font-bold text-se-offwhite">{s.title}</h2>
-                <p className="mt-2 font-editorial italic text-se-grey-lavender">{s.pain}</p>
-                <p className="mt-3 text-se-offwhite/85">{s.how}</p>
+                <h2 className="font-body text-xl font-bold text-se-ink">{s.title}</h2>
+                <p className="mt-2 font-editorial italic text-se-ink-muted">{s.pain}</p>
+                <p className="mt-3 text-se-ink/85">{s.how}</p>
                 <div className="mt-5">
-                  <Button href={ROUTES.roast} variant="secondary" size="md">
+                  <Button href={ROUTES.freeAudit} variant="secondary" size="md">
                     {s.cta}
                   </Button>
                 </div>

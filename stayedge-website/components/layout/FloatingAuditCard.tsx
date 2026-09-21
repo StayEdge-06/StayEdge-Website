@@ -15,11 +15,11 @@ import { CTA, ROUTES } from "@/lib/config/site";
  * visitor has scrolled about a viewport's worth down any page (so it never
  * competes with whatever's above the fold — a hero, a tool, a form),
  * collapsed to a slim tab that expands on hover/click. Mirrors Vira.tsx's
- * session-dismiss pattern. Hidden on /audit itself (redundant) and /os
+ * session-dismiss pattern. Hidden on /free-audit itself (redundant) and /os
  * (internal dashboard, not part of the marketing site).
  */
 const SESSION_DISMISS = "stayedge.auditCard.dismissed";
-const HIDDEN_ON = [ROUTES.audit, "/os"];
+const HIDDEN_ON = [ROUTES.freeAudit, "/os"];
 
 export function FloatingAuditCard() {
   const reduce = useReducedMotion();
@@ -79,15 +79,15 @@ export function FloatingAuditCard() {
                   <button
                     onClick={dismiss}
                     aria-label="Dismiss"
-                    className="cursor-pointer rounded-full px-1 text-se-grey-lavender hover:text-se-offwhite"
+                    className="cursor-pointer rounded-full px-1 text-se-ink-muted hover:text-se-ink"
                   >
                     ✕
                   </button>
                 </div>
-                <p className="text-sm font-semibold text-se-offwhite">
+                <p className="text-sm font-semibold text-se-ink">
                   Skip straight to a real audit.
                 </p>
-                <p className="mt-1 text-sm text-se-grey-lavender">
+                <p className="mt-1 text-sm text-se-ink-muted">
                   A specialist reviews your listing and hands you a prioritized plan — free.
                 </p>
                 <Magnetic strength={0.3} className="mt-3 block">

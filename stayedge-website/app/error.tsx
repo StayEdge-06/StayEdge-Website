@@ -11,10 +11,10 @@ export default function GlobalError({ reset }: { error: Error; reset: () => void
   return (
     <section className="mx-auto max-w-[700px] px-5 py-28 text-center md:px-8">
       <p className="se-eyebrow mb-4">A brief hiccup</p>
-      <h1 className="se-display text-[clamp(28px,5vw,52px)] text-se-offwhite">
+      <h1 className="se-display text-se-ink [--se-display-size:clamp(28px,5vw,52px)]">
         That wasn&apos;t supposed to happen.
       </h1>
-      <p className="mx-auto mt-5 max-w-md text-se-grey-lavender">
+      <p className="mx-auto mt-5 max-w-md text-se-ink-muted">
         Let&apos;s pick up where you left off — or talk to a person who can help right now.
       </p>
       <div className="mt-8 flex flex-wrap justify-center gap-3">

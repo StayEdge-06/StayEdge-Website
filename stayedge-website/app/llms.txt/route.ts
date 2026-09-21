@@ -20,19 +20,36 @@ export async function GET() {
   lines.push(`> ${SITE.promise}`);
   lines.push("");
   lines.push(
-    `${SITE.name} is an Airbnb growth consultancy based in Tirupati, Andhra Pradesh, India, founded by ${CONTACT.founder}. It helps Airbnb hosts increase bookings, occupancy and revenue through listing optimization, dynamic pricing, and Airbnb SEO — combining an AI listing analyst ("Vira") with human operator judgement. Not a property manager: hosts keep full control of their listing and account.`,
+    `${SITE.name} is an Airbnb listing optimization and growth consultancy based in Tirupati, Andhra Pradesh, India, founded by ${CONTACT.founder}. It helps Airbnb hosts increase bookings, occupancy and revenue through listing optimization, dynamic pricing and Airbnb SEO, and produces AI property video for short-term rentals. Work combines AI tooling with human operator judgement; audits and recommendations are reviewed by a person before they reach the host. Not a property manager: hosts keep full control of their listing and account.`,
   );
   lines.push("");
 
   lines.push("## Core pages");
   lines.push(`- [Homepage](${SITE.url}${ROUTES.home}): what StayEdge does and who it's for.`);
   lines.push(
-    `- [Roast My Listing](${SITE.url}${ROUTES.roast}): free AI tool that reads an Airbnb listing and returns a score plus specific issues, in seconds.`,
+    `- [Free Property Growth Audit](${SITE.url}${ROUTES.freeAudit}): the main entry point — a free review of a host's listing covering listing quality, pricing and search visibility, returned as a prioritised fix list. Delivered by a person, not an automated tool.`,
   );
-  lines.push(`- [What We Do](${SITE.url}${ROUTES.services}): the four service disciplines (listing & Airbnb SEO, pricing & ADR, occupancy & conversion, positioning).`);
+  lines.push(`- [What We Do](${SITE.url}${ROUTES.services}): the six service disciplines below.`);
+  lines.push(
+    `- [Airbnb Listing Optimization](${SITE.url}${ROUTES.listingOptimization}): title, photo order, description and amenities rewritten to convert.`,
+  );
+  lines.push(
+    `- [Airbnb SEO](${SITE.url}${ROUTES.airbnbSeo}): ranking inside Airbnb's own search — response behaviour, completeness, review velocity, calendar accuracy, price competitiveness.`,
+  );
+  lines.push(
+    `- [Pricing Strategy](${SITE.url}${ROUTES.pricingStrategy}): deliberate calendar pricing — weekday/weekend, seasonality, minimum stays, gap nights.`,
+  );
+  lines.push(
+    `- [Revenue Growth](${SITE.url}${ROUTES.revenueGrowth}): occupancy and ADR moved together toward RevPAR, plus positioning and guest-segment targeting.`,
+  );
+  lines.push(
+    `- [Photography Guidance](${SITE.url}${ROUTES.photographyGuidance}): shot list, sequencing and staging guidance for the camera a host already has.`,
+  );
+  lines.push(
+    `- [AI Property Video](${SITE.url}${ROUTES.aiPropertyVideo}): cinematic AI-produced property video — Instagram Reels, YouTube Shorts, walkthroughs, promotional films and website hero video.`,
+  );
   lines.push(`- [Who We Help](${SITE.url}${ROUTES.whoWeHelp}): first-time hosts, villa owners, boutique hotels, investors & managers.`);
-  lines.push(`- [How We Work](${SITE.url}${ROUTES.howWeWork}): the free-to-paid engagement ladder (roast → growth snapshot → free audit → growth).`);
-  lines.push(`- [Free Property Audit](${SITE.url}${ROUTES.audit}): book a free, no-pressure audit with a specialist.`);
+  lines.push(`- [How We Work](${SITE.url}${ROUTES.howWeWork}): the engagement path from free audit to ongoing growth work.`);
   lines.push(`- [About](${SITE.url}${ROUTES.about}): the founder and why StayEdge exists.`);
   lines.push(`- [Contact](${SITE.url}${ROUTES.contact})`);
   lines.push("");

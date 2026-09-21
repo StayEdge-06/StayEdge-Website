@@ -1,50 +1,73 @@
 import { NextResponse } from "next/server";
-import { z } from "zod";
-import "@/lib/server/net";
+import { clientIp } from "@/lib/server/leads/abuse";
+import { submitLead } from "@/lib/server/leads/service";
 
 /**
- * Lead HEAD endpoint — forwards unlock leads into StayEdge OS (n8n), which owns
- * CRM append + Telegram founder notify + the approval → WhatsApp pipeline.
- * The website never duplicates that intelligence; it only delivers the event.
+ * The one lead endpoint. Every form on the site posts here.
  *
- * Env: N8N_LEAD_WEBHOOK_URL (+ optional N8N_ROAST_TOKEN reused as bearer).
- * Unconfigured/unreachable = graceful no-op (the client also stores the lead
- * on-device, so nothing is lost while the OS side is being wired).
+ * This file is deliberately thin: it speaks HTTP (status codes, headers, JSON)
+ * and nothing else. Validation, spam control, duplicate detection, storage and
+ * notification all live in the lead service, so the same rules apply no matter
+ * what calls them — a future server action, an admin re-submit, or a test.
+ *
+ * RESPONSE CONTRACT
+ *   200 { ok: true, id, duplicate, delivered }  accepted (delivered is per-sink)
+ *   200 { ok: true, id: null, delivered: null } silently discarded as automated
+ *   400 { ok: false, error: "invalid", fields } field-level validation messages
+ *   429 { ok: false, error: "rate_limited" }    with a Retry-After header
+ *
+ * WHY BOTS GET A 200: a spammer who receives a 4xx simply retries with the trap
+ * field removed. A silent 200 teaches them nothing and costs a false positive
+ * nothing visible either.
+ *
+ * Node runtime (not edge): the Sheets service-account JWT is signed with
+ * node:crypto.
  */
-const LEAD_URL = process.env.N8N_LEAD_WEBHOOK_URL;
-const TOKEN = process.env.N8N_ROAST_TOKEN;
-
-const leadSchema = z.object({
-  whatsapp: z.string().min(5).max(30),
-  email: z.string().email().max(200).optional().or(z.literal("")),
-  ref: z.string().max(500).optional(),
-  score: z.number().min(0).max(100).optional(),
-  city: z.string().max(120).optional(),
-  source: z.string().max(60).optional(),
-});
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
-  let forwarded = false;
+  let body: unknown;
   try {
-    const parsed = leadSchema.safeParse(await req.json());
-    if (parsed.success && LEAD_URL) {
-      const controller = new AbortController();
-      // n8n cloud can take ~15s cold; the client fires-and-forgets this call.
-      const timer = setTimeout(() => controller.abort(), 15_000);
-      const res = await fetch(LEAD_URL, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          ...(TOKEN ? { authorization: `Bearer ${TOKEN}` } : {}),
-        },
-        body: JSON.stringify({ type: "lead", ...parsed.data, ts: Date.now() }),
-        signal: controller.signal,
-      });
-      clearTimeout(timer);
-      forwarded = res.ok;
-    }
+    body = await req.json();
   } catch {
-    /* never block the visitor on delivery problems */
+    return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
   }
-  return NextResponse.json({ ok: true, forwarded });
+
+  const result = await submitLead(body, {
+    ip: clientIp(req),
+    fallbackPath: new URL(req.url).pathname,
+  });
+
+  switch (result.outcome) {
+    case "invalid":
+      return NextResponse.json(
+        { ok: false, error: "invalid", fields: result.fieldErrors },
+        { status: 400 },
+      );
+
+    case "rate_limited":
+      return NextResponse.json(
+        { ok: false, error: "rate_limited" },
+        {
+          status: 429,
+          headers: { "retry-after": String(result.retryAfterSeconds) },
+        },
+      );
+
+    case "discarded":
+      // The signal that caught it is never returned — it would tell a bot
+      // exactly which check to defeat next.
+      return NextResponse.json({ ok: true, id: null, delivered: null });
+
+    case "accepted":
+      return NextResponse.json({
+        ok: true,
+        // The lead id is safe to return and genuinely useful: the founder can
+        // ask a host to quote it, and the success screen can show it.
+        id: result.lead.id,
+        duplicate: result.duplicate,
+        delivered: result.lead.delivery,
+      });
+  }
 }

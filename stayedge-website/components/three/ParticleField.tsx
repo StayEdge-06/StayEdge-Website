@@ -3,6 +3,7 @@
 import { useMemo, useRef, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { useTheme } from "@/components/theme/ThemeProvider";
 
 /**
  * The Living Edge particle field (flagship hero): a drifting constellation of
@@ -13,6 +14,11 @@ import * as THREE from "three";
 export function ParticleField({ count = 1200 }: { count?: number }) {
   const points = useRef<THREE.Points>(null);
   const pointer = useRef({ x: 0, y: 0 });
+  // Additive blending adds light to what is behind it, which is why the field
+  // glows on charcoal — and why it would disappear entirely on the light
+  // canvas, where the ground is already near its maximum. On light the
+  // particles paint normally instead, reading as purple dust rather than glow.
+  const onLight = useTheme().theme === "light";
 
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
@@ -83,13 +89,13 @@ export function ParticleField({ count = 1200 }: { count?: number }) {
         <bufferAttribute attach="attributes-color" args={[colors, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        size={0.055}
+        size={onLight ? 0.048 : 0.055}
         vertexColors
         transparent
-        opacity={0.75}
+        opacity={onLight ? 0.5 : 0.75}
         sizeAttenuation
         depthWrite={false}
-        blending={THREE.AdditiveBlending}
+        blending={onLight ? THREE.NormalBlending : THREE.AdditiveBlending}
       />
     </points>
   );

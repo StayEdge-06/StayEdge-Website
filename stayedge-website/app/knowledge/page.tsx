@@ -49,6 +49,7 @@ export default function KnowledgePage() {
           eyebrow="Knowledge"
           title="The Airbnb growth library."
           intro="Guides, answers and definitions for hosts — written from real work, no hype."
+          as="h1"
         />
 
         {/* Topic clusters (Authority Engine) */}
@@ -56,15 +57,15 @@ export default function KnowledgePage() {
           {withArticles.map((c) => (
             <RevealItem key={c.id}>
               <TiltCard className="block h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6">
-                <h2 className="font-body text-lg font-bold text-se-offwhite">{c.title}</h2>
-                <p className="mt-1 text-sm text-se-grey-lavender">{c.blurb}</p>
+                <h2 className="font-body text-lg font-bold text-se-ink">{c.title}</h2>
+                <p className="mt-1 text-sm text-se-ink-muted">{c.blurb}</p>
                 {c.articles.length > 0 ? (
                   <ul className="mt-4 space-y-2 border-t border-[var(--se-line)] pt-4">
                     {c.articles.map((a) => (
                       <li key={a.slug}>
                         <Link
                           href={`/knowledge/${a.slug}`}
-                          className="text-se-lavender underline-offset-4 hover:underline"
+                          className="text-se-accent underline-offset-4 hover:underline"
                         >
                           {a.title}
                         </Link>
@@ -72,7 +73,7 @@ export default function KnowledgePage() {
                     ))}
                   </ul>
                 ) : (
-                  <p className="mt-4 border-t border-[var(--se-line)] pt-4 text-xs text-se-grey-lavender">
+                  <p className="mt-4 border-t border-[var(--se-line)] pt-4 text-xs text-se-ink-muted">
                     Guides publishing soon.
                   </p>
                 )}
@@ -86,20 +87,20 @@ export default function KnowledgePage() {
                 href="/knowledge/glossary"
                 className="flex h-full flex-col rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-3 p-6 transition-colors hover:border-[var(--se-line-strong)]"
               >
-                <h2 className="font-body text-lg font-bold text-se-offwhite">Host Glossary</h2>
-                <p className="mt-1 flex-1 text-sm text-se-offwhite/80">
+                <h2 className="font-body text-lg font-bold text-se-ink">Host Glossary</h2>
+                <p className="mt-1 flex-1 text-sm text-se-ink/80">
                   ADR, RevPAR, occupancy, gap nights — the numbers that decide your revenue,
                   in plain language.
                 </p>
-                <span className="mt-4 text-sm font-semibold text-se-lavender">Open the glossary →</span>
+                <span className="mt-4 text-sm font-semibold text-se-accent">Open the glossary →</span>
               </Link>
             </TiltCard>
           </RevealItem>
         </RevealGroup>
 
         <div className="mx-auto mt-16 max-w-3xl border-t border-[var(--se-line)] pt-10 text-center">
-          <h2 className="se-title text-[clamp(22px,3vw,32px)] text-se-offwhite">Quick answers</h2>
-          <p className="mt-2 text-se-grey-lavender">The questions hosts ask most, answered in a paragraph.</p>
+          <h2 className="se-title text-[clamp(22px,3vw,32px)] text-se-ink">Quick answers</h2>
+          <p className="mt-2 text-se-ink-muted">The questions hosts ask most, answered in a paragraph.</p>
         </div>
 
         <RevealGroup className="mx-auto mt-14 max-w-3xl space-y-4">
@@ -109,10 +110,10 @@ export default function KnowledgePage() {
                 id={answerSlug(item.q)}
                 className="se-edge-strip scroll-mt-24 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 pl-7 md:p-8 md:pl-9"
               >
-                <h2 className="font-body text-lg font-bold text-se-offwhite">{item.q}</h2>
-                <p className="mt-3 text-se-offwhite/90">{item.a}</p>
+                <h2 className="font-body text-lg font-bold text-se-ink">{item.q}</h2>
+                <p className="mt-3 text-se-ink/90">{item.a}</p>
                 {item.detail.map((d) => (
-                  <p key={d.slice(0, 24)} className="mt-2 text-sm text-se-grey-lavender">
+                  <p key={d.slice(0, 24)} className="mt-2 text-sm text-se-ink-muted">
                     {d}
                   </p>
                 ))}
@@ -122,13 +123,13 @@ export default function KnowledgePage() {
         </RevealGroup>
 
         <Reveal className="mx-auto mt-12 max-w-xl rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-8 text-center">
-          <p className="text-se-offwhite">
+          <p className="text-se-ink">
             Reading is slower than knowing. {PERSONA.name} can read your listing and tell you
             which of these actually applies to you — free.
           </p>
           <div className="mt-5 flex flex-wrap justify-center gap-3">
-            <Button href={ROUTES.roast} variant="primary" size="md" haptic>
-              Roast my listing
+            <Button href={ROUTES.freeAudit} variant="primary" size="md" haptic>
+              Get your free audit
             </Button>
             <Button href={WHATSAPP_URL} external variant="ghost" size="md">
               Ask us on WhatsApp

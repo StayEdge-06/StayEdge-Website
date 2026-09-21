@@ -1,25 +1,17 @@
 /**
  * Property Passport (client seed) — the persistent object that ties an anonymous
- * visitor → lead → client (Strategy v2 / UX Decision 5). Milestone 2 stores it in
- * localStorage so returning visitors are recognised; later milestones sync it to
- * the account. Degrades gracefully when storage is unavailable (privacy mode).
+ * visitor → lead → client (Strategy v2 / UX Decision 5). Stored in localStorage
+ * so returning visitors are recognised; later milestones sync it to the account.
+ * Degrades gracefully when storage is unavailable (privacy mode).
+ *
+ * V2 note: the per-property record set was written for the Roast engine, which
+ * no longer exists. Nothing produced those records after the removal, so the
+ * passport is now just the visit counter that Vira and the returning-visitor
+ * analytics signal actually read.
  */
 const KEY = "stayedge.passport.v1";
 
-export type PropertyRecord = {
-  /** Airbnb URL or, for launch mode, a synthetic id. */
-  ref: string;
-  /** Human label, e.g. "Tirupati Villa". */
-  label?: string;
-  city?: string;
-  /** Last Roast Score, if analysed. */
-  score?: number;
-  /** epoch ms */
-  ts: number;
-};
-
 export type Passport = {
-  properties: PropertyRecord[];
   visits: number;
   firstSeen: number;
   lastSeen: number;
@@ -64,48 +56,28 @@ export function touchVisit(): Passport | null {
   const existing = readPassport();
   const next: Passport = existing
     ? { ...existing, visits: existing.visits + 1, lastSeen: now }
-    : { properties: [], visits: 1, firstSeen: now, lastSeen: now };
+    : { visits: 1, firstSeen: now, lastSeen: now };
   write(next);
   return next;
 }
 
-/** Record (or update) a property the visitor analysed. */
-export function rememberProperty(rec: Omit<PropertyRecord, "ts">) {
-  const p = readPassport() ?? {
-    properties: [],
-    visits: 1,
-    firstSeen: Date.now(),
-    lastSeen: Date.now(),
-  };
-  const idx = p.properties.findIndex((x) => x.ref === rec.ref);
-  const entry: PropertyRecord = { ...rec, ts: Date.now() };
-  if (idx >= 0) p.properties[idx] = { ...p.properties[idx], ...entry };
-  else p.properties.unshift(entry);
-  p.properties = p.properties.slice(0, 8); // cap; multi-property investors supported
-  write(p);
-}
-
 /**
- * Persist a captured lead locally so it is never lost. NOTE: real delivery /
- * CRM sync is the deferred backend (business decision) — this only records it on
- * the device; nothing is sent anywhere yet, so the UI must not claim it was.
+ * Persist a captured lead on-device as a safety net. The server route is the
+ * real delivery path (Sheets + Telegram); this exists so a lead is not lost if
+ * that POST fails while the visitor is mid-form, and so support can recover it
+ * from the browser if a host reports "I submitted and heard nothing".
  */
-export function rememberLead(lead: { whatsapp?: string; email?: string; ref?: string }) {
+export function rememberLead(lead: Record<string, unknown>) {
   if (!canUse()) return;
   try {
     const k = "stayedge.leads.v1";
     const raw = window.localStorage.getItem(k);
     const list = raw ? (JSON.parse(raw) as unknown[]) : [];
     list.push({ ...lead, ts: Date.now() });
-    window.localStorage.setItem(k, JSON.stringify(list));
+    window.localStorage.setItem(k, JSON.stringify(list.slice(-20)));
   } catch {
-    /* ignore */
+    /* ignore quota / privacy errors */
   }
-}
-
-export function mostRecentProperty(p: Passport | null): PropertyRecord | null {
-  if (!p || p.properties.length === 0) return null;
-  return [...p.properties].sort((a, b) => b.ts - a.ts)[0];
 }
 
 export function isReturning(p: Passport | null): boolean {

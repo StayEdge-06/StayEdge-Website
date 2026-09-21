@@ -34,6 +34,10 @@ yarn-error.log*
 .env*
 # Allow .env.production with public NEXT_PUBLIC_* vars for production builds
 !.env.production
+# .env.example is the documented contract for every variable the app reads.
+# It holds key names and comments only — never a value — so it belongs in the
+# repo: without it a fresh clone has no record of which vars exist at all.
+!.env.example
 
 # vercel
 .vercel

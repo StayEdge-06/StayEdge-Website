@@ -38,6 +38,7 @@ export default function ContactPage() {
         eyebrow="Contact"
         title="Talk to a person."
         intro="WhatsApp is fastest — you'll get a reply from a real operator, not a queue."
+        as="h1"
       />
 
       <Reveal className="mx-auto mt-12 max-w-xl">
@@ -45,14 +46,14 @@ export default function ContactPage() {
           <Button href={WHATSAPP_URL} external variant="whatsapp" size="lg" haptic className="w-full">
             WhatsApp us
           </Button>
-          <div className="mt-6 space-y-2 text-sm text-se-grey-lavender">
+          <div className="mt-6 space-y-2 text-sm text-se-ink-muted">
             <p>
-              <a className="hover:text-se-offwhite" href={`tel:${CONTACT.phone}`}>
+              <a className="hover:text-se-ink" href={`tel:${CONTACT.phone}`}>
                 {CONTACT.phone}
               </a>
             </p>
             <p>
-              <a className="hover:text-se-offwhite" href={`mailto:${CONTACT.email}`}>
+              <a className="hover:text-se-ink" href={`mailto:${CONTACT.email}`}>
                 {CONTACT.email}
               </a>
             </p>
@@ -61,7 +62,7 @@ export default function ContactPage() {
                 href="https://www.instagram.com/stayedgeofficial"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-se-offwhite"
+                className="hover:text-se-ink"
               >
                 Instagram
               </a>
@@ -70,20 +71,20 @@ export default function ContactPage() {
                 href="https://www.linkedin.com/company/stayedge/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-se-offwhite"
+                className="hover:text-se-ink"
               >
                 LinkedIn
               </a>
             </p>
             <p>{CONTACT.location}</p>
           </div>
-          <p className="mt-6 border-t border-[var(--se-line)] pt-5 text-sm text-se-grey-lavender">
-            Not sure what to ask? Start with the free roast — it gives us both something
+          <p className="mt-6 border-t border-[var(--se-line)] pt-5 text-sm text-se-ink-muted">
+            Not sure what to ask? Start with the free audit — it gives us both something
             specific to talk about.
           </p>
           <div className="mt-4">
-            <Button href={ROUTES.roast} variant="ghost" size="md">
-              Roast my listing first
+            <Button href={ROUTES.freeAudit} variant="ghost" size="md">
+              Get your free audit first
             </Button>
           </div>
         </div>

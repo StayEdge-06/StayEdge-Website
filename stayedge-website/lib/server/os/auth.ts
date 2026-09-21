@@ -77,10 +77,18 @@ export async function destroySession(): Promise<void> {
   jar.delete(COOKIE);
 }
 
+/** The session cookie's name, for the proxy, which reads it off the request. */
+export const OS_COOKIE = COOKIE;
+
+/** True when a raw session-cookie value is valid — shared by pages and proxy. */
+export function osSessionValid(value: string | undefined): boolean {
+  return tokenValid(value, signingSecret());
+}
+
 /** True when the current request carries a valid session. */
 export async function hasOsSession(): Promise<boolean> {
   const jar = await cookies();
-  return tokenValid(jar.get(COOKIE)?.value, signingSecret());
+  return osSessionValid(jar.get(COOKIE)?.value);
 }
 
 export { clearThrottle, loginThrottled } from "./session-token.ts";

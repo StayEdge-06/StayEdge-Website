@@ -71,7 +71,7 @@
 | 7 | Add a lightweight table-of-contents to long knowledge articles | **P2** | ✅ Done (`439dd2b`) — gated on 3+ sections, verified click-to-scroll works | Reading-experience improvement, not urgent |
 | 8 | Wire up or remove the dead `Skeleton` component | **P3** | ✅ Removed (`64a8dbb`) — confirmed zero references repo-wide first | Cleanup, no user-facing effect |
 | 9 | Add "typical seasonal pattern" framing to the two city-page rhetorical stats | **P3** | ✅ Done (`bd65aa2`) — reframed as general pattern, no numbers changed | Precautionary, not currently misleading |
-| 10 | Extend the `Card` shell to about/who-we-help/results/knowledge/city pages | **P1** (new) | Not started | Same duplication pattern found in more files during P1 work; deferred to keep this pass reviewable |
+| 10 | Extend the `Card` shell to about/who-we-help/results/knowledge/city pages | **P1** (new) | ✅ Done (`d688d6a`) — TiltCard-wrapped instances use the new `cardClassName()` export; the deliberately-different lede blockquotes were correctly left alone | Same duplication pattern found in more files during P1 work; deferred to keep this pass reviewable |
 
 ---
 

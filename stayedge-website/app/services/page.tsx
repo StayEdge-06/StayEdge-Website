@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/motion/TiltCard";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import { CTA, ROUTES, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -89,17 +89,14 @@ export default function ServicesPage() {
           {SERVICES.map((s) => (
             <RevealItem key={s.title}>
               <TiltCard className="block h-full">
-                <Link
-                  href={s.href}
-                  className="se-edge-strip block h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 pl-7 transition-colors hover:border-[var(--se-line-strong)]"
-                >
+                <Card href={s.href} edge className="block h-full">
                   <p className="se-eyebrow">{s.outcome}</p>
                   <h2 className="mt-2 font-body text-xl font-bold text-se-ink">{s.title}</h2>
                   <p className="mt-2 text-se-ink-muted">{s.body}</p>
                   <span className="mt-4 inline-block text-sm font-semibold text-se-accent">
                     Learn more →
                   </span>
-                </Link>
+                </Card>
               </TiltCard>
             </RevealItem>
           ))}

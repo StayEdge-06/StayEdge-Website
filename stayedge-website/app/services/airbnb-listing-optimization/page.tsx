@@ -4,6 +4,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { WordReveal } from "@/components/motion/ScrollFX";
 import { EyebrowTypeOn } from "@/components/motion/EyebrowTypeOn";
 import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
   breadcrumbSchema,
@@ -11,7 +12,6 @@ import {
   listingOptimizationServiceSchema,
 } from "@/lib/seo/schema";
 import { CTA, ROUTES, DEFAULT_OG_IMAGE } from "@/lib/config/site";
-import Link from "next/link";
 
 const TITLE = "Airbnb Listing Optimization Service";
 const DESCRIPTION =
@@ -133,10 +133,10 @@ export default function ListingOptimizationPage() {
         <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2">
           {ELEMENTS.map((e) => (
             <RevealItem key={e.title}>
-              <div className="se-edge-strip flex h-full flex-col rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-surface p-6 pl-7">
+              <Card edge tone="surface" className="flex h-full flex-col">
                 <h3 className="font-body text-lg font-bold text-se-ink">{e.title}</h3>
                 <p className="mt-3 flex-1 text-sm text-se-ink-muted">{e.body}</p>
-              </div>
+              </Card>
             </RevealItem>
           ))}
         </RevealGroup>
@@ -147,11 +147,11 @@ export default function ListingOptimizationPage() {
         <RevealGroup className="mt-14 grid gap-4 md:grid-cols-3">
           {PROCESS.map((p) => (
             <RevealItem key={p.n}>
-              <div className="h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6">
+              <Card className="h-full">
                 <span className="se-num text-2xl text-se-accent">{p.n}</span>
                 <h3 className="mt-4 font-body text-lg font-bold text-se-ink">{p.title}</h3>
                 <p className="mt-2 text-sm text-se-ink-muted">{p.body}</p>
-              </div>
+              </Card>
             </RevealItem>
           ))}
         </RevealGroup>
@@ -166,13 +166,10 @@ export default function ListingOptimizationPage() {
             { href: ROUTES.photographyGuidance, label: "Photography Guidance", body: "The photos behind the order." },
           ].map((s) => (
             <RevealItem key={s.href}>
-              <Link
-                href={s.href}
-                className="block h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-surface p-5 transition-colors hover:border-[var(--se-line-strong)]"
-              >
+              <Card href={s.href} tone="surface" padding="md" className="block h-full">
                 <p className="font-body font-semibold text-se-ink">{s.label}</p>
                 <p className="mt-1 text-sm text-se-ink-muted">{s.body}</p>
-              </Link>
+              </Card>
             </RevealItem>
           ))}
         </RevealGroup>

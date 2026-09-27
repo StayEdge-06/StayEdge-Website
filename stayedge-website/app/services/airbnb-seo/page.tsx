@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { WordReveal } from "@/components/motion/ScrollFX";
 import { EyebrowTypeOn } from "@/components/motion/EyebrowTypeOn";
 import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { airbnbSeoServiceSchema, breadcrumbSchema, faqSchema } from "@/lib/seo/schema";
 import { CTA, ROUTES, DEFAULT_OG_IMAGE } from "@/lib/config/site";
@@ -113,10 +113,10 @@ export default function AirbnbSeoPage() {
         <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {FACTORS.map((f) => (
             <RevealItem key={f.title}>
-              <div className="se-edge-strip flex h-full flex-col rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-surface p-6 pl-7">
+              <Card edge tone="surface" className="flex h-full flex-col">
                 <h3 className="font-body text-lg font-bold text-se-ink">{f.title}</h3>
                 <p className="mt-3 flex-1 text-sm text-se-ink-muted">{f.body}</p>
-              </div>
+              </Card>
             </RevealItem>
           ))}
         </RevealGroup>
@@ -131,13 +131,10 @@ export default function AirbnbSeoPage() {
             { href: "/knowledge/local-seo-for-short-term-rentals", label: "Local SEO Guide", body: "Being found beyond Airbnb itself." },
           ].map((s) => (
             <RevealItem key={s.href}>
-              <Link
-                href={s.href}
-                className="block h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-5 transition-colors hover:border-[var(--se-line-strong)]"
-              >
+              <Card href={s.href} padding="md" className="block h-full">
                 <p className="font-body font-semibold text-se-ink">{s.label}</p>
                 <p className="mt-1 text-sm text-se-ink-muted">{s.body}</p>
-              </Link>
+              </Card>
             </RevealItem>
           ))}
         </RevealGroup>

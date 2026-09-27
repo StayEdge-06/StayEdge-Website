@@ -4,6 +4,7 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { WordReveal } from "@/components/motion/ScrollFX";
 import { EyebrowTypeOn } from "@/components/motion/EyebrowTypeOn";
 import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import { LeadForm } from "@/components/forms/LeadForm";
 import { JsonLd } from "@/components/seo/JsonLd";
 import {
@@ -168,13 +169,13 @@ export default function AIPropertyVideoPage() {
         <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {FORMATS.map((f) => (
             <RevealItem key={f.title}>
-              <div className="se-edge-strip flex h-full flex-col rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-surface p-6 pl-7">
+              <Card edge tone="surface" className="flex h-full flex-col">
                 <div className="flex items-start justify-between gap-3">
                   <h3 className="font-body text-lg font-bold text-se-ink">{f.title}</h3>
                   <span className="se-eyebrow shrink-0 !text-se-ink-muted">{f.spec}</span>
                 </div>
                 <p className="mt-3 flex-1 text-sm text-se-ink-muted">{f.body}</p>
-              </div>
+              </Card>
             </RevealItem>
           ))}
         </RevealGroup>
@@ -190,11 +191,11 @@ export default function AIPropertyVideoPage() {
         <RevealGroup className="mt-14 grid gap-4 md:grid-cols-4">
           {PROCESS.map((p) => (
             <RevealItem key={p.n}>
-              <div className="h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6">
+              <Card className="h-full">
                 <span className="se-num text-2xl text-se-accent">{p.n}</span>
                 <h3 className="mt-4 font-body text-lg font-bold text-se-ink">{p.title}</h3>
                 <p className="mt-2 text-sm text-se-ink-muted">{p.body}</p>
-              </div>
+              </Card>
             </RevealItem>
           ))}
         </RevealGroup>

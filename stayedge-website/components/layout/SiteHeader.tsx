@@ -23,7 +23,7 @@ export function SiteHeader() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm text-se-ink/80 transition-colors hover:text-se-ink"
+              className="rounded-sm text-sm text-se-ink/80 transition-colors hover:text-se-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
             >
               {item.label}
             </Link>

@@ -103,7 +103,7 @@ export function MobileNav() {
                     key={item.href}
                     href={item.href}
                     onClick={close}
-                    className="rounded-[var(--se-radius-card)] px-3 py-3 text-base font-semibold text-se-ink transition-colors hover:bg-[color-mix(in_srgb,var(--se-lavender)_10%,transparent)]"
+                    className="rounded-[var(--se-radius-card)] px-3 py-3 text-base font-semibold text-se-ink transition-colors hover:bg-[color-mix(in_srgb,var(--se-lavender)_10%,transparent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
                   >
                     {item.label}
                   </Link>

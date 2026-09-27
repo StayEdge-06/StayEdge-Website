@@ -164,7 +164,7 @@ export default function PricingStrategyPage() {
           <div className="divide-y divide-[var(--se-line)] border-y border-[var(--se-line)]">
             {FAQS.map((f) => (
               <details key={f.q} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-body font-semibold text-se-ink">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-sm font-body font-semibold text-se-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]">
                   {f.q}
                   <span className="shrink-0 text-se-accent transition-transform group-open:rotate-45">+</span>
                 </summary>

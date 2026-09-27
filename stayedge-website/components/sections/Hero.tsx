@@ -106,7 +106,7 @@ export function Hero() {
           <p className="mt-3 text-sm">
             <a
               href={CTA.video.href}
-              className="text-se-accent underline-offset-4 hover:underline"
+              className="rounded-sm text-se-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
             >
               Or see our AI property video service →
             </a>

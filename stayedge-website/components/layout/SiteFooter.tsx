@@ -51,7 +51,7 @@ export function SiteFooter() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-se-ink/75 transition-colors hover:text-se-ink"
+              className="rounded-sm text-se-ink/75 transition-colors hover:text-se-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
             >
               {item.label}
             </Link>
@@ -59,10 +59,16 @@ export function SiteFooter() {
         </nav>
 
         <div className="flex flex-col gap-2 text-sm text-se-ink-muted">
-          <a href={`mailto:${CONTACT.email}`} className="hover:text-se-ink">
+          <a
+            href={`mailto:${CONTACT.email}`}
+            className="rounded-sm hover:text-se-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
+          >
             {CONTACT.email}
           </a>
-          <a href={`tel:${CONTACT.phone}`} className="hover:text-se-ink">
+          <a
+            href={`tel:${CONTACT.phone}`}
+            className="rounded-sm hover:text-se-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
+          >
             {CONTACT.phone}
           </a>
           <div className="flex flex-wrap gap-3">
@@ -70,7 +76,7 @@ export function SiteFooter() {
               href="https://www.instagram.com/stayedgeofficial"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-se-ink"
+              className="rounded-sm hover:text-se-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
               aria-label="Instagram"
             >
               Instagram
@@ -79,7 +85,7 @@ export function SiteFooter() {
               href="https://www.linkedin.com/company/stayedge/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-se-ink"
+              className="rounded-sm hover:text-se-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
               aria-label="LinkedIn"
             >
               LinkedIn
@@ -88,7 +94,7 @@ export function SiteFooter() {
               href="https://wa.me/916309348354"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-se-ink"
+              className="rounded-sm hover:text-se-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
               aria-label="WhatsApp"
             >
               WhatsApp
@@ -102,7 +108,7 @@ export function SiteFooter() {
                 href={GBP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-se-ink"
+                className="rounded-sm hover:text-se-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
                 aria-label="StayEdge on Google"
               >
                 Google

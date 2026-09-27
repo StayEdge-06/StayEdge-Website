@@ -97,7 +97,7 @@ export default async function CityPage({
             <h2 className="se-eyebrow">Common questions</h2>
             {c.faqs.map((f) => (
               <details key={f.q} className="group border-b border-[var(--se-line)] py-4">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-body font-semibold text-se-ink">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-sm font-body font-semibold text-se-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]">
                   {f.q}
                   <span className="shrink-0 text-se-accent transition-transform group-open:rotate-45">+</span>
                 </summary>
@@ -119,7 +119,10 @@ export default async function CityPage({
 
           <p className="mt-8 text-center text-sm text-se-ink-muted">
             This is the {c.city}-specific market read. See the full{" "}
-            <Link href={ROUTES.listingOptimization} className="text-se-accent underline-offset-4 hover:underline">
+            <Link
+              href={ROUTES.listingOptimization}
+              className="rounded-sm text-se-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
+            >
               Airbnb Listing Optimization service
             </Link>{" "}
             for how we approach the title, photos and description themselves.

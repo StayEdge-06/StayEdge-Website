@@ -77,7 +77,7 @@ export function AILabPreview({ tilt = false, headingAs }: { tilt?: boolean; head
               </p>
               <Link
                 href={CTA.audit.href}
-                className="mt-4 text-sm text-se-accent underline-offset-4 hover:underline"
+                className="mt-4 rounded-sm text-sm text-se-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
               >
                 Start your free audit →
               </Link>

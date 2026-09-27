@@ -14,28 +14,30 @@ import { cn } from "@/lib/utils";
  * `flex flex-col`, grid placement, etc. via `className` (merged via `cn()`,
  * not replaced), same contract as Button.
  */
-const card = cva("rounded-[var(--se-radius-lg)] border border-[var(--se-line)]", {
-  variants: {
-    tone: {
-      surface: "bg-se-surface",
-      ground2: "bg-se-ground-2",
+const card = cva(
+  "rounded-[var(--se-radius-lg)] border border-[var(--se-line)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]",
+  {
+    variants: {
+      tone: {
+        surface: "bg-se-surface",
+        ground2: "bg-se-ground-2",
+      },
+      padding: {
+        sm: "p-4",
+        md: "p-5",
+        lg: "p-6",
+      },
+      /** The Rising Edge accent bar; `pl-7` compensates the left padding for it. */
+      edge: {
+        true: "se-edge-strip pl-7",
+        false: "",
+      },
+      interactive: {
+        true: "transition-colors hover:border-[var(--se-line-strong)]",
+        false: "",
+      },
     },
-    padding: {
-      sm: "p-4",
-      md: "p-5",
-      lg: "p-6",
-    },
-    /** The Rising Edge accent bar; `pl-7` compensates the left padding for it. */
-    edge: {
-      true: "se-edge-strip pl-7",
-      false: "",
-    },
-    interactive: {
-      true: "transition-colors hover:border-[var(--se-line-strong)]",
-      false: "",
-    },
-  },
-  defaultVariants: { tone: "ground2", padding: "lg", edge: false, interactive: false },
+    defaultVariants: { tone: "ground2", padding: "lg", edge: false, interactive: false },
 });
 
 export type CardVariants = VariantProps<typeof card>;

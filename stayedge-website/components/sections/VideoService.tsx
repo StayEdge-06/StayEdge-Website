@@ -47,7 +47,7 @@ export function VideoService() {
               </Button>
               <Link
                 href={CTA.video.href}
-                className="text-sm text-se-accent underline-offset-4 hover:underline"
+                className="rounded-sm text-sm text-se-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
               >
                 See the formats →
               </Link>

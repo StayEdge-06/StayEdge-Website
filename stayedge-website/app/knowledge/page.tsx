@@ -65,7 +65,7 @@ export default function KnowledgePage() {
                       <li key={a.slug}>
                         <Link
                           href={`/knowledge/${a.slug}`}
-                          className="text-se-accent underline-offset-4 hover:underline"
+                          className="rounded-sm text-se-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
                         >
                           {a.title}
                         </Link>

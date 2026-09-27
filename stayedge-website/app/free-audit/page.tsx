@@ -147,7 +147,7 @@ export default function FreeAuditPage() {
                     href={WHATSAPP_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-se-accent underline-offset-4 hover:underline"
+                    className="rounded-sm text-se-accent underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
                   >
                     WhatsApp {CONTACT.founder.split(" ")[0]} directly →
                   </a>
@@ -204,7 +204,7 @@ export default function FreeAuditPage() {
           <div className="divide-y divide-[var(--se-line)] border-y border-[var(--se-line)]">
             {AUDIT_FAQS.map((f) => (
               <details key={f.q} className="group py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-body font-semibold text-se-ink">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-sm font-body font-semibold text-se-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]">
                   {f.q}
                   <span className="shrink-0 text-se-accent transition-transform group-open:rotate-45">
                     +

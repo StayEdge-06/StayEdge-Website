@@ -10,6 +10,7 @@ import { CLUSTERS } from "@/lib/content/clusters";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { InternalParagraph } from "@/components/seo/InternalLinks";
 import { articleSchema, breadcrumbSchema, faqSchema } from "@/lib/seo/schema";
+import { slugify } from "@/lib/utils";
 
 /**
  * Article template (Authority Engine): answer-first lede, structured sections,
@@ -110,8 +111,28 @@ export default async function ArticlePage({
             {a.answer}
           </p>
 
+          {/* Table of contents — only past a length where jumping around
+              actually helps; a 1-2 section article reads fine top to bottom. */}
+          {a.sections.length >= 3 && (
+            <nav aria-label="Table of contents" className="mt-8 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-5">
+              <p className="se-eyebrow">In this article</p>
+              <ol className="mt-3 space-y-2">
+                {a.sections.map((s) => (
+                  <li key={s.h2}>
+                    <a
+                      href={`#${slugify(s.h2)}`}
+                      className="rounded-sm text-sm text-se-ink-muted underline-offset-4 hover:text-se-ink hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
+                    >
+                      {s.h2}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )}
+
           {a.sections.map((s) => (
-            <section key={s.h2} className="mt-10">
+            <section key={s.h2} id={slugify(s.h2)} className="mt-10 scroll-mt-24">
               <h2 className="font-body text-xl font-bold text-se-ink">{s.h2}</h2>
               {s.paras.map((p) => (
                 <InternalParagraph key={p.slice(0, 32)} className="mt-3 text-se-ink-muted">
@@ -136,7 +157,7 @@ export default async function ArticlePage({
             <h2 className="se-eyebrow">Common questions</h2>
             {a.faqs.map((f) => (
               <details key={f.q} className="group border-b border-[var(--se-line)] py-4">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-body font-semibold text-se-ink">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-sm font-body font-semibold text-se-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]">
                   {f.q}
                   <span className="shrink-0 text-se-accent transition-transform group-open:rotate-45">+</span>
                 </summary>

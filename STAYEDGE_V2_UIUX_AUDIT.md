@@ -66,7 +66,7 @@
 | 2 | Resolve Vira / consent-banner mobile overlap | **P0** | ✅ Done (`f1b3e29`) | Two live elements can visually collide before consent |
 | 3 | Extract a shared `Card` primitive from the 4+ hand-rolled variants | **P1** | ✅ Done for the 6 service pages + hub (`71bd421`); about/who-we-help/results/knowledge/city pages deferred — each has its own bespoke variant | Visual-consistency and maintainability risk the brief explicitly calls out |
 | 4 | Verify desktop nav at 1024–1150px; add wrap/overflow safety if needed | **P1** | ✅ Checked (`71bd421`) — no overflow/wrap at 1024/1080/1150/1280px, no code change needed | Unverified risk from code reading |
-| 5 | Homepage polish pass (hierarchy, spacing, motion restraint) per brief §5–§7, applied to the real palette | **P1–P2** | Not started | You already chose homepage as the starting page |
+| 5 | Homepage polish pass (hierarchy, spacing, motion restraint) per brief §5–§7, applied to the real palette | **P1–P2** | ✅ Audited + one real fix (`4cbe9f4`): Hero/Section/Reveal/AILabPreview already solid, no changes needed there; comparison table now signals it's swipeable on mobile | You already chose homepage as the starting page |
 | 6 | Focus-state audit on buttons/forms/FAQ toggles | **P2** | Not started | Accessibility completeness |
 | 7 | Add a lightweight table-of-contents to long knowledge articles | **P2** | Not started | Reading-experience improvement, not urgent |
 | 8 | Wire up or remove the dead `Skeleton` component | **P3** | Not started | Cleanup, no user-facing effect |

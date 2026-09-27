@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/motion/TiltCard";
+import { Card, cardClassName } from "@/components/ui/Card";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { CONTACT, SITE, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { PERSONA } from "@/lib/config/persona";
@@ -60,7 +61,7 @@ export default function AboutPage() {
         />
 
         <Reveal className="mx-auto mt-12 max-w-4xl">
-          <div className="se-edge-strip grid gap-6 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 pl-7 md:grid-cols-[220px_1fr] md:items-center md:p-8 md:pl-9">
+          <Card edge className="grid gap-6 md:grid-cols-[220px_1fr] md:items-center md:p-8 md:pl-9">
             <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--se-radius-md)] border border-[var(--se-line)] bg-se-surface">
               <Image
                 src="/team/Sanjay%20Stephen%20photo.jpg"
@@ -88,13 +89,13 @@ export default function AboutPage() {
                 scale of software with the accountability of a person whose name is on the work.
               </p>
             </div>
-          </div>
+          </Card>
         </Reveal>
 
         <RevealGroup className="mt-10 grid gap-4 md:grid-cols-3">
           {BELIEFS.map((b) => (
             <RevealItem key={b.title}>
-              <TiltCard className="block h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6">
+              <TiltCard className={cardClassName(undefined, "block h-full")}>
                 <h3 className="font-body font-bold text-se-ink">{b.title}</h3>
                 <p className="mt-2 text-sm text-se-ink-muted">{b.body}</p>
               </TiltCard>

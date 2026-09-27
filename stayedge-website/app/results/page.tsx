@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/motion/TiltCard";
+import { cardClassName } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Button } from "@/components/ui/Button";
 import { FinalCTA } from "@/components/sections/FinalCTA";
@@ -59,7 +60,7 @@ export default function ResultsPage() {
         <RevealGroup className="mt-14 grid gap-4 sm:grid-cols-2">
           {METRICS.map((m) => (
             <RevealItem key={m.label}>
-              <TiltCard className="block h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6">
+              <TiltCard className={cardClassName(undefined, "block h-full")}>
                 <p className="se-num text-lg text-se-accent">{m.label}</p>
                 <p className="mt-2 text-se-ink-muted">{m.body}</p>
               </TiltCard>
@@ -71,7 +72,7 @@ export default function ResultsPage() {
           <RevealGroup className="mt-12 grid gap-4 md:grid-cols-2">
             {CASE_STUDIES.map((cs) => (
               <RevealItem key={cs.slug}>
-                <TiltCard as="article" className="se-edge-strip block h-full rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 pl-7">
+                <TiltCard as="article" className={cardClassName({ edge: true }, "block h-full")}>
                   <p className="se-eyebrow">{cs.propertyLabel}</p>
                   <p className="mt-2 text-se-ink-muted">{cs.situation}</p>
                   <ul className="mt-3 space-y-1 text-sm text-se-ink/85">

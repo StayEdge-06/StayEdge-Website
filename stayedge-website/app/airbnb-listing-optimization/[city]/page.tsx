@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import Link from "next/link";
 import { ROUTES, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { CITIES, getCity } from "@/lib/content/cities";
@@ -106,7 +107,7 @@ export default async function CityPage({
             ))}
           </section>
 
-          <div className="mt-10 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 text-center">
+          <Card className="mt-10 text-center">
             <p className="text-se-ink">
               Hosting in {c.city}? See what your listing is leaving on the table.
             </p>
@@ -115,7 +116,7 @@ export default async function CityPage({
                 Get your free audit
               </Button>
             </div>
-          </div>
+          </Card>
 
           <p className="mt-8 text-center text-sm text-se-ink-muted">
             This is the {c.city}-specific market read. See the full{" "}

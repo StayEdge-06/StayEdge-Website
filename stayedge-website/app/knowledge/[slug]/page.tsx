@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Section } from "@/components/sections/Section";
 import { Button } from "@/components/ui/Button";
+import { Card, cardClassName } from "@/components/ui/Card";
 import { ROUTES, CONTACT, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { PERSONA } from "@/lib/config/persona";
 import { ARTICLES, getArticle } from "@/lib/content/articles";
@@ -114,7 +115,7 @@ export default async function ArticlePage({
           {/* Table of contents — only past a length where jumping around
               actually helps; a 1-2 section article reads fine top to bottom. */}
           {a.sections.length >= 3 && (
-            <nav aria-label="Table of contents" className="mt-8 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-5">
+            <nav aria-label="Table of contents" className={cardClassName({ padding: "md" }, "mt-8")}>
               <p className="se-eyebrow">In this article</p>
               <ol className="mt-3 space-y-2">
                 {a.sections.map((s) => (
@@ -167,7 +168,7 @@ export default async function ArticlePage({
           </section>
 
           {/* Apply-it CTA */}
-          <div className="mt-10 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 text-center">
+          <Card className="mt-10 text-center">
             <p className="text-se-ink">
               Want to know which of this applies to <em>your</em> listing?
             </p>
@@ -176,7 +177,7 @@ export default async function ArticlePage({
                 Let {PERSONA.name} read it — free
               </Button>
             </div>
-          </div>
+          </Card>
 
           {/* Related reading */}
           {related.length > 0 && (
@@ -184,24 +185,17 @@ export default async function ArticlePage({
               <h2 className="se-eyebrow mb-4">Related reading</h2>
               <div className="grid gap-3 sm:grid-cols-2">
                 {related.map((r) => (
-                  <Link
-                    key={r!.slug}
-                    href={`/knowledge/${r!.slug}`}
-                    className="rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-4 transition-colors hover:border-[var(--se-line-strong)]"
-                  >
+                  <Card key={r!.slug} href={`/knowledge/${r!.slug}`} padding="sm">
                     <p className="font-body font-semibold text-se-ink">{r!.title}</p>
                     <p className="mt-1 text-sm text-se-ink-muted">{r!.description}</p>
-                  </Link>
+                  </Card>
                 ))}
-                <Link
-                  href="/knowledge/glossary"
-                  className="rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-4 transition-colors hover:border-[var(--se-line-strong)]"
-                >
+                <Card href="/knowledge/glossary" padding="sm">
                   <p className="font-body font-semibold text-se-ink">Airbnb Host Glossary</p>
                   <p className="mt-1 text-sm text-se-ink-muted">
                     ADR, RevPAR, gap nights and the rest — in plain language.
                   </p>
-                </Link>
+                </Card>
               </div>
             </section>
           )}

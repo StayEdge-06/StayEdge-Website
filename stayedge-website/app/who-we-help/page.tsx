@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Section, SectionHeading } from "@/components/sections/Section";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { TiltCard } from "@/components/motion/TiltCard";
+import { cardClassName } from "@/components/ui/Card";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Button } from "@/components/ui/Button";
 import { ROUTES, DEFAULT_OG_IMAGE } from "@/lib/config/site";
@@ -78,7 +79,7 @@ export default function WhoWeHelpPage() {
             <RevealItem key={s.id}>
               <TiltCard
                 id={s.id}
-                className="se-edge-strip block scroll-mt-24 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 pl-7 md:p-8 md:pl-9"
+                className={cardClassName({ edge: true }, "block scroll-mt-24 md:p-8 md:pl-9")}
               >
                 <h2 className="font-body text-xl font-bold text-se-ink">{s.title}</h2>
                 <p className="mt-2 font-editorial italic text-se-ink-muted">{s.pain}</p>

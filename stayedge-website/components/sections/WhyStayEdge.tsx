@@ -48,9 +48,18 @@ export function WhyStayEdge() {
         ))}
       </RevealGroup>
 
-      {/* Honest comparison — the decision most hosts are actually weighing */}
+      {/* Honest comparison — the decision most hosts are actually weighing.
+          Below `sm` the table (min-w-560px) is wider than the viewport and
+          scrolls within its own box — a standard, accepted mobile pattern —
+          but nothing signalled that it could be swiped. The right-edge fade
+          is a functional affordance (Design System §0: gradients are allowed
+          as functional grounds, never decoration for its own sake), and it
+          disappears at `sm:` and up, where the table already fits without
+          scrolling. */}
       <RevealItem>
-        <div className="mx-auto mt-10 max-w-3xl overflow-x-auto">
+        <div
+          className="mx-auto mt-10 max-w-3xl overflow-x-auto [mask-image:linear-gradient(to_right,black_calc(100%-28px),transparent)] [-webkit-mask-image:linear-gradient(to_right,black_calc(100%-28px),transparent)] sm:[mask-image:none] sm:[-webkit-mask-image:none]"
+        >
           <table className="w-full min-w-[560px] border-collapse text-sm">
             <caption className="sr-only">
               Comparing doing it yourself, hiring a property manager, and working with StayEdge

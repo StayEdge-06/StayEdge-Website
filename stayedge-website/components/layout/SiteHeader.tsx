@@ -3,12 +3,14 @@ import { Logo } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { ScrollProgress } from "@/components/motion/ScrollProgress";
+import { MobileNav } from "@/components/layout/MobileNav";
 import { PRIMARY_NAV, CTA } from "@/lib/config/site";
 
 /**
  * Global header. Logo left, browse nav (desktop), CTA cluster right.
- * Scroll-aware condense + glass and the mobile sheet are layered in milestone 2;
- * mobile CTAs are always reachable via the persistent MobileActionBar.
+ * Below `lg` the browse nav is replaced by MobileNav's sheet (FULL_NAV) so
+ * every route stays reachable without a trip to the footer. Scroll-aware
+ * condense + glass are still open for a later pass.
  */
 export function SiteHeader() {
   return (
@@ -46,6 +48,7 @@ export function SiteHeader() {
           >
             {CTA.audit.short}
           </Button>
+          <MobileNav />
         </div>
       </div>
       {/* Reading progress + the route-change tell, drawn on the header's own

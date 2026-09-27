@@ -142,12 +142,22 @@ export function Vira() {
       if (!frame) frame = requestAnimationFrame(probe);
     };
 
+    // A protected element can also appear with no scroll or resize at all —
+    // the analytics-consent banner (components/analytics/AnalyticsProvider.tsx)
+    // mounts on a delayed timer, and its opaque, higher-stacked panel can land
+    // directly over this launcher on mobile with nothing to trigger a re-probe.
+    // A MutationObserver catches that (and any future case like it) generically,
+    // rather than special-casing one component here.
+    const observer = new MutationObserver(schedule);
+    observer.observe(document.body, { childList: true, subtree: true });
+
     probe();
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule, { passive: true });
     return () => {
       if (frame) cancelAnimationFrame(frame);
       if (revealTimer) clearTimeout(revealTimer);
+      observer.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
     };

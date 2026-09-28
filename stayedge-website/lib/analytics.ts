@@ -43,6 +43,21 @@ export function setConsent(v: Consent) {
 
 let loaded = false;
 
+/**
+ * GA4 DebugView only shows a stream that tags its hits with `debug_mode`.
+ * On by default outside production so local work is verifiable, and opt-in on
+ * the live site via `?ga_debug=1` so the founder can confirm a real deploy in
+ * DebugView without shipping a debug build.
+ */
+function wantsDebugMode() {
+  if (process.env.NODE_ENV !== "production") return true;
+  try {
+    return new URLSearchParams(window.location.search).has("ga_debug");
+  } catch {
+    return false;
+  }
+}
+
 /** Inject GA4 + Clarity. Called only after explicit consent. */
 export function loadAnalytics() {
   if (loaded || typeof window === "undefined") return;
@@ -51,27 +66,31 @@ export function loadAnalytics() {
   if (GA_ID) {
     try {
       window.dataLayer = window.dataLayer || [];
-      window.gtag = function gtag(...args: unknown[]) {
-        if (!window.dataLayer) {
-          window.dataLayer = [];
-        }
-        window.dataLayer.push(args);
-      };
+      // MUST push `arguments`, not a rest array.
+      //
+      // gtag.js only interprets a dataLayer entry as a gtag command when that
+      // entry is a genuine Arguments object; a plain Array is pushed, stored
+      // and silently ignored. The previous `(...args) => dataLayer.push(args)`
+      // therefore produced a perfectly healthy-looking dataLayer, a 200 on
+      // gtag/js, an initialised google_tag_manager — and ZERO /g/collect
+      // requests, because every command we queued was skipped. Verified at the
+      // network layer: not one hit reached GA4, including manually dispatched
+      // events. Keep this a classic `function` (arrows have no `arguments`).
+      window.gtag = function gtag() {
+        if (!window.dataLayer) window.dataLayer = [];
+        // eslint-disable-next-line prefer-rest-params
+        window.dataLayer.push(arguments);
+      } as NonNullable<Window["gtag"]>;
       window.gtag("js", new Date());
-      window.gtag("config", GA_ID, { send_page_view: true });
+      // This single config is what sends the first page_view. Nothing else may
+      // fire one for the same page — a second config or an explicit page_view
+      // event here doubles every session's landing hit.
+      window.gtag("config", GA_ID, {
+        send_page_view: true,
+        ...(wantsDebugMode() ? { debug_mode: true } : {}),
+      });
       const s = document.createElement("script");
       s.async = true;
-      s.onload = () => {
-        // Safety net: fire explicit page_view once gtag.js is fully loaded
-        try {
-          window.gtag?.("event", "page_view", {
-            page_location: window.location.href,
-            page_title: document.title,
-          });
-        } catch {
-          /* best-effort fallback */
-        }
-      };
       s.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
       document.head.appendChild(s);
     } catch {
@@ -84,12 +103,20 @@ export function loadAnalytics() {
   // initialise twice.
 }
 
-/** Event taxonomy (founder-specified). */
+/**
+ * Event taxonomy (V2). One funnel, two services:
+ *   audit_*  — the primary conversion path (Free Property Growth Audit)
+ *   video_*  — the AI Property Video enquiry path
+ * The roast_* / snapshot_* events were retired with the AI Roast feature; any
+ * GA4 explorations still referencing them will show no data after this release.
+ */
 export type EventName =
-  | "roast_started"
-  | "roast_completed"
-  | "snapshot_unlocked"
-  | "discovery_call_click"
+  | "audit_form_start"
+  | "audit_form_submit"
+  | "audit_lead_captured"
+  | "video_form_submit"
+  | "video_lead_captured"
+  | "form_error"
   | "cta_click"
   | "whatsapp_click"
   | "scroll_depth"
@@ -97,11 +124,7 @@ export type EventName =
 
 export function track(event: EventName, params?: Record<string, unknown>) {
   try {
-    if (getConsent() !== "granted") {
-      console.log("[analytics] track(" + event + ") skipped — consent not granted");
-      return;
-    }
-    console.log("[analytics] track(" + event + "): calling gtag event");
+    if (getConsent() !== "granted") return;
     window.gtag?.("event", event, params ?? {});
     // Clarity picks up custom tags for filtering sessions.
     window.clarity?.("set", event, JSON.stringify(params ?? {}));

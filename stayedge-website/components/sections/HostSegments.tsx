@@ -29,11 +29,11 @@ export function HostSegments() {
             <TiltCard className="block h-full">
               <a
                 href={s.href}
-                className="group flex h-full flex-col rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 transition-colors hover:border-[var(--se-line-strong)]"
+                className="group flex h-full flex-col rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 transition-colors hover:border-[var(--se-line-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
               >
-                <h3 className="font-body text-lg font-bold text-se-offwhite">{s.title}</h3>
-                <p className="mt-2 flex-1 text-sm text-se-grey-lavender">{s.body}</p>
-                <span className="mt-4 text-sm font-semibold text-se-lavender transition-transform group-hover:translate-x-1">
+                <h3 className="font-body text-lg font-bold text-se-ink">{s.title}</h3>
+                <p className="mt-2 flex-1 text-sm text-se-ink-muted">{s.body}</p>
+                <span className="mt-4 text-sm font-semibold text-se-accent transition-transform group-hover:translate-x-1">
                   See how →
                 </span>
               </a>

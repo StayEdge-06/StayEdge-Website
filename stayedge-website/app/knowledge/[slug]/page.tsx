@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Section } from "@/components/sections/Section";
 import { Button } from "@/components/ui/Button";
+import { Card, cardClassName } from "@/components/ui/Card";
 import { ROUTES, CONTACT, DEFAULT_OG_IMAGE } from "@/lib/config/site";
 import { PERSONA } from "@/lib/config/persona";
 import { ARTICLES, getArticle } from "@/lib/content/articles";
@@ -10,6 +11,7 @@ import { CLUSTERS } from "@/lib/content/clusters";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { InternalParagraph } from "@/components/seo/InternalLinks";
 import { articleSchema, breadcrumbSchema, faqSchema } from "@/lib/seo/schema";
+import { slugify } from "@/lib/utils";
 
 /**
  * Article template (Authority Engine): answer-first lede, structured sections,
@@ -70,16 +72,16 @@ export default async function ArticlePage({
       <Section>
         <article className="mx-auto max-w-3xl">
           <p className="se-eyebrow mb-4">
-            <Link href={ROUTES.knowledge} className="hover:text-se-offwhite">
+            <Link href={ROUTES.knowledge} className="hover:text-se-ink">
               Knowledge
             </Link>{" "}
             · {cluster.title}
           </p>
-          <h1 className="se-title text-[clamp(26px,4.5vw,44px)] text-se-offwhite">{a.title}</h1>
+          <h1 className="se-title text-[clamp(26px,4.5vw,44px)] text-se-ink">{a.title}</h1>
 
           {/* Visible byline/date — on-page trust signal to match the
               author/dateModified already in Article schema (E-E-A-T). */}
-          <p className="mt-3 text-sm text-se-grey-lavender">
+          <p className="mt-3 text-sm text-se-ink-muted">
             By {CONTACT.founder} · Published{" "}
             <time dateTime={a.publishedAt}>
               {new Date(a.publishedAt).toLocaleDateString("en-IN", {
@@ -106,22 +108,42 @@ export default async function ArticlePage({
           {/* Answer-first lede (AEO + Speakable) — the se-answer-lede class hooks
               the SpeakableSpecification in Article schema for AI assistants and
               voice search. */}
-          <p className="se-answer-lede mt-6 rounded-[var(--se-radius-lg)] border-l-2 border-se-purple bg-se-ground-2 p-5 text-lg text-se-offwhite/90">
+          <p className="se-answer-lede mt-6 rounded-[var(--se-radius-lg)] border-l-2 border-se-purple bg-se-ground-2 p-5 text-lg text-se-ink/90">
             {a.answer}
           </p>
 
+          {/* Table of contents — only past a length where jumping around
+              actually helps; a 1-2 section article reads fine top to bottom. */}
+          {a.sections.length >= 3 && (
+            <nav aria-label="Table of contents" className={cardClassName({ padding: "md" }, "mt-8")}>
+              <p className="se-eyebrow">In this article</p>
+              <ol className="mt-3 space-y-2">
+                {a.sections.map((s) => (
+                  <li key={s.h2}>
+                    <a
+                      href={`#${slugify(s.h2)}`}
+                      className="rounded-sm text-sm text-se-ink-muted underline-offset-4 hover:text-se-ink hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]"
+                    >
+                      {s.h2}
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )}
+
           {a.sections.map((s) => (
-            <section key={s.h2} className="mt-10">
-              <h2 className="font-body text-xl font-bold text-se-offwhite">{s.h2}</h2>
+            <section key={s.h2} id={slugify(s.h2)} className="mt-10 scroll-mt-24">
+              <h2 className="font-body text-xl font-bold text-se-ink">{s.h2}</h2>
               {s.paras.map((p) => (
-                <InternalParagraph key={p.slice(0, 32)} className="mt-3 text-se-grey-lavender">
+                <InternalParagraph key={p.slice(0, 32)} className="mt-3 text-se-ink-muted">
                   {p}
                 </InternalParagraph>
               ))}
               {s.checklist && (
                 <ul className="mt-4 space-y-2">
                   {s.checklist.map((item) => (
-                    <li key={item} className="flex gap-3 text-se-offwhite/85">
+                    <li key={item} className="flex gap-3 text-se-ink/85">
                       <span aria-hidden className="text-se-positive">✓</span>
                       {item}
                     </li>
@@ -136,26 +158,26 @@ export default async function ArticlePage({
             <h2 className="se-eyebrow">Common questions</h2>
             {a.faqs.map((f) => (
               <details key={f.q} className="group border-b border-[var(--se-line)] py-4">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-body font-semibold text-se-offwhite">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-sm font-body font-semibold text-se-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]">
                   {f.q}
-                  <span className="shrink-0 text-se-lavender transition-transform group-open:rotate-45">+</span>
+                  <span className="shrink-0 text-se-accent transition-transform group-open:rotate-45">+</span>
                 </summary>
-                <p className="mt-3 text-se-grey-lavender">{f.a}</p>
+                <p className="mt-3 text-se-ink-muted">{f.a}</p>
               </details>
             ))}
           </section>
 
           {/* Apply-it CTA */}
-          <div className="mt-10 rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-6 text-center">
-            <p className="text-se-offwhite">
+          <Card className="mt-10 text-center">
+            <p className="text-se-ink">
               Want to know which of this applies to <em>your</em> listing?
             </p>
             <div className="mt-4">
-              <Button href={ROUTES.roast} variant="primary" size="md" haptic>
+              <Button href={ROUTES.freeAudit} variant="primary" size="md" haptic>
                 Let {PERSONA.name} read it — free
               </Button>
             </div>
-          </div>
+          </Card>
 
           {/* Related reading */}
           {related.length > 0 && (
@@ -163,24 +185,17 @@ export default async function ArticlePage({
               <h2 className="se-eyebrow mb-4">Related reading</h2>
               <div className="grid gap-3 sm:grid-cols-2">
                 {related.map((r) => (
-                  <Link
-                    key={r!.slug}
-                    href={`/knowledge/${r!.slug}`}
-                    className="rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-4 transition-colors hover:border-[var(--se-line-strong)]"
-                  >
-                    <p className="font-body font-semibold text-se-offwhite">{r!.title}</p>
-                    <p className="mt-1 text-sm text-se-grey-lavender">{r!.description}</p>
-                  </Link>
+                  <Card key={r!.slug} href={`/knowledge/${r!.slug}`} padding="sm">
+                    <p className="font-body font-semibold text-se-ink">{r!.title}</p>
+                    <p className="mt-1 text-sm text-se-ink-muted">{r!.description}</p>
+                  </Card>
                 ))}
-                <Link
-                  href="/knowledge/glossary"
-                  className="rounded-[var(--se-radius-lg)] border border-[var(--se-line)] bg-se-ground-2 p-4 transition-colors hover:border-[var(--se-line-strong)]"
-                >
-                  <p className="font-body font-semibold text-se-offwhite">Airbnb Host Glossary</p>
-                  <p className="mt-1 text-sm text-se-grey-lavender">
+                <Card href="/knowledge/glossary" padding="sm">
+                  <p className="font-body font-semibold text-se-ink">Airbnb Host Glossary</p>
+                  <p className="mt-1 text-sm text-se-ink-muted">
                     ADR, RevPAR, gap nights and the rest — in plain language.
                   </p>
-                </Link>
+                </Card>
               </div>
             </section>
           )}

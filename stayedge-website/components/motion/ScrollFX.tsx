@@ -115,7 +115,7 @@ export function WordReveal({
         <span key={i} aria-hidden className="inline-block overflow-hidden pb-[0.08em] align-bottom">
           <span
             data-word
-            className={cn("inline-block [will-change:transform]", accentFrom != null && i >= accentFrom && "text-se-lavender")}
+            className={cn("inline-block [will-change:transform]", accentFrom != null && i >= accentFrom && "text-se-accent")}
           >
             {w}
             {i < words.length - 1 ? " " : ""}
@@ -174,8 +174,12 @@ export function PinnedStages({
         if (dot)
           tl.fromTo(
             dot,
-            { scale: 0.4, backgroundColor: "rgba(155,148,174,0.35)" },
-            { scale: 1, backgroundColor: "#A663CC", duration: 0.35, ease: "back.out(2)" },
+            // Fades the accent up rather than tweening between two literal
+            // colours: a colour tween would bake the current theme's hex into
+            // the timeline at build time and go stale the moment the visitor
+            // switches. Opacity also keeps the dot on the compositor.
+            { scale: 0.4, opacity: 0.32 },
+            { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2)" },
             i * 1 + 0.15,
           );
       });
@@ -190,7 +194,7 @@ export function PinnedStages({
         aria-hidden
         className={cn("absolute bottom-2 left-[7px] top-2 w-[2px] origin-top bg-[var(--se-line)]", !pinned && "hidden")}
       >
-        <div data-line className="h-full w-full origin-top scale-y-0 bg-se-lavender" />
+        <div data-line className="h-full w-full origin-top scale-y-0 bg-se-accent" />
       </div>
       <div className={cn(pinned && "pl-8")}>
         {stages.map((s) => (
@@ -199,14 +203,14 @@ export function PinnedStages({
               <span
                 data-dot
                 aria-hidden
-                className="absolute -left-8 top-7 h-3.5 w-3.5 -translate-x-[-1px] rounded-full"
-                style={{ background: "rgba(155,148,174,0.35)" }}
+                className="absolute -left-8 top-7 h-3.5 w-3.5 -translate-x-[-1px] rounded-full bg-se-accent"
+                style={{ opacity: 0.32 }}
               />
             )}
-            <span className="se-num shrink-0 text-2xl text-se-lavender">{s.n}</span>
+            <span className="se-num shrink-0 text-2xl text-se-accent">{s.n}</span>
             <div>
-              <h3 className="font-body text-lg font-bold text-se-offwhite">{s.title}</h3>
-              <p className="mt-1 text-se-grey-lavender">{s.body}</p>
+              <h3 className="font-body text-lg font-bold text-se-ink">{s.title}</h3>
+              <p className="mt-1 text-se-ink-muted">{s.body}</p>
             </div>
           </div>
         ))}

@@ -26,31 +26,56 @@ export function Logo({
   className,
   withHome = true,
   height = 44,
+  themed = false,
 }: {
   variant?: LogoVariant;
   className?: string;
   withHome?: boolean;
   height?: number;
+  /**
+   * Follow the page theme: the dark-ground lockup on charcoal, the reverse
+   * lockup on the light canvas. Both ship in the markup and CSS picks one from
+   * `data-theme` (globals.css), which keeps this a server component and puts
+   * the right mark in the first painted frame. Costs one extra cached PNG.
+   */
+  themed?: boolean;
+}) {
+  const inner = themed ? (
+    <>
+      <Mark variant="dark-bg" height={height} className={cn("se-logo-dark", className)} />
+      <Mark variant="reverse" height={height} className={cn("se-logo-light", className)} />
+    </>
+  ) : (
+    <Mark variant={variant} height={height} className={className} />
+  );
+
+  if (!withHome) return inner;
+  return (
+    <Link href="/" aria-label="StayEdge home" className="inline-flex items-center">
+      {inner}
+    </Link>
+  );
+}
+
+function Mark({
+  variant,
+  height,
+  className,
+}: {
+  variant: LogoVariant;
+  height: number;
+  className?: string;
 }) {
   const { src, ratio } = ASSET[variant];
-  const width = Math.round(height * ratio);
-
-  const img = (
+  return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={src}
       alt="StayEdge"
-      width={width}
+      width={Math.round(height * ratio)}
       height={height}
       className={cn("block select-none", className)}
       draggable={false}
     />
-  );
-
-  if (!withHome) return img;
-  return (
-    <Link href="/" aria-label="StayEdge home" className="inline-flex items-center">
-      {img}
-    </Link>
   );
 }

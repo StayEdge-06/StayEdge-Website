@@ -8,14 +8,17 @@ export const PERSONA = {
   name: "Vira",
   handle: "vira",
   /** One-line self-introduction (grounded, warm, specific). */
-  intro: "I'm Vira. Paste your listing and I'll show you what's quietly costing you bookings.",
-  /** The three roast/analysis registers (UX Decision 2). */
+  intro:
+    "I'm Vira. Send me your listing and I'll show you what's quietly costing you bookings.",
+  /** The three lenses every Property Growth Audit is read through. These are
+   * the audit's actual scope — not marketing labels — so the chips on the
+   * homepage tell a host exactly what they get. */
   modes: [
-    { id: "roast", label: "Roast Me", glyph: "🔥", tone: "funny, cheeky, memorable" },
-    { id: "diagnose", label: "Diagnose Me", glyph: "🧠", tone: "professional, data-led" },
-    { id: "growth", label: "Growth Me", glyph: "🚀", tone: "positive, opportunity-first" },
+    { id: "listing", label: "Listing Quality", glyph: "📸", tone: "photos, title, description, amenities" },
+    { id: "pricing", label: "Pricing", glyph: "📈", tone: "rates, seasonality, minimum stays" },
+    { id: "visibility", label: "Visibility", glyph: "🔍", tone: "Airbnb search ranking and conversion" },
   ],
-  defaultModeId: "roast",
+  defaultModeId: "listing",
 } as const;
 
 export type PersonaModeId = (typeof PERSONA.modes)[number]["id"];

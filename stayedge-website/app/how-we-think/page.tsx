@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 export default function HowWeThinkPage() {
   return (
     <>
-      <MechanismTimeline />
+      <MechanismTimeline headingAs="h1" />
       <FinalCTA />
       <JsonLd schemas={[breadcrumbSchema([{ name: "How We Think", path: "/how-we-think" }])]} />
     </>

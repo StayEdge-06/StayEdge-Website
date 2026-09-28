@@ -195,7 +195,7 @@ export const CITIES: CityPage[] = [
       "Airbnb listing optimization in Mysore means serving a heritage-and-weekend market driven by palace tourism, Dasara festival traffic, and weekend getaways from Bangalore — with two very different demand profiles by season.",
     market: [
       "Mysore's Airbnb demand is anchored to weekend getaways from Bangalore (a 2.5-hour drive that creates a reliable Friday–Sunday market with 1–2 week booking lead times) and concentrated festival surges around Dasara (September–October) when the city's tourist traffic multiplies.",
-      "The Dasara period creates a compressed window of extreme demand where listings within 3 km of the palace can command 2–3x normal rates. Hosts who don't price this window in advance leave significant revenue on the table deliberately.",
+      "The Dasara period creates a compressed window of extreme demand — the same kind of seasonal spike seen across India's festival and pilgrimage markets, where nearby listings can typically command 2–3x their normal rates. Hosts who don't price this window in advance leave significant revenue on the table deliberately.",
       "Off-season weekday demand is minimal outside the festival period — Mysore lacks the corporate traffic that sustains Bangalore or Hyderabad listings. Off-season strategy is about maintaining review flow through strategic pricing, not holding high occupancy.",
     ],
     playbook: [
@@ -211,7 +211,7 @@ export const CITIES: CityPage[] = [
       },
       {
         q: "Can an Airbnb listing in Mysore earn well year-round?",
-        a: "Year-round earnings are possible with deliberate off-season pricing and weekend optimisation, but Mysore hosts who earn the most have learned to maximise the Dasara and weekend windows rather than expecting 70%+ occupancy year-round.",
+        a: "Year-round earnings are possible with deliberate off-season pricing and weekend optimisation, but Mysore hosts who earn the most have learned to maximise the Dasara and weekend windows rather than expecting the 70%+ occupancy that isn't typical for a seasonal, festival-driven market.",
       },
     ],
   },

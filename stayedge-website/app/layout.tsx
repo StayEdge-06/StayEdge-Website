@@ -27,24 +27,27 @@ import { MobileActionBar } from "@/components/layout/MobileActionBar";
 import { FloatingAuditCard } from "@/components/layout/FloatingAuditCard";
 import { Vira } from "@/components/ai/Vira";
 import { CursorSpotlight } from "@/components/motion/CursorSpotlight";
+import { PageTransition } from "@/components/motion/PageTransition";
 import { AnalyticsProvider } from "@/components/analytics/AnalyticsProvider";
 import { Clarity } from "@/components/analytics/Clarity";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { organizationSchema, founderSchema, websiteSchema, localBusinessSchema } from "@/lib/seo/schema";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { THEME_COLOR, THEME_INIT_SCRIPT } from "@/lib/theme";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "StayEdge — AI-Powered Airbnb Growth",
+    default: "StayEdge — Airbnb Growth Consultancy for Hosts in India",
     template: "%s · StayEdge",
   },
   description: SITE.descriptor,
   applicationName: "StayEdge",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "StayEdge — AI-Powered Airbnb Growth",
+    title: "StayEdge — Airbnb Growth Consultancy for Hosts in India",
     description: SITE.descriptor,
     url: SITE.url,
     siteName: "StayEdge",
@@ -54,7 +57,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "StayEdge — AI-Powered Airbnb Growth",
+    title: "StayEdge — Airbnb Growth Consultancy for Hosts in India",
     description: SITE.descriptor,
     images: [DEFAULT_OG_IMAGE],
   },
@@ -70,28 +73,41 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#171123",
-  colorScheme: "dark",
+  // The dark default; `applyTheme` rewrites this meta when the visitor
+  // switches, so the mobile address bar tracks the page.
+  themeColor: THEME_COLOR.dark,
+  // `color-scheme` is deliberately NOT set here. It is declared per theme in
+  // CSS (:root and [data-theme="light"]), and a static meta tag would pin
+  // scrollbars and form controls to dark in both themes.
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`h-full antialiased ${fontVars}`}>
+    // The head script writes data-theme on this element before React hydrates,
+    // which is a deliberate server/client difference.
+    <html lang="en" className={`h-full antialiased ${fontVars}`} suppressHydrationWarning>
       {/* Bottom padding on mobile reserves space for the fixed MobileActionBar. */}
-      <body className="min-h-full flex flex-col bg-se-ground text-se-offwhite pb-[76px] sm:pb-0">
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
-        {/* Persistent thumb-zone conversion anchor (mobile only) */}
-        <MobileActionBar />
-        {/* Floating audit CTA (desktop only), site-wide */}
-        <FloatingAuditCard />
-        {/* Vira — the AI consultant presence, site-wide */}
-        <Vira />
-        {/* Purple Light Follow (desktop only) — signature #17 */}
-        <CursorSpotlight />
+      <body className="min-h-full flex flex-col bg-se-ground text-se-ink pb-[76px] sm:pb-0">
+        {/* Blocking, and first: it must run before any of the page below is
+            painted, or a light-theme visitor gets a charcoal flash. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <ThemeProvider>
+          <SiteHeader />
+          <main className="flex-1">
+            <PageTransition>{children}</PageTransition>
+          </main>
+          <SiteFooter />
+          {/* Persistent thumb-zone conversion anchor (mobile only) */}
+          <MobileActionBar />
+          {/* Floating audit CTA (desktop only), site-wide */}
+          <FloatingAuditCard />
+          {/* Vira — the AI consultant presence, site-wide */}
+          <Vira />
+          {/* Purple Light Follow (desktop only) — signature #17 */}
+          <CursorSpotlight />
+        </ThemeProvider>
         {/* Consent-gated measurement: GA4 (AnalyticsProvider) + MS Clarity
             (next/script, production-only) + Vercel Analytics & Speed Insights */}
         <Suspense fallback={null}>

@@ -8,13 +8,16 @@ gateway, four event types, zero duplicated intelligence — AI runs only through
   https://stayedge.app.n8n.cloud/workflow/AfUSUys3rNeClHzF
 - Production webhook: `https://stayedge.app.n8n.cloud/webhook/stayedge-web-head`
 - Auth: bearer token (value inside the workflow's *Route Input* node; the website
-  sets the same value as `N8N_ROAST_TOKEN`).
+  sets the same value as `N8N_WEBHOOK_TOKEN`).
+
+> **V2 (2026-09-03):** the AI Roast was removed from the website. `/api/roast`
+> no longer exists, so the gateway's roast branch is orphaned — it is rewritten
+> in Phase 3 along with the Google Sheets CRM + Telegram lead pipeline.
+> `web-head-workflow.json` in this folder still shows the pre-V2 shape.
 
 ```
-Website /api/roast ──{mode,url,guided}──▶ WEB-HEAD ─▶ PROV AI Generate ─▶ roast JSON (sync)
 Website /api/lead  ──{type:"lead",…}────▶ WEB-HEAD ─▶ respond ─▶ CRM Leads append
                                                        └▶ Telegram founder notify
-                                                          (approve = paste URL into CAP-001)
 Website /api/os/status ─{type:"metrics"}▶ WEB-HEAD ─▶ live CRM aggregation
 n8n monitor (todo) ──GET /api/health────▶ website self-check
 ```
@@ -34,12 +37,18 @@ n8n monitor (todo) ──GET /api/health────▶ website self-check
 All three URLs are the same gateway:
 
 ```
-N8N_ROAST_WEBHOOK_URL=https://stayedge.app.n8n.cloud/webhook/stayedge-web-head
+N8N_BRAIN_WEBHOOK_URL=https://stayedge.app.n8n.cloud/webhook/stayedge-web-head
 N8N_LEAD_WEBHOOK_URL=https://stayedge.app.n8n.cloud/webhook/stayedge-web-head
 N8N_METRICS_WEBHOOK_URL=https://stayedge.app.n8n.cloud/webhook/stayedge-web-head
-N8N_ROAST_TOKEN=<the token in Route Input>
-OS_DASHBOARD_KEY=<choose a private key for /os>
+N8N_WEBHOOK_TOKEN=<the token in Route Input>
+N8N_WEBHOOK_SECRET=<HMAC secret; signs the lead webhook body>
+OS_DASHBOARD_KEY=<>= 16 chars; the /os login key>
+OS_SESSION_SECRET=<optional; signs the /os session cookie>
 ```
+
+Phase 3 note: `/os` no longer takes `?key=`. The key is typed once at
+`/os/login` and exchanged for an httpOnly session cookie (12 hours). A key
+shorter than 16 characters is treated as unconfigured and `/os` 404s.
 
 ## Reliability layer (added 2026-07-18)
 
@@ -76,10 +85,11 @@ OS_DASHBOARD_KEY=<choose a private key for /os>
 
 ## Contract
 
-The roast response must match `app/api/roast/route.ts` → `resultSchema`. The
-gateway's *Map To Contract* node clamps model output into it; anything invalid
-degrades to `needsGuided:true`. Honesty laws live in the *Build Roast Prompt*
-node: no invented facts, confidence always reported, thin input → needsGuided.
+The roast contract is retired with the feature (V2). The remaining live contract
+is the lead event: `POST {type:"lead", whatsapp, email?, ref?, city?, source?}`
+→ CRM row + Telegram notify. Phase 3 replaces this with the full Google Sheets
+CRM schema (Timestamp, Name, Phone, Email, WhatsApp, City, Property Type,
+Source, Service Interested, Lead Status, Notes).
 
-`web-head-workflow.json` is the original import draft, kept for reference; the
-live workflow is the source of truth.
+`web-head-workflow.json` is the original pre-V2 import draft, kept for
+reference; the live workflow is the source of truth.

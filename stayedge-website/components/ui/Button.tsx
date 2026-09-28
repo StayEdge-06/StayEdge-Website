@@ -11,7 +11,7 @@ import { fireHaptic } from "@/lib/motion/haptics";
  * this defines the visual contract + states.
  */
 const button = cva(
-  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-[var(--se-radius-pill)] font-body font-bold whitespace-nowrap transition-[transform,background-color,box-shadow] duration-[var(--se-dur-std)] ease-[cubic-bezier(0.2,0.8,0.2,1)] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]",
+  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-[var(--se-radius-pill)] font-body font-bold transition-[transform,background-color,box-shadow] duration-[var(--se-dur-std)] ease-[cubic-bezier(0.2,0.8,0.2,1)] active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--se-focus)]",
   {
     variants: {
       variant: {
@@ -27,9 +27,19 @@ const button = cva(
           "bg-[#25D366] text-[#0b3d1e] hover:brightness-105",
       },
       size: {
-        sm: "text-sm px-4 py-2",
-        md: "text-[0.95rem] px-6 py-3",
-        lg: "text-base px-8 py-4",
+        // sm/md are always short, single-word-or-two chrome labels (nav,
+        // footer, pill badges) — nowrap is correct there.
+        sm: "whitespace-nowrap text-sm px-4 py-2",
+        md: "whitespace-nowrap text-[0.95rem] px-6 py-3",
+        // lg is used exclusively for full-sentence CTAs (audit/video labels,
+        // bespoke "See what X is costing you — free" copy). Forcing nowrap
+        // on those made the button itself wider than a 320-375px viewport —
+        // real, confirmed horizontal page overflow on the site's primary
+        // conversion CTA (Final UI QA, 2026-09). `min-w-0` is needed because
+        // some of these buttons sit in a `flex flex-wrap` row (FinalCTA,
+        // SiteFooter), where a flex item's default `min-width: auto` blocks
+        // shrinking below its unwrapped text width even with wrap allowed.
+        lg: "min-w-0 whitespace-normal text-center text-base px-8 py-4",
       },
     },
     defaultVariants: { variant: "primary", size: "md" },

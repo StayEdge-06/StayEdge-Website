@@ -87,5 +87,15 @@ export async function notifyTelegram(
     return { ok: res.ok, status: res.status, detail: res.ok ? "sent" : `http_${res.status}` };
   });
 
+  if (!result.ok) {
+    // Status code only (never the body, never the token) so a failed notify is
+    // diagnosable from the runtime logs: 401 = bad token, 400 = chat not found
+    // (wrong TELEGRAM_CHAT_ID, or nobody has pressed Start on the bot yet),
+    // 403 = the bot was blocked or never started by that chat.
+    console.warn(
+      `[leads] Telegram notify failed for ${lead.id}: ${result.detail} after ${result.attempts} attempt(s)`,
+    );
+  }
+
   return { ok: result.ok, detail: result.detail, attempts: result.attempts };
 }

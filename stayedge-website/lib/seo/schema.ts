@@ -52,16 +52,28 @@ function toE164(phone: string) {
 export const SOCIAL_PROFILES = [
   "https://www.instagram.com/stayedgeofficial",
   "https://www.linkedin.com/company/stayedge/",
-  WHATSAPP_URL,
   ...(GBP_URL ? [GBP_URL] : []),
 ];
+// WhatsApp is a contact channel, not an identity profile — a wa.me link in
+// sameAs tells entity resolvers nothing about who StayEdge is. It lives in
+// contactPoint instead (see organizationSchema).
+
+/**
+ * Other businesses trade as "StayEdge" (e.g. a US listing-report site). These
+ * fields are what let search engines and AI answer engines tell this StayEdge
+ * apart: always India, always Tirupati, always the founder's name.
+ */
+const ALTERNATE_NAMES = ["StayEdge India", "StayEdge Airbnb Growth Consulting"];
+const DISAMBIGUATION =
+  "Indian Airbnb growth consultancy headquartered in Tirupati, Andhra Pradesh, founded by Sanjay Stephen in 2024; serves hosts across South India. Website: stayedge.co.in.";
 
 export function organizationSchema() {
   return {
     "@type": "ProfessionalService",
     "@id": ORG_ID,
     name: "StayEdge",
-    alternateName: "StayEdge Airbnb Growth Consulting",
+    alternateName: ALTERNATE_NAMES,
+    disambiguatingDescription: DISAMBIGUATION,
     description: SITE.descriptor,
     slogan: SITE.promise,
     url: SITE.url,
@@ -76,6 +88,15 @@ export function organizationSchema() {
     email: CONTACT.email,
     foundingDate: "2024",
     founder: { "@id": FOUNDER_ID },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      telephone: toE164(CONTACT.phone),
+      email: CONTACT.email,
+      url: WHATSAPP_URL,
+      areaServed: "IN",
+      availableLanguage: ["English"],
+    },
     address: {
       "@type": "PostalAddress",
       addressLocality: "Tirupati",

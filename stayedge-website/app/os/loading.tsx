@@ -1,7 +1,12 @@
 /**
- * Route-level loading UI. Shown while a dynamic segment's server work is in
- * flight (the OS dashboard and the API-backed routes); static pages stream
- * straight past it.
+ * Loading UI for the /os dashboard only — its server work is dynamic.
+ *
+ * Deliberately NOT at the app root: a root loading.tsx wraps every page in a
+ * Suspense boundary, so the server HTML of every public page shipped with
+ * <main> containing only "Loading" and the real content parked in a hidden
+ * streaming div. Google renders JS and coped; most AI crawlers (GPTBot,
+ * ClaudeBot, PerplexityBot) read raw HTML and saw a loading screen. Public
+ * pages are static and need no loading state.
  *
  * Zero JavaScript by design — this is the screen that exists precisely because
  * the page's own JS has not arrived yet, so the mark animates in CSS.

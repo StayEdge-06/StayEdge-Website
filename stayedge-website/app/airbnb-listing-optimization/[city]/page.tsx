@@ -5,8 +5,8 @@ import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import Link from "next/link";
-import { ROUTES, DEFAULT_OG_IMAGE } from "@/lib/config/site";
-import { CITIES, getCity } from "@/lib/content/cities";
+import { ROUTES, ogImage } from "@/lib/config/site";
+import { CITIES, getCity, cityMetaDescription } from "@/lib/content/cities";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, cityServiceSchema, faqSchema } from "@/lib/seo/schema";
 
@@ -27,24 +27,28 @@ export async function generateMetadata({
   const c = getCity(city);
   if (!c) return {};
   const ogTitle = `Airbnb Listing Optimization in ${c.city} · StayEdge`;
+  // The on-page intro is the long, quotable AEO answer (210–280 chars) — too
+  // long for a SERP snippet, which Google cuts at ~155. The meta description
+  // gets its own tight version; the page and JSON-LD keep the full answer.
+  const description = cityMetaDescription(c.city, c.state);
   return {
     title: `Airbnb Listing Optimization in ${c.city}`,
-    description: c.intro,
+    description,
     alternates: { canonical: `/airbnb-listing-optimization/${c.slug}` },
     openGraph: {
       title: ogTitle,
-      description: c.intro,
+      description,
       url: `/airbnb-listing-optimization/${c.slug}`,
       siteName: "StayEdge",
       locale: "en_IN",
       type: "website",
-      images: [DEFAULT_OG_IMAGE],
+      images: [ogImage(`Airbnb listing optimization in ${c.city}`)],
     },
     twitter: {
       card: "summary_large_image",
       title: ogTitle,
-      description: c.intro,
-      images: [DEFAULT_OG_IMAGE],
+      description,
+      images: [ogImage(`Airbnb listing optimization in ${c.city}`)],
     },
   };
 }

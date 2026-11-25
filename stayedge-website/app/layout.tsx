@@ -45,6 +45,16 @@ export const metadata: Metadata = {
   },
   description: SITE.descriptor,
   applicationName: "StayEdge",
+  // Search Console / Bing Webmaster ownership tags. Values come from the
+  // dashboards' "HTML tag" method; unset = no tag (DNS verification still works).
+  verification: {
+    ...(process.env.GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+      : {}),
+    ...(process.env.BING_SITE_VERIFICATION
+      ? { other: { "msvalidate.01": process.env.BING_SITE_VERIFICATION } }
+      : {}),
+  },
   alternates: { canonical: "/" },
   openGraph: {
     title: "StayEdge — Airbnb Growth Consultancy for Hosts in India",

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Section } from "@/components/sections/Section";
 import { Button } from "@/components/ui/Button";
 import { Card, cardClassName } from "@/components/ui/Card";
-import { ROUTES, CONTACT, DEFAULT_OG_IMAGE } from "@/lib/config/site";
+import { ROUTES, CONTACT, ogImage } from "@/lib/config/site";
 import { PERSONA } from "@/lib/config/persona";
 import { ARTICLES, getArticle } from "@/lib/content/articles";
 import { CLUSTERS } from "@/lib/content/clusters";
@@ -30,8 +30,11 @@ export async function generateMetadata({
   const { slug } = await params;
   const a = getArticle(slug);
   if (!a) return {};
+  // "%s · StayEdge" pushes long article titles past ~60 chars, where Google
+  // truncates; long titles stand alone (the brand is in og:site_name/schema).
+  const withBrand = `${a.title} · StayEdge`;
   return {
-    title: a.title,
+    title: withBrand.length > 60 ? { absolute: a.title } : a.title,
     description: a.description,
     alternates: { canonical: `/knowledge/${a.slug}` },
     openGraph: {
@@ -44,13 +47,13 @@ export async function generateMetadata({
       publishedTime: a.publishedAt,
       modifiedTime: a.updatedAt ?? a.publishedAt,
       authors: [CONTACT.founder],
-      images: [DEFAULT_OG_IMAGE],
+      images: [ogImage(a.title)],
     },
     twitter: {
       card: "summary_large_image",
       title: `${a.title} · StayEdge`,
       description: a.description,
-      images: [DEFAULT_OG_IMAGE],
+      images: [ogImage(a.title)],
     },
   };
 }

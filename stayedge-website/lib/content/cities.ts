@@ -332,3 +332,9 @@ export const CITIES: CityPage[] = [
 export function getCity(slug: string): CityPage | undefined {
   return CITIES.find((c) => c.slug === slug);
 }
+
+/** SERP-length (≤160 chars) meta description for a city page. The page's
+ * `intro` stays the long, quotable answer; this is only the search snippet. */
+export function cityMetaDescription(city: string, state: string): string {
+  return `Airbnb listing optimization in ${city}, ${state}: titles, photos, pricing and Airbnb SEO tuned to local demand. Free growth audit from StayEdge.`;
+}

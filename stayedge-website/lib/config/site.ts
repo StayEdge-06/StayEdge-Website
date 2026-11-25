@@ -99,9 +99,28 @@ export const SITE = {
 } as const;
 
 /** Default OG image shared across pages (overridden per-page where specified). */
-export const DEFAULT_OG_IMAGE = {
+/** Last genuine copy change to the non-article pages (sitemap lastmod).
+ * Bump by hand when page content changes — not on every deploy. */
+export const SITE_CONTENT_UPDATED = "2026-11-25";
+
+/** Branded 1200×630 social card for a page title (rendered by app/og). */
+export function ogImage(title?: string) {
+  const q = title ? `?title=${encodeURIComponent(title)}` : "";
+  return {
+    url: `/og${q}`,
+    width: 1200,
+    height: 630,
+    alt: title ? `${title} — StayEdge` : "StayEdge — Airbnb Growth Consultancy for Hosts in India",
+  } as const;
+}
+
+/** Legacy logo asset — kept for schema `image`; social cards use ogImage(). */
+export const LOGO_IMAGE = {
   url: "/brand/logos/stayedge-logo-primary-dark.png",
   width: 1650,
   height: 660,
   alt: "StayEdge — Airbnb Growth Consulting",
 } as const;
+
+/** Default social card used by every page that doesn't pass its own title. */
+export const DEFAULT_OG_IMAGE = ogImage();

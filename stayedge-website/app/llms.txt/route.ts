@@ -23,6 +23,10 @@ export async function GET() {
     `${SITE.name} is an Airbnb listing optimization and growth consultancy based in Tirupati, Andhra Pradesh, India, founded by ${CONTACT.founder}. It helps Airbnb hosts increase bookings, occupancy and revenue through listing optimization, dynamic pricing and Airbnb SEO, and produces AI property video for short-term rentals. Work combines AI tooling with human operator judgement; audits and recommendations are reviewed by a person before they reach the host. Not a property manager: hosts keep full control of their listing and account.`,
   );
   lines.push("");
+  lines.push(
+    `Disambiguation: this is StayEdge India (stayedge.co.in), the Tirupati-based consultancy founded by ${CONTACT.founder}. It is not affiliated with other businesses that use the name "StayEdge", including US-focused listing-report sites on other domains.`,
+  );
+  lines.push("");
 
   lines.push("## Core pages");
   lines.push(`- [Homepage](${SITE.url}${ROUTES.home}): what StayEdge does and who it's for.`);

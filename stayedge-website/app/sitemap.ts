@@ -1,11 +1,15 @@
 import type { MetadataRoute } from "next";
-import { SITE } from "@/lib/config/site";
+import { SITE, SITE_CONTENT_UPDATED } from "@/lib/config/site";
 import { ARTICLES } from "@/lib/content/articles";
 import { CITIES } from "@/lib/content/cities";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = [
-    ...ARTICLES.map((a) => ({ path: `/knowledge/${a.slug}`, priority: 0.6 })),
+  const routes: { path: string; priority: number; lastModified?: string }[] = [
+    ...ARTICLES.map((a) => ({
+      path: `/knowledge/${a.slug}`,
+      priority: 0.6,
+      lastModified: a.updatedAt ?? a.publishedAt,
+    })),
     { path: "/knowledge/glossary", priority: 0.6 },
     ...CITIES.map((c) => ({ path: `/airbnb-listing-optimization/${c.slug}`, priority: 0.7 })),
     { path: "", priority: 1.0 },
@@ -26,10 +30,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/about", priority: 0.5 },
     { path: "/contact", priority: 0.5 },
   ];
-  const now = new Date();
+  // Real content dates, never build time: a sitemap that says every URL changed
+  // on every deploy trains crawlers to ignore lastmod entirely. Articles carry
+  // their own dates; everything else uses SITE_CONTENT_UPDATED, which is bumped
+  // by hand when page copy genuinely changes.
   return routes.map((r) => ({
     url: `${SITE.url}${r.path}`,
-    lastModified: now,
+    lastModified: r.lastModified ?? SITE_CONTENT_UPDATED,
     changeFrequency: "weekly",
     priority: r.priority,
   }));
